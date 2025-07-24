@@ -1,5 +1,15 @@
-import { ForumListItem, type Forum } from '@/components/forums/ForumListItem';
-import { Atom, Book, Globe, Landmark } from 'lucide-react';
+import { ForumCard, type Forum } from '@/components/forums/ForumCard';
+import { Button } from '@/components/ui/button';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Atom, Book, Globe, Landmark, Code, Dna, Bot } from 'lucide-react';
+
+const categories = [
+    { name: 'All', icon: undefined },
+    { name: 'Science', icon: Atom },
+    { name: 'Humanities', icon: Landmark },
+    { name: 'Technology', icon: Code },
+    { name: 'Arts', icon: Book },
+];
 
 const forums: Forum[] = [
   {
@@ -46,27 +56,80 @@ const forums: Forum[] = [
       'Recommending a great collection of short stories I just read.',
     ],
   },
+  {
+    subject: 'Computer Science',
+    description: 'From algorithms to AI, discuss the world of computing.',
+    icon: Code,
+    members: 22000,
+    posts: ['What is the best language for a beginner?', 'How do neural networks work?'],
+  },
+    {
+    subject: 'Biology',
+    description: 'Explore the science of life and living organisms.',
+    icon: Dna,
+    members: 9500,
+    posts: ['CRISPR gene editing is fascinating.', 'The Krebs cycle explained.'],
+  },
+    {
+    subject: 'AI & Robotics',
+    description: 'The future is now. Discuss artificial intelligence and robotics.',
+    icon: Bot,
+    members: 18000,
+    posts: ['Will AGI be achieved this decade?', 'Building my first robot arm.'],
+  },
 ];
 
 export default function ForumsPage() {
   return (
-    <div className="space-y-8 max-w-4xl mx-auto">
+    <div className="space-y-8">
       <div>
         <h1 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
-          Community Forums
+          Explore Communities
         </h1>
-        <p className="mt-2 text-muted-foreground">
-          Engage in discussions, ask questions, and collaborate with your peers.
-        </p>
       </div>
 
-      <div className="bg-card border rounded-lg">
-        <ul className="divide-y">
-            {forums.map((forum, index) => (
-              <ForumListItem key={forum.subject} forum={forum} index={index + 1} />
+      <ScrollArea className="w-full whitespace-nowrap">
+        <div className="flex w-max space-x-2 pb-4">
+            {categories.map((category, index) => (
+                <Button key={category.name} variant={index === 0 ? 'default' : 'outline'} className="rounded-full">
+                    {category.icon && <category.icon className="mr-2 h-4 w-4" />}
+                    {category.name}
+                </Button>
             ))}
-        </ul>
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+      
+      <div>
+        <h2 className="text-xl font-bold font-headline mb-4">Popular Communities</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {forums.slice(0, 4).map((forum) => (
+                <ForumCard key={forum.subject} forum={forum} />
+            ))}
+        </div>
       </div>
+
+      <div>
+        <h2 className="text-xl font-bold font-headline mb-4">Science &amp; Tech</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {forums.filter(f => ['Mathematics', 'Physics', 'Computer Science', 'Biology', 'AI & Robotics'].includes(f.subject)).slice(0, 4).map((forum) => (
+                <ForumCard key={forum.subject} forum={forum} />
+            ))}
+        </div>
+        <div className="mt-4 flex justify-center">
+            <Button variant="outline">Show more</Button>
+        </div>
+      </div>
+      
+       <div>
+        <h2 className="text-xl font-bold font-headline mb-4">Humanities</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {forums.filter(f => ['History', 'Literature'].includes(f.subject)).map((forum) => (
+                <ForumCard key={forum.subject} forum={forum} />
+            ))}
+        </div>
+      </div>
+
     </div>
   );
 }
