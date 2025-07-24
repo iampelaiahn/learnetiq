@@ -4,14 +4,28 @@ import * as React from 'react';
 import { ForumCard, type Forum } from '@/components/forums/ForumCard';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Atom, Book, Globe, Landmark, Code, Dna, Bot } from 'lucide-react';
+import {
+  Atom,
+  Book,
+  Globe,
+  Landmark,
+  Code,
+  Dna,
+  Bot,
+  DollarSign,
+  Scale,
+  Palette,
+  Music,
+  GraduationCap,
+  Paintbrush,
+} from 'lucide-react';
 
 const categories = [
   { name: 'All', icon: undefined },
-  { name: 'Science', icon: Atom },
+  { name: 'Science & Tech', icon: Atom },
   { name: 'Humanities', icon: Landmark },
-  { name: 'Technology', icon: Code },
-  { name: 'Arts', icon: Book },
+  { name: 'Arts', icon: Palette },
+  { name: 'Social Sciences', icon: GraduationCap },
 ];
 
 const forums: Forum[] = [
@@ -25,6 +39,7 @@ const forums: Forum[] = [
       'Just posted a new proof for the Pythagorean theorem!',
       'What are some real-world applications of trigonometry?',
     ],
+    category: 'Science & Tech',
   },
   {
     subject: 'History',
@@ -36,6 +51,7 @@ const forums: Forum[] = [
       'Just learned about the Silk Road, fascinating!',
       'Who was the most influential leader of the 20th century?',
     ],
+    category: 'Humanities',
   },
   {
     subject: 'Physics',
@@ -47,6 +63,7 @@ const forums: Forum[] = [
       "I'm struggling with Newton's laws of motion.",
       'The latest images from the James Webb Telescope are mind-blowing.',
     ],
+    category: 'Science & Tech',
   },
   {
     subject: 'Literature',
@@ -58,6 +75,7 @@ const forums: Forum[] = [
       'Shakespeare vs. Dickens: who was the better writer?',
       'Recommending a great collection of short stories I just read.',
     ],
+    category: 'Humanities',
   },
   {
     subject: 'Computer Science',
@@ -68,6 +86,7 @@ const forums: Forum[] = [
       'What is the best language for a beginner?',
       'How do neural networks work?',
     ],
+    category: 'Science & Tech',
   },
   {
     subject: 'Biology',
@@ -75,6 +94,7 @@ const forums: Forum[] = [
     icon: Dna,
     members: 9500,
     posts: ['CRISPR gene editing is fascinating.', 'The Krebs cycle explained.'],
+    category: 'Science & Tech',
   },
   {
     subject: 'AI & Robotics',
@@ -83,14 +103,64 @@ const forums: Forum[] = [
     icon: Bot,
     members: 18000,
     posts: ['Will AGI be achieved this decade?', 'Building my first robot arm.'],
+    category: 'Science & Tech',
+  },
+  {
+    subject: 'Economics',
+    description: 'From micro to macro, discuss the world of economics.',
+    icon: DollarSign,
+    members: 7200,
+    posts: [
+      'Supply and demand in the modern age.',
+      'What is the future of cryptocurrency?',
+    ],
+    category: 'Social Sciences',
+  },
+  {
+    subject: 'Philosophy',
+    description: 'Ponder the fundamental questions of existence.',
+    icon: Scale,
+    members: 5300,
+    posts: ['Free will vs. determinism.', 'Stoicism in the 21st century.'],
+    category: 'Humanities',
+  },
+  {
+    subject: 'Art History',
+    description: 'From Renaissance to contemporary, explore the world of art.',
+    icon: Paintbrush,
+    members: 4100,
+    posts: ['The impact of Impressionism.', 'Symbolism in Frida Kahlo\'s work.'],
+    category: 'Arts',
+  },
+  {
+    subject: 'Music Theory',
+    description: 'Deconstruct the language of music.',
+    icon: Music,
+    members: 6200,
+    posts: [
+      'The beauty of the circle of fifths.',
+      'What makes a chord progression satisfying?',
+    ],
+    category: 'Arts',
   },
 ];
 
 export default function ForumsPage() {
-  const [showAllSciTech, setShowAllSciTech] = React.useState(false);
-  const sciTechForums = forums.filter((f) =>
-    ['Mathematics', 'Physics', 'Computer Science', 'Biology', 'AI & Robotics'].includes(f.subject)
-  );
+  const [showMore, setShowMore] = React.useState<Record<string, boolean>>({});
+
+  const handleShowMore = (category: string) => {
+    setShowMore((prev) => ({ ...prev, [category]: true }));
+  };
+
+  const popularForums = [...forums].sort((a, b) => b.members - a.members).slice(0, 4);
+  const forumsByCategory = forums.reduce((acc, forum) => {
+    if (!acc[forum.category]) {
+      acc[forum.category] = [];
+    }
+    acc[forum.category].push(forum);
+    return acc;
+  }, {} as Record<string, Forum[]>);
+
 
   return (
     <div className="space-y-8">
@@ -121,43 +191,32 @@ export default function ForumsPage() {
           Popular Communities
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {forums.slice(0, 4).map((forum) => (
+          {popularForums.map((forum) => (
             <ForumCard key={forum.subject} forum={forum} />
           ))}
         </div>
       </div>
 
-      <div>
-        <h2 className="text-xl font-bold font-headline mb-4">
-          Science &amp; Tech
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {(showAllSciTech
-            ? sciTechForums
-            : sciTechForums.slice(0, 4)
-          ).map((forum) => (
-            <ForumCard key={forum.subject} forum={forum} />
-          ))}
-        </div>
-        {!showAllSciTech && sciTechForums.length > 4 && (
-          <div className="mt-4 flex justify-center">
-            <Button variant="outline" onClick={() => setShowAllSciTech(true)}>
-              Show more
-            </Button>
-          </div>
-        )}
-      </div>
-
-      <div>
-        <h2 className="text-xl font-bold font-headline mb-4">Humanities</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {forums
-            .filter((f) => ['History', 'Literature'].includes(f.subject))
-            .map((forum) => (
+      {Object.entries(forumsByCategory).map(([category, categoryForums]) => (
+        <div key={category}>
+          <h2 className="text-xl font-bold font-headline mb-4">{category}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {(showMore[category]
+              ? categoryForums
+              : categoryForums.slice(0, 4)
+            ).map((forum) => (
               <ForumCard key={forum.subject} forum={forum} />
             ))}
+          </div>
+          {!showMore[category] && categoryForums.length > 4 && (
+            <div className="mt-4 flex justify-center">
+              <Button variant="outline" onClick={() => handleShowMore(category)}>
+                Show more
+              </Button>
+            </div>
+          )}
         </div>
-      </div>
+      ))}
     </div>
   );
 }

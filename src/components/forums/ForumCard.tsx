@@ -9,6 +9,7 @@ export type Forum = {
   icon: LucideIcon;
   posts: string[];
   members: number;
+  category: string;
 };
 
 type ForumCardProps = {
