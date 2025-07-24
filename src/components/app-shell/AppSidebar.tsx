@@ -46,15 +46,16 @@ export function AppSidebar() {
         <SidebarMenu>
           {menuItems.map((item) => (
             <SidebarMenuItem key={item.href}>
-              <Link href={item.href} legacyBehavior passHref>
-                <SidebarMenuButton
-                  isActive={isActive(item.href)}
-                  tooltip={item.label}
-                >
+              <SidebarMenuButton
+                asChild
+                isActive={isActive(item.href)}
+                tooltip={item.label}
+              >
+                <Link href={item.href}>
                   <item.icon />
                   <span>{item.label}</span>
-                </SidebarMenuButton>
-              </Link>
+                </Link>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
@@ -63,28 +64,28 @@ export function AppSidebar() {
         <Separator className="my-2"/>
          <SidebarMenu>
             <SidebarMenuItem>
-                <Link href="#" legacyBehavior passHref>
-                    <SidebarMenuButton tooltip="Settings">
+                <SidebarMenuButton asChild tooltip="Settings">
+                    <Link href="#">
                         <Settings />
                         <span>Settings</span>
-                    </SidebarMenuButton>
-                </Link>
+                    </Link>
+                </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-                <Link href="#" legacyBehavior passHref>
-                    <SidebarMenuButton tooltip="Support">
+                <SidebarMenuButton asChild tooltip="Support">
+                    <Link href="#">
                         <LifeBuoy />
                         <span>Support</span>
-                    </SidebarMenuButton>
-                </Link>
+                    </Link>
+                </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-                <Link href="/" legacyBehavior passHref>
-                    <SidebarMenuButton tooltip="Logout">
+                <SidebarMenuButton asChild tooltip="Logout">
+                    <Link href="/">
                         <LogOut />
                         <span>Logout</span>
-                    </SidebarMenuButton>
-                </Link>
+                    </Link>
+                </SidebarMenuButton>
             </SidebarMenuItem>
          </SidebarMenu>
       </SidebarFooter>
