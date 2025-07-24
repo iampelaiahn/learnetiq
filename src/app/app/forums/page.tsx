@@ -1,14 +1,17 @@
+'use client';
+
+import * as React from 'react';
 import { ForumCard, type Forum } from '@/components/forums/ForumCard';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Atom, Book, Globe, Landmark, Code, Dna, Bot } from 'lucide-react';
 
 const categories = [
-    { name: 'All', icon: undefined },
-    { name: 'Science', icon: Atom },
-    { name: 'Humanities', icon: Landmark },
-    { name: 'Technology', icon: Code },
-    { name: 'Arts', icon: Book },
+  { name: 'All', icon: undefined },
+  { name: 'Science', icon: Atom },
+  { name: 'Humanities', icon: Landmark },
+  { name: 'Technology', icon: Code },
+  { name: 'Arts', icon: Book },
 ];
 
 const forums: Forum[] = [
@@ -61,18 +64,22 @@ const forums: Forum[] = [
     description: 'From algorithms to AI, discuss the world of computing.',
     icon: Code,
     members: 22000,
-    posts: ['What is the best language for a beginner?', 'How do neural networks work?'],
+    posts: [
+      'What is the best language for a beginner?',
+      'How do neural networks work?',
+    ],
   },
-    {
+  {
     subject: 'Biology',
     description: 'Explore the science of life and living organisms.',
     icon: Dna,
     members: 9500,
     posts: ['CRISPR gene editing is fascinating.', 'The Krebs cycle explained.'],
   },
-    {
+  {
     subject: 'AI & Robotics',
-    description: 'The future is now. Discuss artificial intelligence and robotics.',
+    description:
+      'The future is now. Discuss artificial intelligence and robotics.',
     icon: Bot,
     members: 18000,
     posts: ['Will AGI be achieved this decade?', 'Building my first robot arm.'],
@@ -80,6 +87,11 @@ const forums: Forum[] = [
 ];
 
 export default function ForumsPage() {
+  const [showAllSciTech, setShowAllSciTech] = React.useState(false);
+  const sciTechForums = forums.filter((f) =>
+    ['Mathematics', 'Physics', 'Computer Science', 'Biology', 'AI & Robotics'].includes(f.subject)
+  );
+
   return (
     <div className="space-y-8">
       <div>
@@ -90,46 +102,62 @@ export default function ForumsPage() {
 
       <ScrollArea className="w-full whitespace-nowrap">
         <div className="flex w-max space-x-2 pb-4">
-            {categories.map((category, index) => (
-                <Button key={category.name} variant={index === 0 ? 'default' : 'outline'} className="rounded-full">
-                    {category.icon && <category.icon className="mr-2 h-4 w-4" />}
-                    {category.name}
-                </Button>
-            ))}
+          {categories.map((category, index) => (
+            <Button
+              key={category.name}
+              variant={index === 0 ? 'default' : 'outline'}
+              className="rounded-full"
+            >
+              {category.icon && <category.icon className="mr-2 h-4 w-4" />}
+              {category.name}
+            </Button>
+          ))}
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-      
+
       <div>
-        <h2 className="text-xl font-bold font-headline mb-4">Popular Communities</h2>
+        <h2 className="text-xl font-bold font-headline mb-4">
+          Popular Communities
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {forums.slice(0, 4).map((forum) => (
-                <ForumCard key={forum.subject} forum={forum} />
-            ))}
+          {forums.slice(0, 4).map((forum) => (
+            <ForumCard key={forum.subject} forum={forum} />
+          ))}
         </div>
       </div>
 
       <div>
-        <h2 className="text-xl font-bold font-headline mb-4">Science &amp; Tech</h2>
+        <h2 className="text-xl font-bold font-headline mb-4">
+          Science &amp; Tech
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {forums.filter(f => ['Mathematics', 'Physics', 'Computer Science', 'Biology', 'AI & Robotics'].includes(f.subject)).slice(0, 4).map((forum) => (
-                <ForumCard key={forum.subject} forum={forum} />
-            ))}
+          {(showAllSciTech
+            ? sciTechForums
+            : sciTechForums.slice(0, 4)
+          ).map((forum) => (
+            <ForumCard key={forum.subject} forum={forum} />
+          ))}
         </div>
-        <div className="mt-4 flex justify-center">
-            <Button variant="outline">Show more</Button>
-        </div>
+        {!showAllSciTech && sciTechForums.length > 4 && (
+          <div className="mt-4 flex justify-center">
+            <Button variant="outline" onClick={() => setShowAllSciTech(true)}>
+              Show more
+            </Button>
+          </div>
+        )}
       </div>
-      
-       <div>
+
+      <div>
         <h2 className="text-xl font-bold font-headline mb-4">Humanities</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {forums.filter(f => ['History', 'Literature'].includes(f.subject)).map((forum) => (
-                <ForumCard key={forum.subject} forum={forum} />
+          {forums
+            .filter((f) => ['History', 'Literature'].includes(f.subject))
+            .map((forum) => (
+              <ForumCard key={forum.subject} forum={forum} />
             ))}
         </div>
       </div>
-
     </div>
   );
 }
