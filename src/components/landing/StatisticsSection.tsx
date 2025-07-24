@@ -1,6 +1,8 @@
+'use client';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Users, CheckCircle, BarChart3, TrendingUp } from 'lucide-react';
+import { Users, CheckCircle, BarChart3, TrendingUp, GraduationCap } from 'lucide-react';
 import { StudentGrowthChart } from './StudentGrowthChart';
+import { StudentPassRateChart } from './StudentPassRateChart';
 
 const stats = [
   {
@@ -12,6 +14,11 @@ const stats = [
     icon: CheckCircle,
     label: 'Completion Rate',
     value: '92%',
+  },
+  {
+    icon: GraduationCap,
+    label: 'Pass Rate',
+    value: '98%',
   },
   {
     icon: BarChart3,
@@ -32,7 +39,7 @@ export function StatisticsSection() {
             Our platform empowers students to achieve their academic goals.
           </p>
         </div>
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <Card key={index}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -47,20 +54,9 @@ export function StatisticsSection() {
             </Card>
           ))}
         </div>
-        <div className="mt-12">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="h-6 w-6 text-accent" />
-                Student Growth Over Time
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-auto aspect-[16/9]">
-                <StudentGrowthChart />
-              </div>
-            </CardContent>
-          </Card>
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <StudentGrowthChart />
+          <StudentPassRateChart />
         </div>
       </div>
     </section>
