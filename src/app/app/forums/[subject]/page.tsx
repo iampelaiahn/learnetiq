@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import {
   ArrowLeft,
   Book,
+  Code,
   MoreHorizontal,
   Plus,
   Rss,
