@@ -19,6 +19,7 @@ import {
   VideoOff,
   PhoneOff,
   Maximize,
+  Minimize,
   Users,
   MessageSquare,
 } from 'lucide-react';
@@ -34,17 +35,40 @@ export function VirtualClassroom({ classId }: { classId: string }) {
   const router = useRouter();
   const [isMicOn, setIsMicOn] = React.useState(true);
   const [isVideoOn, setIsVideoOn] = React.useState(true);
+  const [isFullscreen, setIsFullscreen] = React.useState(false);
+  const videoContainerRef = React.useRef<HTMLDivElement>(null);
 
   const handleLeaveCall = () => {
     router.push('/app/live-classes');
   };
+
+  const handleMaximize = () => {
+    if (!videoContainerRef.current) return;
+
+    if (!document.fullscreenElement) {
+      videoContainerRef.current.requestFullscreen().catch((err) => {
+        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  };
+
+  React.useEffect(() => {
+    const onFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
+  }, []);
+
 
   return (
     <div className="grid h-[calc(100vh-8rem)] grid-cols-1 lg:grid-cols-4 lg:grid-rows-1 gap-4">
       {/* Main Content */}
       <div className="lg:col-span-3 flex flex-col gap-4">
         {/* Main Video */}
-        <div className="relative flex-grow rounded-lg bg-black overflow-hidden flex items-center justify-center">
+        <div ref={videoContainerRef} className="relative flex-grow rounded-lg bg-black overflow-hidden flex items-center justify-center">
           {isVideoOn ? (
             <img
               src="https://placehold.co/1280x720.png"
@@ -75,8 +99,8 @@ export function VirtualClassroom({ classId }: { classId: string }) {
             <Button variant="destructive" size="icon" className="h-12 w-12 rounded-full mx-4" onClick={handleLeaveCall}>
               <PhoneOff className="h-6 w-6" />
             </Button>
-            <Button variant="outline" size="icon" className="h-12 w-12 rounded-full">
-              <Maximize className="h-6 w-6" />
+            <Button variant="outline" size="icon" className="h-12 w-12 rounded-full" onClick={handleMaximize}>
+              {isFullscreen ? <Minimize className="h-6 w-6" /> : <Maximize className="h-6 w-6" />}
             </Button>
           </CardContent>
         </Card>
