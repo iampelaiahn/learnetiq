@@ -128,13 +128,13 @@ export default function ForumSubjectPage({
         </div>
       </div>
       <div className="container mx-auto mt-6 max-w-7xl">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          <div className="space-y-4 md:col-span-2">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="space-y-4 lg:col-span-2">
             {mockPosts.map((post) => (
               <PostCard key={post.id} post={post} isFullPost={false} />
             ))}
           </div>
-          <div className="space-y-4 md:col-span-1">
+          <div className="space-y-4 lg:col-span-1">
             <CommunitySidebar subject={subject} />
           </div>
         </div>
