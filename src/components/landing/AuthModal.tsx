@@ -26,6 +26,8 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { signupAction } from '@/actions/auth';
 import { useRouter } from 'next/navigation';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -46,6 +48,7 @@ type AuthModalProps = {
 export function AuthModal({ mode, children }: AuthModalProps) {
   const [open, setOpen] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [isGoogleSubmitting, setIsGoogleSubmitting] = React.useState(false);
   const { toast } = useToast();
   const router = useRouter();
   
@@ -58,6 +61,31 @@ export function AuthModal({ mode, children }: AuthModalProps) {
       ? { email: '', password: '' }
       : { name: '', email: '', password: '' },
   });
+
+  const handleGoogleSignIn = async () => {
+    setIsGoogleSubmitting(true);
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      if (isLogin) {
+        toast({ title: 'Login Successful', description: 'Redirecting to your dashboard...' });
+        router.push('/app/dashboard');
+        setOpen(false);
+      } else {
+        // Pre-fill the signup form with Google info
+        form.setValue('name', user.displayName || '');
+        form.setValue('email', user.email || '');
+        toast({ title: 'Success!', description: 'Please complete your registration below.' });
+      }
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+      toast({ title: 'Google Sign-In Failed', description: 'Please try again.', variant: 'destructive' });
+    }
+    setIsGoogleSubmitting(false);
+  };
+
 
   const onSubmit = async (values: z.infer<typeof schema>) => {
     setIsSubmitting(true);
@@ -109,9 +137,9 @@ export function AuthModal({ mode, children }: AuthModalProps) {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <Button variant="outline">
+          <Button variant="outline" onClick={handleGoogleSignIn} disabled={isGoogleSubmitting}>
              <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 126 23.4 172.9 61.9l-69.5 69.5c-24.3-23.6-58.3-38.6-99.8-38.6-84.3 0-152.4 68.6-152.4 153.2s68.1 153.2 152.4 153.2c97.2 0 134.1-65.1 140.8-99.2H248v-85.3h236.1c2.3 12.7 3.9 26.9 3.9 41.4z"></path></svg>
-            {isLogin ? 'Log in with Google' : 'Sign up with Google'}
+            {isGoogleSubmitting ? "Signing in..." : isLogin ? 'Log in with Google' : 'Sign up with Google'}
           </Button>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -170,7 +198,7 @@ export function AuthModal({ mode, children }: AuthModalProps) {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
+              <Button type="submit" className="w-full" disabled={isSubmitting || isGoogleSubmitting}>
                 {isSubmitting ? 'Submitting...' : isLogin ? 'Log In' : 'Create Account'}
               </Button>
             </form>
