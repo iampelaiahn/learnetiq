@@ -1,14 +1,7 @@
 'use client';
 
-import { TrendingUp, GraduationCap } from 'lucide-react';
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-} from 'recharts';
+import { GraduationCap } from 'lucide-react';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import {
   Card,
   CardContent,
@@ -23,19 +16,18 @@ import {
 } from '@/components/ui/chart';
 
 const chartData = [
-  { month: 'January', rate: 85 },
-  { month: 'February', rate: 88 },
-  { month: 'March', rate: 90 },
-  { month: 'April', rate: 92 },
-  { month: 'May', rate: 95 },
-  { month: 'June', rate: 98 },
+  { subject: 'Mathematics', rate: 95 },
+  { subject: 'Physics', rate: 88 },
+  { subject: 'History', rate: 92 },
+  { subject: 'Literature', rate: 98 },
+  { subject: 'Science', rate: 91 },
+  { subject: 'Computer Science', rate: 96 },
 ];
 
 const chartConfig = {
   rate: {
     label: 'Pass Rate',
     color: 'hsl(var(--primary))',
-    icon: GraduationCap,
   },
 } satisfies ChartConfig;
 
@@ -45,66 +37,50 @@ export function StudentPassRateChart() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <GraduationCap className="h-6 w-6 text-accent" />
-          Student Pass Rate
+          Student Pass Rate by Subject
         </CardTitle>
-         <CardDescription>
-            Pass rate for students across all courses.
+        <CardDescription>
+          Average pass rate for students across different subjects.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="h-auto aspect-[16/9]">
-          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-            <AreaChart
+          <ChartContainer
+            config={chartConfig}
+            className="min-h-[200px] w-full"
+          >
+            <BarChart
               accessibilityLayer
               data={chartData}
+              layout="vertical"
               margin={{
-                left: 0,
+                left: 10,
                 right: 20,
-                top: 5,
               }}
             >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="month"
+              <CartesianGrid horizontal={false} />
+              <YAxis
+                dataKey="subject"
+                type="category"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => value.slice(0, 3)}
+                width={120}
               />
-              <YAxis
+              <XAxis
+                type="number"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
                 tickFormatter={(value) => `${value}%`}
-                domain={[80, 100]}
+                domain={[0, 100]}
               />
               <Tooltip
                 cursor={false}
                 content={<ChartTooltipContent indicator="dot" />}
               />
-              <defs>
-                <linearGradient id="fillPassRate" x1="0" y1="0" x2="0" y2="1">
-                  <stop
-                    offset="5%"
-                    stopColor="var(--color-rate)"
-                    stopOpacity={0.8}
-                  />
-                  <stop
-                    offset="95%"
-                    stopColor="var(--color-rate)"
-                    stopOpacity={0.1}
-                  />
-                </linearGradient>
-              </defs>
-              <Area
-                dataKey="rate"
-                type="natural"
-                fill="url(#fillPassRate)"
-                fillOpacity={0.4}
-                stroke="var(--color-rate)"
-                stackId="a"
-              />
-            </AreaChart>
+              <Bar dataKey="rate" fill="var(--color-rate)" radius={4} />
+            </BarChart>
           </ChartContainer>
         </div>
       </CardContent>
