@@ -21,6 +21,32 @@ const formSchema = z.object({
   }),
 });
 
+const IqPlusIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M12 2a10 10 0 0 0-10 10c0 5 3.5 9.1 8.2 9.9" />
+      <path d="M12 2a10 10 0 0 1 10 10c0 5-3.5 9.1-8.2 9.9" />
+      <path d="M12 12h8" />
+      <path d="M16 8v8" />
+      <path d="M4 12h4" />
+      <path d="M6 10v4" />
+      <path d="M12 2v2" />
+      <path d="M12 20v2" />
+      <path d="M12 12v-2m0 4v-2" />
+      <path d="M10 12h4" />
+      <path d="M8 9.5a2.5 2.5 0 0 1 0 5" />
+      <path d="M16 9.5a2.5 2.5 0 0 0 0 5" />
+    </svg>
+  );
+
 export function NewPostForm() {
     const { toast } = useToast();
     const form = useForm<z.infer<typeof formSchema>>({
@@ -71,7 +97,7 @@ export function NewPostForm() {
                                     <Quote className="h-5 w-5" />
                                 </Button>
                                 <Button variant="ghost" size="icon" type="button" className="text-muted-foreground">
-                                    <Code className="h-5 w-5" />
+                                    <IqPlusIcon className="h-5 w-5" />
                                 </Button>
                             </div>
                             <Button type="submit">
