@@ -1,3 +1,7 @@
+'use client';
+
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Avatar,
   AvatarFallback,
@@ -7,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Mic,
@@ -16,10 +19,8 @@ import {
   VideoOff,
   PhoneOff,
   Maximize,
-  Upload,
   Users,
   MessageSquare,
-  File,
 } from 'lucide-react';
 
 const participants = [
@@ -30,18 +31,33 @@ const participants = [
 ];
 
 export function VirtualClassroom({ classId }: { classId: string }) {
+  const router = useRouter();
+  const [isMicOn, setIsMicOn] = React.useState(true);
+  const [isVideoOn, setIsVideoOn] = React.useState(true);
+
+  const handleLeaveCall = () => {
+    router.push('/app/live-classes');
+  };
+
   return (
     <div className="grid h-[calc(100vh-8rem)] grid-cols-1 lg:grid-cols-4 lg:grid-rows-1 gap-4">
       {/* Main Content */}
       <div className="lg:col-span-3 flex flex-col gap-4">
         {/* Main Video */}
         <div className="relative flex-grow rounded-lg bg-black overflow-hidden flex items-center justify-center">
-          <img
-            src="https://placehold.co/1280x720.png"
-            alt="Tutor's video stream"
-            className="w-full h-full object-cover"
-            data-ai-hint="video conference"
-          />
+          {isVideoOn ? (
+            <img
+              src="https://placehold.co/1280x720.png"
+              alt="Tutor's video stream"
+              className="w-full h-full object-cover"
+              data-ai-hint="video conference"
+            />
+          ) : (
+            <div className="flex flex-col items-center gap-4 text-white">
+              <VideoOff className="h-16 w-16" />
+              <p>Your video is off</p>
+            </div>
+          )}
           <div className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-lg">
             Dr. Evelyn Reed
           </div>
@@ -50,13 +66,13 @@ export function VirtualClassroom({ classId }: { classId: string }) {
         {/* Controls */}
         <Card>
           <CardContent className="p-2 flex items-center justify-center gap-2">
-            <Button variant="outline" size="icon" className="h-12 w-12 rounded-full">
-              <Mic className="h-6 w-6" />
+            <Button variant="outline" size="icon" className="h-12 w-12 rounded-full" onClick={() => setIsMicOn(!isMicOn)}>
+              {isMicOn ? <Mic className="h-6 w-6" /> : <MicOff className="h-6 w-6" />}
             </Button>
-            <Button variant="outline" size="icon" className="h-12 w-12 rounded-full">
-              <Video className="h-6 w-6" />
+            <Button variant="outline" size="icon" className="h-12 w-12 rounded-full" onClick={() => setIsVideoOn(!isVideoOn)}>
+               {isVideoOn ? <Video className="h-6 w-6" /> : <VideoOff className="h-6 w-6" />}
             </Button>
-            <Button variant="destructive" size="icon" className="h-12 w-12 rounded-full mx-4">
+            <Button variant="destructive" size="icon" className="h-12 w-12 rounded-full mx-4" onClick={handleLeaveCall}>
               <PhoneOff className="h-6 w-6" />
             </Button>
             <Button variant="outline" size="icon" className="h-12 w-12 rounded-full">
