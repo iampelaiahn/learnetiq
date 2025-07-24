@@ -34,7 +34,7 @@ export function StudentGrowthChart() {
         data={chartData}
         margin={{
           left: 12,
-          right: 12,
+          right: 0,
         }}
       >
         <CartesianGrid vertical={false} />
