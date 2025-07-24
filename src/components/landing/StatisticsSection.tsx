@@ -56,7 +56,7 @@ export function StatisticsSection() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-[350px]">
+              <div className="h-auto aspect-[16/9]">
                 <StudentGrowthChart />
               </div>
             </CardContent>
