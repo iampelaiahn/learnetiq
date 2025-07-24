@@ -65,7 +65,8 @@ export function NewPostForm() {
                         />
                         <div className="flex justify-end">
                             <Button type="submit">
-                                Comment
+                                <Send className="h-4 w-4" />
+                                <span className="sr-only">Comment</span>
                             </Button>
                         </div>
                     </form>
