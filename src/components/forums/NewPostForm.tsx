@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { AtSign, Code, Quote, Send } from 'lucide-react';
+import { Bot, Code, Quote, Send } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader } from '../ui/card';
 
 const formSchema = z.object({
@@ -65,7 +65,7 @@ export function NewPostForm() {
                         <div className="flex justify-between items-center">
                             <div className="flex items-center gap-1">
                                 <Button variant="ghost" size="icon" type="button" className="text-muted-foreground">
-                                    <AtSign className="h-5 w-5" />
+                                    <Bot className="h-5 w-5" />
                                 </Button>
                                 <Button variant="ghost" size="icon" type="button" className="text-muted-foreground">
                                     <Quote className="h-5 w-5" />
