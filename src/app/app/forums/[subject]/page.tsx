@@ -1,5 +1,6 @@
 import { NewPostForm } from '@/components/forums/NewPostForm';
 import { PostCard } from '@/components/forums/PostCard';
+import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
