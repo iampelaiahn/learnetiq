@@ -84,9 +84,11 @@ export function PostCard({
               <ArrowBigDown className="h-5 w-5" />
             </Button>
           </div>
-          <Button variant="ghost" size="sm">
-            <MessageSquare className="mr-2 h-4 w-4" />
-            {post.commentCount} Comments
+          <Button variant="ghost" size="sm" asChild>
+            <Link href={`/app/forums/Computer%20Science/${post.id}`}>
+              <MessageSquare className="mr-2 h-4 w-4" />
+              {post.commentCount} Comments
+            </Link>
           </Button>
           <Button variant="ghost" size="sm">
             <Share className="mr-2 h-4 w-4" />
