@@ -1,7 +1,13 @@
 import { NewPostForm } from '@/components/forums/NewPostForm';
 import { PostCard } from '@/components/forums/PostCard';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { ArrowBigUp, ArrowLeft, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 
 const mockPost = {
@@ -84,9 +90,11 @@ export default function ForumSubjectPage({
         </h2>
         <NewPostForm />
         <div className="flex flex-col gap-4">
-          {mockPost.comments.map((comment) => (
-            <CommentThread key={comment.id} comment={comment} />
-          ))}
+          <TooltipProvider>
+            {mockPost.comments.map((comment) => (
+              <CommentThread key={comment.id} comment={comment} />
+            ))}
+          </TooltipProvider>
         </div>
       </div>
     </div>
@@ -107,9 +115,24 @@ function CommentThread({ comment }: { comment: typeof mockPost.comments[0] }) {
              <span>{comment.timestamp}</span>
           </div>
           <p className="text-foreground/90 mt-1">{comment.content}</p>
-          <div className="flex items-center gap-2 mt-2 text-xs">
-            <Button variant="ghost" size="sm" className="p-1 h-auto">Upvote ({comment.upvotes})</Button>
-            <Button variant="ghost" size="sm" className="p-1 h-auto">Reply</Button>
+          <div className="flex items-center gap-1 mt-2 text-xs">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" className="p-1 h-auto w-auto">
+                    <ArrowBigUp className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Upvote</TooltipContent>
+            </Tooltip>
+            <span className="text-xs font-bold w-6 text-center">{comment.upvotes}</span>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                 <Button variant="ghost" size="icon" className="p-1 h-auto w-auto">
+                    <MessageSquare className="h-4 w-4" />
+                 </Button>
+              </TooltipTrigger>
+              <TooltipContent>Reply</TooltipContent>
+            </Tooltip>
           </div>
         </div>
         <div className="flex flex-col gap-4">
