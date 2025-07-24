@@ -12,47 +12,38 @@ import Link from 'next/link';
 
 const mockPost = {
   id: '1',
-  author: 'alex_w',
-  timestamp: '5 hours ago',
-  title: 'What are some real-world applications of trigonometry?',
-  content: "I'm trying to connect what I'm learning in class to the real world. Can anyone share some interesting examples of how trigonometry is used in different fields? I know it's used in architecture and engineering, but I'm curious about other applications too.",
-  upvotes: 128,
+  author: 'dev_guru',
+  timestamp: '2 days ago',
+  title: 'What is the best language for a beginner?',
+  content: "I'm looking to get into programming and I'm not sure where to start. I've heard Python is good for beginners, but I've also seen a lot of job postings for JavaScript. What do you all think? I'm interested in web development, but also want something that's versatile.",
+  upvotes: 256,
   comments: [
     {
       id: 'c1',
-      author: 'physics_bob',
-      timestamp: '3 hours ago',
+      author: 'frontend_master',
+      timestamp: '1 day ago',
       content:
-        'Real-world applications of trigonometry are everywhere! Architecture, video game design, astronomy, and even music production use its principles.',
-      upvotes: 42,
+        'If you\'re interested in web development, you can\'t go wrong with JavaScript. It\'s the language of the web, and with frameworks like React and Vue, you can build some amazing things.',
+      upvotes: 78,
       replies: [
         {
           id: 'c1_1',
-          author: 'music_maya',
-          timestamp: '3 hours ago',
-          content: 'In music, sine waves are the purest form of sound! Synthesizers generate complex tones by adding sine waves of different frequencies and amplitudes. That\'s all trig!',
-          upvotes: 15,
+          author: 'py_fan',
+          timestamp: '1 day ago',
+          content: 'I agree that JavaScript is essential for web dev, but I still think Python is a better starting point. The syntax is much cleaner and easier to learn. You can always pick up JavaScript later.',
+          upvotes: 45,
           replies: []
         }
       ]
     },
     {
       id: 'c2',
-      author: 'geo_alice',
-      timestamp: '2 hours ago',
+      author: 'data_nerd',
+      timestamp: '22 hours ago',
       content:
-        'I agree, the real-world applications are what make it so interesting! For example, GPS systems heavily rely on trigonometry and triangulation to pinpoint your location.',
-      upvotes: 35,
-      replies: [
-        {
-          id: 'c2_1',
-          author: 'alex_w',
-          timestamp: '1 hour ago',
-          content: 'Wow, I never thought about GPS! That makes so much sense. Thanks for sharing!',
-          upvotes: 10,
-          replies: []
-        }
-      ]
+        'Python is definitely the way to go for data science and machine learning. If that\'s a path you\'re considering, starting with Python will give you a huge head start.',
+      upvotes: 61,
+      replies: []
     },
   ],
 };
