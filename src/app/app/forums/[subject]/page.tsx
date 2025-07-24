@@ -1,15 +1,23 @@
+'use client';
 import { PostCard, type Post } from '@/components/forums/PostCard';
 import { Button } from '@/components/ui/button';
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import {
   ArrowLeft,
   Book,
-  Code,
   MoreHorizontal,
   Plus,
   Rss,
   Scale,
   Shield,
   User,
+  ArrowBigUp,
+  Code
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -24,7 +32,32 @@ const mockPosts: Post[] = [
     content:
       "I'm looking to get into programming and I'm not sure where to start. I've heard Python is good for beginners, but I've also seen a lot of job postings for JavaScript. What do you all think? I'm interested in web development, but also want something that's versatile.",
     upvotes: 256,
-    commentCount: 8,
+    commentCount: 2,
+    comments: [
+        {
+            id: 'c1',
+            author: 'js_master',
+            timestamp: '2 days ago',
+            content: "JavaScript is the way to go for web dev. You can use it for both front-end and back-end (with Node.js). It's a huge ecosystem.",
+            upvotes: 32,
+            replies: [
+                {
+                    id: 'c1_r1',
+                    author: 'dev_guru',
+                    timestamp: '2 days ago',
+                    content: "That's a good point. I like the idea of using one language for everything.",
+                    upvotes: 8,
+                }
+            ]
+        },
+        {
+            id: 'c2',
+            author: 'python_fan',
+            timestamp: '2 days ago',
+            content: "I started with Python and loved it. The syntax is very clean and readable. It's great for data science and AI too.",
+            upvotes: 25,
+        }
+    ]
   },
   {
     id: '2',
@@ -34,7 +67,16 @@ const mockPosts: Post[] = [
     content:
       "Just wrote a blog post breaking down Big O notation for anyone who's struggling with it. It's a fundamental concept in CS, and understanding it will make you a better developer. Let me know if you have any questions!",
     upvotes: 1200,
-    commentCount: 42,
+    commentCount: 1,
+     comments: [
+        {
+            id: 'c3',
+            author: 'learner123',
+            timestamp: '5 days ago',
+            content: "This was super helpful! Thanks for sharing.",
+            upvotes: 15,
+        }
+    ]
   },
 ];
 
@@ -51,7 +93,7 @@ export default function ForumSubjectPage({
         <Image
           src="https://placehold.co/1200x300.png"
           alt={`${subject} banner`}
-          layout="fill"
+          fill
           objectFit="cover"
           data-ai-hint="abstract technology"
         />
