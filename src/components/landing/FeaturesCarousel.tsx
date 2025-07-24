@@ -56,7 +56,7 @@ export function FeaturesCarousel() {
     <section id="features" className="w-full bg-primary text-primary-foreground py-20 md:py-32">
       <div className="container">
         <h2 className="font-headline text-center text-3xl font-bold md:text-4xl mb-12">
-          Everything You Need to Succeed
+          We got Everything you need to succeed
         </h2>
         <Carousel
           plugins={[plugin.current]}
