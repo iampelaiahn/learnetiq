@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/card';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
-import { Book, Rss, Scale, Shield, Users } from 'lucide-react';
+import { Book, Scale, Shield } from 'lucide-react';
 
 type CommunitySidebarProps = {
   subject: string;
@@ -30,7 +30,7 @@ export function CommunitySidebar({ subject }: CommunitySidebarProps) {
             <p className="text-xs text-muted-foreground">Members</p>
           </div>
           <div>
-            <p className="text-lg font-bold text-green-500 flex items-center gap-1">
+            <p className="text-lg font-bold text-green-500 flex items-center justify-center gap-1">
                 <span className="h-2 w-2 rounded-full bg-green-500 block animate-pulse"></span>
                 142
             </p>
@@ -39,14 +39,17 @@ export function CommunitySidebar({ subject }: CommunitySidebarProps) {
         </div>
         <Separator />
         <div className="space-y-2">
-            <Button variant="outline" className="w-full justify-start">
-                <Book className="mr-2 h-4 w-4" /> Community Wiki
+            <Button variant="outline" className="w-full justify-start text-left h-auto">
+                <Book className="mr-2 h-4 w-4 flex-shrink-0" /> 
+                <span className="flex-grow whitespace-normal">Community Wiki</span>
             </Button>
-             <Button variant="outline" className="w-full justify-start">
-                <Scale className="mr-2 h-4 w-4" /> Community Rules
+             <Button variant="outline" className="w-full justify-start text-left h-auto">
+                <Scale className="mr-2 h-4 w-4 flex-shrink-0" /> 
+                <span className="flex-grow whitespace-normal">Community Rules</span>
             </Button>
-             <Button variant="outline" className="w-full justify-start">
-                <Shield className="mr-2 h-4 w-4" /> Code of Conduct
+             <Button variant="outline" className="w-full justify-start text-left h-auto">
+                <Shield className="mr-2 h-4 w-4 flex-shrink-0" /> 
+                <span className="flex-grow whitespace-normal">Code of Conduct</span>
             </Button>
         </div>
          <Separator />
