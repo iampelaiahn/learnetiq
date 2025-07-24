@@ -12,9 +12,8 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Send } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Separator } from '../ui/separator';
+import { AtSign, Code, Quote, Send } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader } from '../ui/card';
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -46,7 +45,7 @@ export function NewPostForm() {
             </CardHeader>
             <CardContent className="p-0">
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
                         <FormField
                             control={form.control}
                             name="content"
@@ -63,7 +62,18 @@ export function NewPostForm() {
                                 </FormItem>
                             )}
                         />
-                        <div className="flex justify-end">
+                        <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-1">
+                                <Button variant="ghost" size="icon" type="button" className="text-muted-foreground">
+                                    <AtSign className="h-5 w-5" />
+                                </Button>
+                                <Button variant="ghost" size="icon" type="button" className="text-muted-foreground">
+                                    <Quote className="h-5 w-5" />
+                                </Button>
+                                <Button variant="ghost" size="icon" type="button" className="text-muted-foreground">
+                                    <Code className="h-5 w-5" />
+                                </Button>
+                            </div>
                             <Button type="submit">
                                 <Send className="h-4 w-4" />
                                 <span className="sr-only">Comment</span>
