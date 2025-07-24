@@ -13,7 +13,8 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Send } from 'lucide-react';
-import { Card, CardContent } from '../ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Separator } from '../ui/separator';
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -37,8 +38,13 @@ export function NewPostForm() {
     }
 
     return (
-        <Card>
-            <CardContent className="p-4">
+        <Card className="bg-transparent border-0 shadow-none">
+            <CardHeader className="p-0 mb-2">
+                <CardDescription>
+                    Comment as <span className="text-primary font-semibold">Alex</span>
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <FormField
@@ -48,7 +54,7 @@ export function NewPostForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Textarea
-                                            placeholder="Add a comment..."
+                                            placeholder="Join the discussion..."
                                             className="resize-none"
                                             {...field}
                                         />
@@ -59,7 +65,6 @@ export function NewPostForm() {
                         />
                         <div className="flex justify-end">
                             <Button type="submit">
-                                <Send className="mr-2 h-4 w-4" />
                                 Comment
                             </Button>
                         </div>
