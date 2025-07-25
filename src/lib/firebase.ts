@@ -2,12 +2,12 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDWzKLK195Vo2PiYh6Nd63hLY94TmmMt0E",
-  authDomain: "learnetiq-ncqpq.firebaseapp.com",
-  projectId: "learnetiq-ncqpq",
-  storageBucket: "learnetiq-ncqpq.firebasestorage.app",
-  messagingSenderId: "61995232955",
-  appId: "1:61995232955:web:69a432f8a141cb3dd4439e"
+  projectId: 'learnetiq-ncqpq',
+  appId: '1:61995232955:web:69a432f8a141cb3dd4439e',
+  storageBucket: 'learnetiq-ncqpq.firebasestorage.app',
+  apiKey: 'AIzaSyDWzKLK195Vo2PiYh6Nd63hLY94TmmMt0E',
+  authDomain: 'learnetiq-ncqpq.firebaseapp.com',
+  messagingSenderId: '61995232955',
 };
 
 // Initialize Firebase
