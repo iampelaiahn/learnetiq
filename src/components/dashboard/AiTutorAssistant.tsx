@@ -11,7 +11,9 @@ import {
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
@@ -20,7 +22,9 @@ import { Bot, Lightbulb, Loader2 } from 'lucide-react';
 import { getRecommendationsAction } from '@/actions/recommendations';
 import { useToast } from '@/hooks/use-toast';
 
-const gradeLevels = Array.from({ length: 12 }, (_, i) => `Grade ${i + 1}`);
+const primarySchoolLevels = Array.from({ length: 7 }, (_, i) => `Grade ${i + 1}`);
+const secondarySchoolLevels = Array.from({ length: 6 }, (_, i) => `Form ${i + 1}`);
+
 const subjects = ['Mathematics', 'Physics', 'History', 'Literature', 'Science'];
 
 export function AiTutorAssistant() {
@@ -79,11 +83,22 @@ export function AiTutorAssistant() {
               <SelectValue placeholder="Select Grade Level" />
             </SelectTrigger>
             <SelectContent>
-              {gradeLevels.map((level) => (
-                <SelectItem key={level} value={level}>
-                  {level}
-                </SelectItem>
-              ))}
+              <SelectGroup>
+                <SelectLabel>Primary School</SelectLabel>
+                {primarySchoolLevels.map((level) => (
+                  <SelectItem key={level} value={level}>
+                    {level}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+              <SelectGroup>
+                <SelectLabel>Secondary School</SelectLabel>
+                {secondarySchoolLevels.map((level) => (
+                  <SelectItem key={level} value={level}>
+                    {level}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
             </SelectContent>
           </Select>
           <Select value={subject} onValueChange={setSubject}>
