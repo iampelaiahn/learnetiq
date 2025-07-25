@@ -28,15 +28,17 @@ type DetailedProgressCardProps = {
   subject: string;
   overallProgress: number;
   topics: Topic[];
+  autoplayDelay?: number;
 };
 
 export function DetailedProgressCard({
   subject,
   overallProgress,
   topics,
+  autoplayDelay = 2000,
 }: DetailedProgressCardProps) {
     const plugin = React.useRef(
-        Autoplay({ delay: 2000, stopOnInteraction: true })
+        Autoplay({ delay: autoplayDelay, stopOnInteraction: true })
       );
 
   return (

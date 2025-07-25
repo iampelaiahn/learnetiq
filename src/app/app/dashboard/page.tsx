@@ -11,6 +11,7 @@ const subjectsData = [
       { name: 'Calculus', progress: 60 },
       { name: 'Geometry', progress: 75 },
     ],
+    autoplayDelay: 2000,
   },
   {
     subject: 'Physics',
@@ -20,6 +21,7 @@ const subjectsData = [
       { name: 'E & M', progress: 50 },
       { name: 'Thermodynamics', progress: 60 },
     ],
+    autoplayDelay: 3000,
   },
   {
     subject: 'History',
@@ -29,6 +31,7 @@ const subjectsData = [
       { name: 'World War II', progress: 80 },
       { name: 'Silk Road', progress: 90 },
     ],
+    autoplayDelay: 4000,
   },
 ];
 
