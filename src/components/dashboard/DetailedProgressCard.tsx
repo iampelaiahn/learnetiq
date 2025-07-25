@@ -12,8 +12,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { Badge } from '../ui/badge';
@@ -68,7 +66,7 @@ export function DetailedProgressCard({
           orientation="vertical"
           className="w-full"
         >
-          <CarouselContent className="-mt-1 h-14">
+          <CarouselContent className="-mt-1 h-20">
             {topics.map((topic, index) => (
               <CarouselItem key={index} className="pt-1">
                 <div className="p-1">
@@ -84,10 +82,6 @@ export function DetailedProgressCard({
               </CarouselItem>
             ))}
           </CarouselContent>
-           <div className="absolute right-2 bottom-2 flex flex-col gap-1">
-                <CarouselPrevious className="static translate-x-0 translate-y-0 h-6 w-6" />
-                <CarouselNext className="static translate-x-0 translate-y-0 h-6 w-6" />
-           </div>
         </Carousel>
       </CardContent>
     </Card>
