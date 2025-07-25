@@ -1,3 +1,5 @@
+'use client';
+import * as React from 'react';
 import {
   Card,
   CardContent,
@@ -13,6 +15,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 import { Badge } from '../ui/badge';
 import { BookOpen } from 'lucide-react';
 
@@ -32,6 +35,10 @@ export function DetailedProgressCard({
   overallProgress,
   topics,
 }: DetailedProgressCardProps) {
+    const plugin = React.useRef(
+        Autoplay({ delay: 2000, stopOnInteraction: true })
+      );
+
   return (
     <Card>
       <CardHeader>
@@ -49,6 +56,9 @@ export function DetailedProgressCard({
       </CardHeader>
       <CardContent>
         <Carousel
+          plugins={[plugin.current]}
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
           opts={{
             align: 'start',
             loop: true,
