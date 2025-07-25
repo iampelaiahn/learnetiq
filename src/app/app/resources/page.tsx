@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/accordion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ResourceCard } from '@/components/resources/ResourceCard';
-import { Book, Film, FileText } from 'lucide-react';
+import { Book, Film, FileText, Landmark, Code, Dna, Globe } from 'lucide-react';
 
 const subjects = [
   {
@@ -16,37 +16,59 @@ const subjects = [
       media: [
         {
           title: 'Calculus Explained',
-          description: 'An engaging video series on the fundamentals of calculus.',
+          description:
+            'An engaging video series on the fundamentals of calculus.',
           image: 'https://placehold.co/600x400.png',
           aiHint: 'mathematics education',
         },
         {
           title: 'Algebra Basics',
-          description: 'Master the core concepts of algebra with this animated playlist.',
+          description:
+            'Master the core concepts of algebra with this animated playlist.',
           image: 'https://placehold.co/600x400.png',
           aiHint: 'algebra book',
+        },
+        {
+          title: 'Statistics Fundamentals',
+          description: 'Learn the basics of statistical analysis.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'data charts',
         },
       ],
       documents: [
         {
           title: 'Geometry Formulas',
-          description: 'A comprehensive PDF guide to all essential geometry formulas.',
+          description:
+            'A comprehensive PDF guide to all essential geometry formulas.',
           image: 'https://placehold.co/600x400.png',
           aiHint: 'geometry diagrams',
+        },
+        {
+          title: 'Trigonometry Cheatsheet',
+          description: 'Quick reference for trig identities and formulas.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'mathematical formulas',
         },
       ],
     },
   },
   {
     name: 'Physics',
-    icon: Film,
+    icon: Globe,
     resources: {
       media: [
         {
           title: 'Quantum Mechanics Intro',
-          description: 'A documentary exploring the strange world of quantum physics.',
+          description:
+            'A documentary exploring the strange world of quantum physics.',
           image: 'https://placehold.co/600x400.png',
           aiHint: 'quantum physics',
+        },
+        {
+          title: 'Astrophysics Explained',
+          description: 'Journey through the cosmos and explore the stars.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'galaxy nebula',
         },
       ],
       documents: [
@@ -65,6 +87,118 @@ const subjects = [
       ],
     },
   },
+  {
+    name: 'History',
+    icon: Landmark,
+    resources: {
+      media: [
+        {
+          title: 'The Roman Empire',
+          description: 'A documentary series on the rise and fall of Rome.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'roman colosseum',
+        },
+      ],
+      documents: [
+        {
+          title: 'World War II Summary',
+          description: 'A comprehensive overview of the major events.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'historical map',
+        },
+        {
+          title: 'The Silk Road',
+          description: 'Learn about the ancient trade routes.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'desert caravan',
+        },
+      ],
+    },
+  },
+  {
+    name: 'Literature',
+    icon: Book,
+    resources: {
+      media: [
+        {
+          title: 'Shakespeare Sonnets Reading',
+          description: 'Audiobook of Shakespeare\'s most famous sonnets.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'old books',
+        },
+      ],
+      documents: [
+        {
+          title: 'Analysis of "1984"',
+          description: 'An in-depth literary analysis of Orwell\'s novel.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'dystopian city',
+        },
+        {
+          title: 'Guide to Literary Devices',
+          description: 'A handy guide to understanding literary techniques.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'writing feather',
+        },
+      ],
+    },
+  },
+  {
+    name: 'Computer Science',
+    icon: Code,
+    resources: {
+      media: [
+        {
+          title: 'Intro to Python',
+          description: 'A beginner-friendly video course on Python.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'code editor',
+        },
+        {
+          title: 'How Do CPUs Work?',
+          description: 'An animated explanation of computer processors.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'computer chip',
+        },
+      ],
+      documents: [
+        {
+          title: 'Data Structures & Algorithms',
+          description: 'A complete guide to common DS&A.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'network diagram',
+        },
+      ],
+    },
+  },
+  {
+    name: 'Biology',
+    icon: Dna,
+    resources: {
+      media: [
+        {
+          title: 'The Magic of Photosynthesis',
+          description: 'A visual guide to how plants create energy.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'green leaves',
+        },
+      ],
+      documents: [
+        {
+          title: 'Human Anatomy Atlas',
+          description: 'A detailed PDF of the human body.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'anatomy chart',
+        },
+        {
+          title: 'Cellular Respiration',
+          description: 'The process of energy creation in cells.',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'microscope view',
+        },
+      ],
+    },
+  },
 ];
 
 export default function ResourcesPage() {
@@ -79,7 +213,12 @@ export default function ResourcesPage() {
         </p>
       </div>
 
-      <Accordion type="single" collapsible defaultValue="item-0" className="w-full">
+      <Accordion
+        type="single"
+        collapsible
+        defaultValue="item-0"
+        className="w-full"
+      >
         {subjects.map((subject, index) => (
           <AccordionItem key={subject.name} value={`item-${index}`}>
             <AccordionTrigger className="text-xl font-headline hover:no-underline">
