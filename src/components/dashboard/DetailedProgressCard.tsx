@@ -57,11 +57,11 @@ export function DetailedProgressCard({
         >
           <CarouselContent>
             {topics.map((topic, index) => (
-              <CarouselItem key={index} className="basis-1/2">
+              <CarouselItem key={index}>
                 <div className="p-1">
                   <Card className="bg-muted/50">
-                    <CardContent className="flex flex-col items-center justify-center p-3 gap-2">
-                      <p className="text-sm font-medium text-center truncate w-full">{topic.name}</p>
+                    <CardContent className="flex items-center justify-between p-3">
+                      <p className="text-sm font-medium truncate">{topic.name}</p>
                       <Badge variant={topic.progress > 70 ? 'default' : 'secondary'}>
                         {topic.progress}%
                       </Badge>
