@@ -53,11 +53,12 @@ export function DetailedProgressCard({
             align: 'start',
             loop: true,
           }}
+          orientation="vertical"
           className="w-full"
         >
-          <CarouselContent>
+          <CarouselContent className="-mt-1 h-14">
             {topics.map((topic, index) => (
-              <CarouselItem key={index}>
+              <CarouselItem key={index} className="pt-1">
                 <div className="p-1">
                   <Card className="bg-muted/50">
                     <CardContent className="flex items-center justify-between p-3">
@@ -71,8 +72,10 @@ export function DetailedProgressCard({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="h-6 w-6 -left-2" />
-          <CarouselNext className="h-6 w-6 -right-2" />
+           <div className="absolute right-2 bottom-2 flex flex-col gap-1">
+                <CarouselPrevious className="static translate-x-0 translate-y-0 h-6 w-6" />
+                <CarouselNext className="static translate-x-0 translate-y-0 h-6 w-6" />
+           </div>
         </Carousel>
       </CardContent>
     </Card>
