@@ -144,6 +144,186 @@ const allPosts: Record<string, Post[]> = {
         },
       ]
     },
+  ],
+  Physics: [
+    {
+      id: '5',
+      author: 'quantum_quark',
+      timestamp: '4 days ago',
+      title: "What's your favorite interpretation of quantum mechanics?",
+      content: 'Copenhagen? Many-Worlds? Pilot-Wave? There are so many fascinating ways to think about the nature of reality at the quantum level. What clicks best for you and why?',
+      upvotes: 321,
+      commentCount: 1,
+      comments: [
+        {
+          id: 'c7',
+          author: 'everett_fan',
+          timestamp: '4 days ago',
+          content: "Many-Worlds, all the way. It's the most elegant and avoids the measurement problem. The idea of parallel universes is mind-bending in the best way.",
+          upvotes: 50,
+        },
+      ]
+    },
+  ],
+  Literature: [
+    {
+      id: '6',
+      author: 'bookworm_bella',
+      timestamp: '6 days ago',
+      title: 'A character you love from a book you hated?',
+      content: "Have you ever found a literary gem of a character stuck in a plot you just couldn't get through? I'm curious to hear about these standout characters.",
+      upvotes: 189,
+      commentCount: 1,
+      comments: [
+        {
+          id: 'c8',
+          author: 'page_turner_pete',
+          timestamp: '6 days ago',
+          content: "Holden Caulfield from 'The Catcher in the Rye'. I found the book itself a bit whiny, but his character is an unforgettable icon of teenage angst.",
+          upvotes: 42,
+        },
+      ]
+    },
+  ],
+  Biology: [
+    {
+      id: '7',
+      author: 'cell_savvy',
+      timestamp: '1 week ago',
+      title: 'The CRISPR revolution: are we moving too fast?',
+      content: "Gene editing technology like CRISPR has the potential to cure genetic diseases, but also raises serious ethical questions. What are your thoughts on the pace of research and its application?",
+      upvotes: 550,
+      commentCount: 1,
+      comments: [
+        {
+          id: 'c9',
+          author: 'bioethicist_brian',
+          timestamp: '1 week ago',
+          content: "It's a powerful tool that demands careful regulation. The potential for good is immense, but we need a global consensus on ethical boundaries before we see widespread use in humans.",
+          upvotes: 120,
+        },
+      ]
+    },
+  ],
+  'AI & Robotics': [
+    {
+      id: '8',
+      author: 'robot_wrangler',
+      timestamp: '2 days ago',
+      title: 'What is the most impressive real-world robotics application you\'ve seen?',
+      content: 'Beyond the Roomba, what robotic systems have genuinely amazed you? Thinking of things like the Boston Dynamics robots, surgical robots, or automated warehouse systems.',
+      upvotes: 730,
+      commentCount: 1,
+      comments: [
+        {
+          id: 'c10',
+          author: 'future_is_now',
+          timestamp: '2 days ago',
+          content: 'The Da Vinci surgical system. It allows surgeons to perform complex procedures with incredible precision. It feels like science fiction made real.',
+          upvotes: 150,
+        },
+      ]
+    }
+  ],
+  Economics: [
+    {
+      id: '9',
+      author: 'market_maven',
+      timestamp: '10 days ago',
+      title: 'Behavioral Economics: What\'s the most interesting cognitive bias?',
+      content: "From anchoring to the sunk cost fallacy, our brains are full of quirks that affect our financial decisions. Which bias do you find most fascinating or see most often in your own life?",
+      upvotes: 240,
+      commentCount: 1,
+      comments: [
+        {
+          id: 'c11',
+          author: 'rational_actor',
+          timestamp: '10 days ago',
+          content: 'The IKEA effect. The fact that you place a disproportionately high value on things you partially created yourself explains so much about consumer behavior and personal attachment to products.',
+          upvotes: 65,
+        },
+      ]
+    }
+  ],
+  Philosophy: [
+    {
+      id: '10',
+      author: 'stoic_student',
+      timestamp: '5 days ago',
+      title: 'If you could ask one philosopher one question, who and what would you ask?',
+      content: "Imagine having a conversation with any philosopher from history. Who would you choose, and what's the one burning question you'd ask them?",
+      upvotes: 411,
+      commentCount: 1,
+      comments: [
+        {
+          id: 'c12',
+          author: 'sartre_fan',
+          timestamp: '5 days ago',
+          content: "I'd ask Socrates to define 'justice' and then just sit back and watch the master at work for a few hours.",
+          upvotes: 88,
+        },
+      ]
+    }
+  ],
+  'Art History': [
+    {
+      id: '11',
+      author: 'canvas_connoisseur',
+      timestamp: '8 days ago',
+      title: 'Which art movement do you think was the most revolutionary?',
+      content: 'From Impressionism shattering academic traditions to Cubism breaking down form, many movements have changed the course of art history. Which one do you believe had the most profound and lasting impact?',
+      upvotes: 315,
+      commentCount: 1,
+      comments: [
+        {
+          id: 'c13',
+          author: 'dadaist_dreamer',
+          timestamp: '8 days ago',
+          content: "Dadaism. It wasn't just a new style; it was a radical questioning of what art even is. Its anti-art stance paved the way for so much of conceptual art and postmodernism.",
+          upvotes: 72,
+        },
+      ]
+    }
+  ],
+  'Music Theory': [
+    {
+      id: '12',
+      author: 'maestro_mike',
+      timestamp: '3 days ago',
+      title: 'What\'s a piece of music with a fascinating use of harmony or theory?',
+      content: "Looking for examples of music (any genre!) that does something really clever or beautiful from a theory perspective. Could be a cool chord progression, a unique modulation, or interesting counterpoint.",
+      upvotes: 280,
+      commentCount: 1,
+      comments: [
+        {
+          id: 'c14',
+          author: 'jazz_cat',
+          timestamp: '3 days ago',
+          content: "Jacob Collier's arrangement of 'Moon River'. The reharmonization is absolutely genius and takes you on a wild, beautiful journey.",
+          upvotes: 60,
+        },
+      ]
+    }
+  ],
+  'Social Sciences': [
+    {
+      id: '13',
+      author: 'culture_critic',
+      timestamp: '12 days ago',
+      title: "What social experiment has given you the most insight into human nature?",
+      content: "From the Milgram experiment to the Stanford prison experiment (and less ethically dubious ones!), what study has really stuck with you and changed how you see society or individuals?",
+      upvotes: 480,
+      commentCount: 1,
+      comments: [
+        {
+          id: 'c15',
+          author: 'observer101',
+          timestamp: '12 days ago',
+          content: "The 'Violinist at the Metro' experiment by The Washington Post. The fact that so few people stopped to appreciate a world-class musician playing a masterpiece for free because the context was all wrong is a powerful lesson in how we perceive value and beauty.",
+          upvotes: 110,
+        },
+      ]
+    }
   ]
 };
 
