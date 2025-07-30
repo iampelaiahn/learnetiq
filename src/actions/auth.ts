@@ -2,6 +2,7 @@
 
 import { sendWelcomeEmail } from '@/ai/flows/send-welcome-email';
 import { z } from 'zod';
+import { auth } from '@/lib/firebase-admin';
 
 const signupSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -9,6 +10,7 @@ const signupSchema = z.object({
   password: z
     .string()
     .min(8, { message: 'Password must be at least 8 characters.' }),
+  role: z.string(),
 });
 
 export async function signupAction(values: z.infer<typeof signupSchema>) {
@@ -17,10 +19,17 @@ export async function signupAction(values: z.infer<typeof signupSchema>) {
   if (!validatedFields.success) {
     return { error: 'Invalid fields!' };
   }
-  
-  const { name } = validatedFields.data;
+
+  const { name, email, password, role } = validatedFields.data;
 
   try {
+    await auth.createUser({
+      email,
+      password,
+      displayName: name,
+      customClaims: { role },
+    });
+
     const welcomeEmail = await sendWelcomeEmail({
       userName: name,
       platformName: 'LearnetIQ',
@@ -33,8 +42,11 @@ export async function signupAction(values: z.infer<typeof signupSchema>) {
     });
 
     return { success: 'Signup successful!', email: welcomeEmail.emailBody };
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return { error: 'An AI-related error occurred. Could not generate welcome email.' };
+    if (error.code === 'auth/email-already-exists') {
+      return { error: 'An account with this email already exists.' };
+    }
+    return { error: 'An error occurred during signup. Please try again.' };
   }
 }
