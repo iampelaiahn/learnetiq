@@ -176,7 +176,6 @@ export function AuthModal({ mode, children }: AuthModalProps) {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {!isLogin && (
-                <>
                   <FormField
                     control={form.control}
                     name="name"
@@ -190,33 +189,6 @@ export function AuthModal({ mode, children }: AuthModalProps) {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="role"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Role</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a role" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="student">Student</SelectItem>
-                            <SelectItem value="tutor">Tutor</SelectItem>
-                            <SelectItem value="parent">Parent</SelectItem>
-                            <SelectItem value="admin">Admin</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
               )}
               <FormField
                 control={form.control}
@@ -248,6 +220,34 @@ export function AuthModal({ mode, children }: AuthModalProps) {
                   </FormItem>
                 )}
               />
+              {!isLogin && (
+                  <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Role</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a role" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="student">Student</SelectItem>
+                            <SelectItem value="tutor">Tutor</SelectItem>
+                            <SelectItem value="parent">Parent</SelectItem>
+                            <SelectItem value="admin">Admin</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+              )}
               <Button type="submit" className="w-full" disabled={isSubmitting || isGoogleSubmitting}>
                 {isSubmitting ? 'Submitting...' : isLogin ? 'Log In' : 'Create Account'}
               </Button>
