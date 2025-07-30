@@ -37,18 +37,24 @@ export async function signupAction(values: z.infer<typeof signupSchema>) {
       customClaims: { role },
     });
 
-    const welcomeEmail = await sendWelcomeEmail({
-      userName: name,
-      platformName: 'LearnetIQ',
-      keyFeatures: [
-        'Personalized Dashboards',
-        'AI Tutor Assistant',
-        'Interactive Live Classes',
-        'Community Forums',
-      ],
-    });
+    try {
+        const welcomeEmail = await sendWelcomeEmail({
+          userName: name,
+          platformName: 'LearnetIQ',
+          keyFeatures: [
+            'Personalized Dashboards',
+            'AI Tutor Assistant',
+            'Interactive Live Classes',
+            'Community Forums',
+          ],
+        });
+        return { success: 'Signup successful!', email: welcomeEmail.emailBody };
+    } catch (aiError) {
+        console.error("AI Error: Could not generate welcome message.", aiError);
+        // Signup was successful, but AI failed. Return success without email.
+        return { success: 'Signup successful! Could not generate welcome email.' };
+    }
 
-    return { success: 'Signup successful!', email: welcomeEmail.emailBody };
   } catch (error: any) {
     console.error(error);
     if (error.code === 'auth/email-already-exists') {
