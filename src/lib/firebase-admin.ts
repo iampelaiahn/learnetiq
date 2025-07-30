@@ -7,6 +7,9 @@ if (!admin.apps.length) {
     });
   } catch (error) {
     console.error('Firebase admin initialization error', error);
+    // Throwing the error here will prevent the app from continuing
+    // with a non-initialized Firebase admin instance.
+    throw new Error('Failed to initialize Firebase Admin SDK.');
   }
 }
 
