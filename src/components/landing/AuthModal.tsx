@@ -117,13 +117,12 @@ export function AuthModal({ mode, children }: AuthModalProps) {
     setIsSubmitting(true);
     setAuthError(null);
 
-    if (!auth) {
-      setAuthError('Firebase is not configured on the client. Please check your environment variables.');
-      setIsSubmitting(false);
-      return;
-    }
-
     if (isLogin) {
+      if (!auth) {
+        setAuthError('Firebase client is not configured for login. Please check environment variables.');
+        setIsSubmitting(false);
+        return;
+      }
        try {
         const { email, password } = values as z.infer<typeof loginSchema>;
         await signInWithEmailAndPassword(auth, email, password);
@@ -142,20 +141,25 @@ export function AuthModal({ mode, children }: AuthModalProps) {
           duration: 9000,
         });
         
-        // Also log the user in client-side after successful server-side signup
-        const { email, password } = values as z.infer<typeof signupSchema>;
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            router.push('/app/dashboard');
-            setOpen(false);
-        } catch (loginError: any) {
-             // The user was created, but client-side login failed.
-             // This can happen, but it's okay. They can log in manually.
-            console.error("Client-side login failed after signup:", loginError);
+        if (auth) {
+            const { email, password } = values as z.infer<typeof signupSchema>;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                router.push('/app/dashboard');
+                setOpen(false);
+            } catch (loginError: any) {
+                console.error("Client-side login failed after signup:", loginError);
+                toast({ title: "Account created! Please log in."});
+                router.push('/');
+                setOpen(false);
+            }
+        } else {
+            console.error("Firebase client not available for login after signup.");
             toast({ title: "Account created! Please log in."});
-            router.push('/'); // Redirect to home to show the login modal again
+            router.push('/');
             setOpen(false);
         }
+
       } else {
         setAuthError(result.error || 'An unexpected error occurred.');
       }
