@@ -84,7 +84,7 @@ export function AuthModal({ mode, children }: AuthModalProps) {
       case 'auth/weak-password':
         return 'The password is too weak. Please choose a stronger password.';
        case 'auth/operation-not-allowed':
-         return 'This sign-in method is not enabled. Please contact support.';
+         return 'This sign-in method is not enabled. Please go to the Firebase Console and enable it.';
       case 'auth/popup-closed-by-user':
         return 'The sign-in window was closed. Please try again.';
       case 'auth/internal-error':
