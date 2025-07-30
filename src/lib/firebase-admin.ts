@@ -1,18 +1,23 @@
 import * as admin from 'firebase-admin';
 
-let app: admin.app.App;
+let app: admin.app.App | undefined;
 try {
-  if (!admin.apps.length) {
-    app = admin.initializeApp();
+  if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    if (!admin.apps.length) {
+      app = admin.initializeApp({
+        credential: admin.credential.applicationDefault(),
+      });
+    } else {
+      app = admin.app();
+    }
   } else {
-    app = admin.app();
+    console.warn("GOOGLE_APPLICATION_CREDENTIALS not set. Firebase Admin SDK will not be initialized. Server-side auth will be disabled.");
   }
 } catch (error: any) {
   console.error(
-    'Firebase admin initialization error. Some features like server-side authentication will not be available. Have you set the GOOGLE_APPLICATION_CREDENTIALS environment variable?',
+    'Firebase admin initialization error:',
     error.message
   );
 }
 
-// @ts-ignore
 export const auth = app ? admin.auth() : undefined;

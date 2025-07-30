@@ -12,4 +12,4 @@ const firebaseConfig: FirebaseOptions = {
 
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-export const auth = getApp ? getAuth(app) : undefined;
+export const auth = (firebaseConfig.apiKey && firebaseConfig.projectId) ? getAuth(app) : undefined;

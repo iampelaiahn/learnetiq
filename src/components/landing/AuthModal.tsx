@@ -74,6 +74,10 @@ export function AuthModal({ mode, children }: AuthModalProps) {
   });
 
   const handleGoogleSignIn = async () => {
+    if (!auth) {
+        setAuthError('Firebase is not configured on the client. Please check your environment variables.');
+        return;
+    }
     setIsGoogleSubmitting(true);
     setAuthError(null);
     const provider = new GoogleAuthProvider();
@@ -92,15 +96,16 @@ export function AuthModal({ mode, children }: AuthModalProps) {
     switch (errorCode) {
       case 'auth/user-not-found':
       case 'auth/wrong-password':
+      case 'auth/invalid-credential':
         return 'Invalid email or password. Please try again.';
       case 'auth/email-already-in-use':
         return 'An account with this email already exists.';
       case 'auth/weak-password':
         return 'The password is too weak. Please choose a stronger password.';
-       case 'auth/configuration-not-found':
-         return 'Google Sign-In is not enabled. Please go to the Firebase Console > Authentication > Sign-in method, and enable the Google provider.';
+       case 'auth/operation-not-allowed':
+         return 'Email/password sign-in is not enabled. Please go to the Firebase Console > Authentication > Sign-in method, and enable it.';
       case 'auth/internal-error':
-        return 'The server is not configured for authentication. Please contact support.'
+        return 'An internal authentication error occurred. Please check your Firebase project configuration and try again.'
       default:
         return 'An unexpected error occurred. Please try again.';
     }
@@ -111,6 +116,11 @@ export function AuthModal({ mode, children }: AuthModalProps) {
     setIsSubmitting(true);
     setAuthError(null);
     if (isLogin) {
+       if (!auth) {
+         setAuthError('Firebase is not configured on the client. Please check your environment variables.');
+         setIsSubmitting(false);
+         return;
+       }
        try {
         const { email, password } = values as z.infer<typeof loginSchema>;
         await signInWithEmailAndPassword(auth, email, password);
@@ -122,21 +132,38 @@ export function AuthModal({ mode, children }: AuthModalProps) {
       }
     } else {
       const result = await signupAction(values as z.infer<typeof signupSchema>);
-      if (result.success && result.email) {
+      if (result.success) {
         toast({
           title: 'Signup Successful! ✨',
-          description: (
+          description: result.email ? (
             <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
               <p className="text-white text-sm">A personalized welcome email has been generated for you:</p>
               <pre className="text-xs text-white/80 whitespace-pre-wrap mt-2">{result.email}</pre>
             </div>
-          ),
+          ) : result.success,
           duration: 9000,
         });
-        setTimeout(() => {
-          router.push('/app/dashboard');
-          setOpen(false);
-        }, 2000);
+
+        // Also log the user in client-side after successful server-side signup
+        if (auth) {
+            const { email, password } = values as z.infer<typeof signupSchema>;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                router.push('/app/dashboard');
+                setOpen(false);
+            } catch (loginError: any) {
+                 // The user was created, but client-side login failed.
+                 // This can happen, but it's okay. They can log in manually.
+                console.error("Client-side login failed after signup:", loginError);
+                toast({ title: "Account created! Please log in."});
+                router.push('/');
+                setOpen(false);
+            }
+        } else {
+            router.push('/');
+            setOpen(false);
+        }
+
       } else {
         setAuthError(result.error || 'An unexpected error occurred.');
       }

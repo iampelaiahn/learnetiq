@@ -30,12 +30,13 @@ export async function signupAction(values: z.infer<typeof signupSchema>) {
   const { name, email, password, role } = validatedFields.data;
 
   try {
-    await auth.createUser({
+    const userRecord = await auth.createUser({
       email,
       password,
       displayName: name,
-      customClaims: { role },
     });
+    
+    await auth.setCustomUserClaims(userRecord.uid, { role });
 
     try {
         const welcomeEmail = await sendWelcomeEmail({
