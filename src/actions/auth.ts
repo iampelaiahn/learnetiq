@@ -61,6 +61,6 @@ export async function signupAction(values: z.infer<typeof signupSchema>) {
     if (error.code === 'auth/email-already-exists') {
       return { error: 'An account with this email already exists.' };
     }
-    return { error: 'An error occurred during signup. Please try again.' };
+    return { error: 'An unexpected error occurred during signup. Please try again.' };
   }
 }
