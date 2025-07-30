@@ -70,7 +70,7 @@ export function AuthModal({ mode, children }: AuthModalProps) {
     resolver: zodResolver(schema),
     defaultValues: isLogin
       ? { email: '', password: '' }
-      : { name: '', email: '', password: '' },
+      : { name: '', email: '', password: '', role: undefined },
   });
 
   const handleGoogleSignIn = async () => {
