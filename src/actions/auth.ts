@@ -14,6 +14,13 @@ const signupSchema = z.object({
 });
 
 export async function signupAction(values: z.infer<typeof signupSchema>) {
+  if (!auth) {
+    return {
+      error:
+        'The server is not configured for authentication. Please contact support.',
+    };
+  }
+
   const validatedFields = signupSchema.safeParse(values);
 
   if (!validatedFields.success) {

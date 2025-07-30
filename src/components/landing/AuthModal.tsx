@@ -99,6 +99,8 @@ export function AuthModal({ mode, children }: AuthModalProps) {
         return 'The password is too weak. Please choose a stronger password.';
        case 'auth/configuration-not-found':
          return 'Google Sign-In is not enabled. Please go to the Firebase Console > Authentication > Sign-in method, and enable the Google provider.';
+      case 'auth/internal-error':
+        return 'The server is not configured for authentication. Please contact support.'
       default:
         return 'An unexpected error occurred. Please try again.';
     }
