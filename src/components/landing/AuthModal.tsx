@@ -150,13 +150,12 @@ export function AuthModal({ mode, children }: AuthModalProps) {
             } catch (loginError: any) {
                 console.error("Client-side login failed after signup:", loginError);
                 toast({ title: "Account created! Please log in."});
-                router.push('/');
+                // Don't route away, let them see the modal close.
                 setOpen(false);
             }
         } else {
             console.error("Firebase client not available for login after signup.");
             toast({ title: "Account created! Please log in."});
-            router.push('/');
             setOpen(false);
         }
 
