@@ -39,13 +39,13 @@ import {
 } from '../ui/select';
 
 const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
+  email: z.string().email({ message: 'Please enter a valid email address.' }),
+  password: z.string().min(1, { message: 'Password is required.' }),
 });
 
 const signupSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  email: z.string().email(),
+  email: z.string().email({ message: 'Please enter a valid email address.' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
   role: z.string({ required_error: 'Please select a role.' }),
 });
@@ -73,6 +73,27 @@ export function AuthModal({ mode, children }: AuthModalProps) {
       : { name: '', email: '', password: '', role: undefined },
   });
 
+  const getFriendlyErrorMessage = (errorCode: string) => {
+    switch (errorCode) {
+      case 'auth/user-not-found':
+      case 'auth/wrong-password':
+      case 'auth/invalid-credential':
+        return 'Invalid email or password. Please try again.';
+      case 'auth/email-already-in-use':
+        return 'An account with this email already exists.';
+      case 'auth/weak-password':
+        return 'The password is too weak. Please choose a stronger password.';
+       case 'auth/operation-not-allowed':
+         return 'This sign-in method is not enabled. Please contact support.';
+      case 'auth/popup-closed-by-user':
+        return 'The sign-in window was closed. Please try again.';
+      case 'auth/internal-error':
+          return 'An internal authentication error occurred. Please check your Firebase project configuration and try again.'
+      default:
+        return 'An unexpected error occurred. Please try again.';
+    }
+  };
+
   const handleGoogleSignIn = async () => {
     if (!auth) {
         setAuthError('Firebase is not configured on the client. Please check your environment variables.');
@@ -91,36 +112,18 @@ export function AuthModal({ mode, children }: AuthModalProps) {
     }
     setIsGoogleSubmitting(false);
   };
-  
-  const getFriendlyErrorMessage = (errorCode: string) => {
-    switch (errorCode) {
-      case 'auth/user-not-found':
-      case 'auth/wrong-password':
-      case 'auth/invalid-credential':
-        return 'Invalid email or password. Please try again.';
-      case 'auth/email-already-in-use':
-        return 'An account with this email already exists.';
-      case 'auth/weak-password':
-        return 'The password is too weak. Please choose a stronger password.';
-       case 'auth/operation-not-allowed':
-         return 'Email/password sign-in is not enabled. Please go to the Firebase Console > Authentication > Sign-in method, and enable it.';
-      case 'auth/internal-error':
-        return 'An internal authentication error occurred. Please check your Firebase project configuration and try again.'
-      default:
-        return 'An unexpected error occurred. Please try again.';
-    }
-  };
-
 
   const onSubmit = async (values: z.infer<typeof schema>) => {
     setIsSubmitting(true);
     setAuthError(null);
+
+    if (!auth) {
+      setAuthError('Firebase is not configured on the client. Please check your environment variables.');
+      setIsSubmitting(false);
+      return;
+    }
+
     if (isLogin) {
-       if (!auth) {
-         setAuthError('Firebase is not configured on the client. Please check your environment variables.');
-         setIsSubmitting(false);
-         return;
-       }
        try {
         const { email, password } = values as z.infer<typeof loginSchema>;
         await signInWithEmailAndPassword(auth, email, password);
@@ -130,40 +133,29 @@ export function AuthModal({ mode, children }: AuthModalProps) {
       } catch (error: any) {
         setAuthError(getFriendlyErrorMessage(error.code));
       }
-    } else {
+    } else { // Signup logic
       const result = await signupAction(values as z.infer<typeof signupSchema>);
       if (result.success) {
         toast({
           title: 'Signup Successful! ✨',
-          description: result.email ? (
-            <div className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <p className="text-white text-sm">A personalized welcome email has been generated for you:</p>
-              <pre className="text-xs text-white/80 whitespace-pre-wrap mt-2">{result.email}</pre>
-            </div>
-          ) : result.success,
+          description: "We're logging you in...",
           duration: 9000,
         });
-
+        
         // Also log the user in client-side after successful server-side signup
-        if (auth) {
-            const { email, password } = values as z.infer<typeof signupSchema>;
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                router.push('/app/dashboard');
-                setOpen(false);
-            } catch (loginError: any) {
-                 // The user was created, but client-side login failed.
-                 // This can happen, but it's okay. They can log in manually.
-                console.error("Client-side login failed after signup:", loginError);
-                toast({ title: "Account created! Please log in."});
-                router.push('/');
-                setOpen(false);
-            }
-        } else {
-            router.push('/');
+        const { email, password } = values as z.infer<typeof signupSchema>;
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            router.push('/app/dashboard');
+            setOpen(false);
+        } catch (loginError: any) {
+             // The user was created, but client-side login failed.
+             // This can happen, but it's okay. They can log in manually.
+            console.error("Client-side login failed after signup:", loginError);
+            toast({ title: "Account created! Please log in."});
+            router.push('/'); // Redirect to home to show the login modal again
             setOpen(false);
         }
-
       } else {
         setAuthError(result.error || 'An unexpected error occurred.');
       }
@@ -185,7 +177,7 @@ export function AuthModal({ mode, children }: AuthModalProps) {
               : 'Sign up to start learning with LearnetIQ.'}
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 pt-4">
           {authError && (
             <Alert variant="destructive">
               <Terminal className="h-4 w-4" />
@@ -195,7 +187,7 @@ export function AuthModal({ mode, children }: AuthModalProps) {
           )}
           <Button variant="outline" onClick={handleGoogleSignIn} disabled={isGoogleSubmitting || isSubmitting}>
              <svg className="mr-2 h-4 w-4" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 126 23.4 172.9 61.9l-69.5 69.5c-24.3-23.6-58.3-38.6-99.8-38.6-84.3 0-152.4 68.6-152.4 153.2s68.1 153.2 152.4 153.2c97.2 0 134.1-65.1 140.8-99.2H248v-85.3h236.1c2.3 12.7 3.9 26.9 3.9 41.4z"></path></svg>
-            {isGoogleSubmitting ? "Signing in..." : isLogin ? 'Log in with Google' : 'Sign up with Google'}
+            {isGoogleSubmitting ? "Redirecting..." : isLogin ? 'Log in with Google' : 'Sign up with Google'}
           </Button>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -283,7 +275,7 @@ export function AuthModal({ mode, children }: AuthModalProps) {
                   />
               )}
               <Button type="submit" className="w-full" disabled={isSubmitting || isGoogleSubmitting}>
-                {isSubmitting ? 'Submitting...' : isLogin ? 'Log In' : 'Create Account'}
+                {isSubmitting ? (isLogin ? 'Logging in...' : 'Creating account...') : (isLogin ? 'Log In' : 'Create Account')}
               </Button>
             </form>
           </Form>

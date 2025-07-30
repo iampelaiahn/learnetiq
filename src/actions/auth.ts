@@ -57,7 +57,7 @@ export async function signupAction(values: z.infer<typeof signupSchema>) {
     }
 
   } catch (error: any) {
-    console.error(error);
+    console.error('Firebase Admin SDK error during signup:', error);
     if (error.code === 'auth/email-already-exists') {
       return { error: 'An account with this email already exists.' };
     }
