@@ -27,3 +27,4 @@ if (hasCredentials && !admin.apps.length) {
 }
 
 export const auth = app ? admin.auth() : undefined;
+export const db = app ? admin.firestore() : undefined;
