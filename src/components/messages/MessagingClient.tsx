@@ -16,23 +16,17 @@ import {
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
-import { Search, Send, Paperclip } from 'lucide-react';
+import { Search, Send, Paperclip, Phone, Video, MoreVertical, Smile } from 'lucide-react';
 
 const contacts = {
   tutors: [
-    { id: 't1', name: 'Dr. Evelyn Reed', avatar: 'https://placehold.co/40x40.png', aiHint: 'woman portrait' },
-    { id: 't2', name: 'Prof. Finch', avatar: 'https://placehold.co/40x40.png', aiHint: 'man portrait' },
+    { id: 't1', name: 'Dr. Evelyn Reed', avatar: 'https://placehold.co/40x40.png', aiHint: 'woman portrait', lastMessage: 'Of course, Alex. How can I help?', timestamp: '2:45pm' },
+    { id: 't2', name: 'Prof. Finch', avatar: 'https://placehold.co/40x40.png', aiHint: 'man portrait', lastMessage: 'See you in class tomorrow.', timestamp: 'Yesterday', unread: 1 },
   ],
   peers: [
-    { id: 'p1', name: 'Bob Johnson', avatar: 'https://placehold.co/40x40.png', aiHint: 'person portrait' },
-    { id: 'p2', name: 'Charlie Brown', avatar: 'https://placehold.co/40x40.png', aiHint: 'boy portrait' },
+    { id: 'p1', name: 'Bob Johnson', avatar: 'https://placehold.co/40x40.png', aiHint: 'person portrait', lastMessage: 'Thanks for the notes!', timestamp: '10:30am'},
+    { id: 'p2', name: 'Charlie Brown', avatar: 'https://placehold.co/40x40.png', aiHint: 'boy portrait', lastMessage: 'Almost! Just putting the final touches on it.', timestamp: 'Yesterday' },
   ],
 };
 
@@ -40,6 +34,16 @@ const initialMessages = {
   t1: [
     { from: 'me', text: 'Hi Dr. Reed, I have a question about calculus.' },
     { from: 'them', text: 'Of course, Alex. How can I help?' },
+  ],
+  t2: [
+    { from: 'them', text: 'Reminder: Quiz tomorrow on chapters 1-3.' },
+    { from: 'me', text: 'Thanks for the heads up, Professor!' },
+    { from: 'them', text: 'See you in class tomorrow.' },
+  ],
+  p1: [
+    { from: 'them', text: 'Hey, do you have the notes from todays physics lecture?' },
+    { from: 'me', text: 'Yep, sending them over now.' },
+    { from: 'them', text: 'Thanks for the notes!' },
   ],
   p2: [
     { from: 'them', text: 'Hey, did you finish the history assignment?' },
@@ -118,64 +122,71 @@ export function MessagingClient() {
   const conversation = messages[selectedContact?.id] || [];
 
 
-  const filteredContacts = (type: 'tutors' | 'peers') =>
-    contacts[type].filter((c) =>
-      c.name.toLowerCase().includes(filter.toLowerCase())
-    );
+  const filteredTutors = contacts.tutors.filter((c) =>
+    c.name.toLowerCase().includes(filter.toLowerCase())
+  );
+  const filteredPeers = contacts.peers.filter((c) =>
+    c.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
 
   return (
-    <div className="grid h-full grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      <Card className="md:col-span-1 lg:col-span-1 flex flex-col">
-        <CardHeader>
+    <div className="grid h-full grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 bg-muted/40 p-4 rounded-xl">
+      <Card className="md:col-span-1 lg:col-span-1 flex flex-col bg-transparent border-0 shadow-none">
+        <CardHeader className="p-0 mb-4">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Filter contacts..."
-              className="pl-8"
+              placeholder="Search..."
+              className="pl-8 rounded-full bg-background"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
             />
           </div>
         </CardHeader>
-        <Tabs defaultValue="tutors" className="flex-grow flex flex-col">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="tutors">Tutors</TabsTrigger>
-            <TabsTrigger value="peers">Peers</TabsTrigger>
-          </TabsList>
-          <ScrollArea className="flex-grow">
-            <TabsContent value="tutors" className="m-0">
-              <ContactList
-                contacts={filteredContacts('tutors')}
+        <ScrollArea className="flex-grow -mx-2">
+            <ContactList
+                title="Tutors"
+                contacts={filteredTutors}
                 selectedContact={selectedContact}
                 onSelectContact={handleSelectContact}
               />
-            </TabsContent>
-            <TabsContent value="peers" className="m-0">
-              <ContactList
-                contacts={filteredContacts('peers')}
+            <ContactList
+                title="Peers"
+                contacts={filteredPeers}
                 selectedContact={selectedContact}
                 onSelectContact={handleSelectContact}
               />
-            </TabsContent>
-          </ScrollArea>
-        </Tabs>
+        </ScrollArea>
       </Card>
 
-      <Card className="md:col-span-2 lg:col-span-3 flex flex-col h-full">
+      <Card className="md:col-span-2 lg:col-span-3 flex flex-col h-full bg-background/70 rounded-xl shadow-md">
         {selectedContact ? (
           <>
-            <CardHeader className="flex flex-row items-center gap-4">
-              <Avatar>
+            <CardHeader className="flex flex-row items-center gap-4 p-3">
+              <Avatar className="h-10 w-10">
                 <AvatarImage src={selectedContact.avatar} data-ai-hint={selectedContact.aiHint}/>
                 <AvatarFallback>
                   {selectedContact.name.charAt(0)}
                 </AvatarFallback>
               </Avatar>
-              <h3 className="font-semibold text-lg">{selectedContact.name}</h3>
+              <div className="flex-grow">
+                <h3 className="font-semibold text-lg">{selectedContact.name}</h3>
+                <p className="text-sm text-green-500 flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-green-500 block"></span>
+                    Online
+                </p>
+              </div>
+              <div className="flex items-center gap-1">
+                <Button variant="ghost" size="icon"><Phone /></Button>
+                <Button variant="ghost" size="icon"><Video /></Button>
+                <Button variant="ghost" size="icon"><MoreVertical /></Button>
+              </div>
             </CardHeader>
             <Separator />
             <ScrollArea className="flex-grow p-4" ref={scrollAreaRef}>
-              <div className="space-y-4">
+              <div className="space-y-2">
+                <div className="text-center text-xs text-muted-foreground my-2">Today</div>
                 {conversation.map((msg, index) => (
                   <div
                     key={index}
@@ -185,15 +196,15 @@ export function MessagingClient() {
                     })}
                   >
                      {msg.from === 'them' && (
-                       <Avatar className="h-8 w-8">
+                       <Avatar className="h-8 w-8 self-end">
                          <AvatarImage src={selectedContact.avatar} data-ai-hint={selectedContact.aiHint} />
                          <AvatarFallback>{selectedContact.name.charAt(0)}</AvatarFallback>
                        </Avatar>
                      )}
                     <div
-                      className={cn('max-w-xs rounded-lg p-3 md:max-w-md', {
-                        'bg-primary text-primary-foreground': msg.from === 'me',
-                        'bg-muted': msg.from === 'them',
+                      className={cn('max-w-xs rounded-2xl p-3 md:max-w-md', {
+                        'bg-primary text-primary-foreground rounded-br-none': msg.from === 'me',
+                        'bg-muted text-foreground rounded-bl-none': msg.from === 'them',
                       })}
                     >
                       <p>{msg.text}</p>
@@ -206,26 +217,31 @@ export function MessagingClient() {
                             <AvatarImage src={selectedContact.avatar} data-ai-hint={selectedContact.aiHint} />
                             <AvatarFallback>{selectedContact.name.charAt(0)}</AvatarFallback>
                         </Avatar>
-                        <div className="max-w-xs rounded-lg p-3 md:max-w-md bg-muted">
+                        <div className="max-w-xs rounded-2xl p-3 md:max-w-md bg-muted rounded-bl-none">
                             <TypingIndicator />
                         </div>
                     </div>
                 )}
               </div>
             </ScrollArea>
-            <CardFooter className="p-4 border-t">
+            <CardFooter className="p-2 border-t">
               <form className="flex w-full items-center space-x-2" onSubmit={handleSendMessage}>
-                <Button variant="ghost" size="icon" type="button">
+                <Input 
+                    placeholder="Type your message here..." 
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    className="bg-muted border-transparent rounded-full focus-visible:ring-1 focus-visible:ring-primary"
+                />
+                 <Button variant="ghost" size="icon" type="button" className="text-muted-foreground">
+                    <Smile className="h-5 w-5" />
+                    <span className="sr-only">Emoji</span>
+                </Button>
+                <Button variant="ghost" size="icon" type="button" className="text-muted-foreground">
                     <Paperclip className="h-5 w-5" />
                     <span className="sr-only">Attach document</span>
                 </Button>
-                <Input 
-                    placeholder="Type a message..." 
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                />
-                <Button type="submit">
-                  <Send className="h-4 w-4" />
+                <Button type="submit" size="icon" className="rounded-full bg-accent hover:bg-accent/90">
+                  <Send className="h-5 w-5" />
                   <span className="sr-only">Send</span>
                 </Button>
               </form>
@@ -242,32 +258,52 @@ export function MessagingClient() {
 }
 
 function ContactList({
+  title,
   contacts,
   selectedContact,
   onSelectContact,
 }: {
-  contacts: Contact[];
+  title: string;
+  contacts: (Contact & { lastMessage?: string, timestamp?: string, unread?: number })[];
   selectedContact: Contact | null;
   onSelectContact: (contact: Contact) => void;
 }) {
+  if (contacts.length === 0) return null;
+
   return (
-    <div className="flex flex-col gap-1 p-2">
-      {contacts.map((contact) => (
-        <Button
-          key={contact.id}
-          variant="ghost"
-          className={cn('w-full justify-start gap-3 h-12', {
-            'bg-accent text-accent-foreground': selectedContact?.id === contact.id,
-          })}
-          onClick={() => onSelectContact(contact)}
-        >
-          <Avatar>
-            <AvatarImage src={contact.avatar} data-ai-hint={contact.aiHint} />
-            <AvatarFallback>{contact.name.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <span>{contact.name}</span>
-        </Button>
-      ))}
+    <div className="px-2 py-2">
+      <h3 className="text-xs font-semibold uppercase text-muted-foreground mb-2 px-2">{title}</h3>
+      <div className="flex flex-col gap-1">
+        {contacts.map((contact) => (
+          <Button
+            key={contact.id}
+            variant="ghost"
+            className={cn('w-full h-auto justify-start gap-3 p-2 text-left', {
+              'bg-accent text-accent-foreground': selectedContact?.id === contact.id,
+            })}
+            onClick={() => onSelectContact(contact)}
+          >
+            <Avatar className="h-10 w-10">
+              <AvatarImage src={contact.avatar} data-ai-hint={contact.aiHint} />
+              <AvatarFallback>{contact.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="flex-grow truncate">
+                <div className="flex justify-between items-center">
+                    <span className="font-semibold">{contact.name}</span>
+                    <span className="text-xs text-muted-foreground">{contact.timestamp}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                    <p className="text-xs text-muted-foreground truncate">{contact.lastMessage}</p>
+                    {contact.unread && (
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">{contact.unread}</span>
+                    )}
+                </div>
+            </div>
+          </Button>
+        ))}
+      </div>
     </div>
   );
 }
+
+    
