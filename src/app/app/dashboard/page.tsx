@@ -1,6 +1,7 @@
 import { DetailedProgressCard } from '@/components/dashboard/DetailedProgressCard';
 import { AiTutorAssistant } from '@/components/dashboard/AiTutorAssistant';
 import { UpcomingClassCard } from '@/components/dashboard/UpcomingClassCard';
+import Link from 'next/link';
 
 const subjectsData = [
   {
@@ -50,7 +51,9 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {subjectsData.map((subject) => (
-            <DetailedProgressCard key={subject.subject} {...subject} />
+            <Link href={`/app/forums/${encodeURIComponent(subject.subject)}`} key={subject.subject} className="block hover:scale-[1.02] transition-transform duration-200">
+                <DetailedProgressCard {...subject} />
+            </Link>
         ))}
       </div>
 
