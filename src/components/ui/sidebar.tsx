@@ -211,6 +211,22 @@ const Sidebar = React.forwardRef<
         </Sheet>
       )
     }
+    
+    if(variant === 'floating') {
+        return (
+            <div ref={ref} className="hidden md:block">
+                <div
+                    data-sidebar="sidebar"
+                    className={cn("fixed inset-y-0 z-10 my-4 flex h-[calc(100svh-2rem)]", side === 'left' ? 'left-4' : 'right-4')}
+                    {...props}
+                >
+                    <div className="flex h-full flex-col rounded-lg bg-sidebar/70 backdrop-blur-sm text-sidebar-foreground ring-1 ring-black/10">
+                        {children}
+                    </div>
+                </div>
+            </div>
+        )
+    }
 
     return (
       <div
@@ -322,7 +338,7 @@ const SidebarInset = React.forwardRef<
     <main
       ref={ref}
       className={cn(
-        "relative flex min-h-svh flex-1 flex-col bg-background",
+        "relative flex min-h-svh flex-1 flex-col bg-background ml-[4.5rem]",
         "peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow",
         className
       )}
