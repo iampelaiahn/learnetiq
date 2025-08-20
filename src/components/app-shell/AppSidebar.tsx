@@ -18,6 +18,7 @@ import {
   LifeBuoy,
   LogOut,
   Settings,
+  Book,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -26,6 +27,7 @@ import { Separator } from '../ui/separator';
 
 const menuItems = [
   { href: '/app/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/app/courses', label: 'Courses', icon: Book },
   { href: '/app/resources', label: 'Resources', icon: BookOpen },
   { href: '/app/forums', label: 'Forums', icon: Users },
   { href: '/app/messages', label: 'Messages', icon: MessageSquare },
