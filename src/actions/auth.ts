@@ -1,6 +1,7 @@
 
 'use server';
 
+import 'dotenv/config';
 import { sendWelcomeEmail } from '@/ai/flows/send-welcome-email';
 import { z } from 'zod';
 import { auth } from '@/lib/firebase-admin';
