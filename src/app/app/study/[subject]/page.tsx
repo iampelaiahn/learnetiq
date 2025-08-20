@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
+import { ScrollBar } from '@/components/ui/scroll-area';
 
 // Mock data for topics and content
 const subjectData: Record<string, { description: string; topics: Record<string, { summary: string; keyConcepts: string[]; resources: { title: string; type: 'video' | 'doc' }[] }> }> = {
@@ -42,6 +43,16 @@ const subjectData: Record<string, { description: string; topics: Record<string, 
                 summary: 'Geometry is a branch of mathematics concerned with properties of space such as the distance, shape, size, and relative position of figures.',
                 keyConcepts: ['Points, Lines, and Planes', 'Angles', 'Triangles and Quadrilaterals', 'Pythagorean Theorem'],
                 resources: [{ title: 'Euclidean Geometry Basics', type: 'video' }, { title: 'Geometry Postulates and Theorems', type: 'doc' }]
+            },
+            'Trigonometry': {
+                summary: 'Trigonometry is a branch of mathematics that studies relationships between side lengths and angles of triangles.',
+                keyConcepts: ['Sine, Cosine, Tangent', 'Unit Circle', 'Trigonometric Identities', 'Inverse Functions'],
+                resources: [{ title: 'Trigonometry Introduction', type: 'video' }, { title: 'Trig Identities Reference', type: 'doc' }]
+            },
+            'Statistics': {
+                summary: 'Statistics is the discipline that concerns the collection, organization, analysis, interpretation, and presentation of data.',
+                keyConcepts: ['Mean, Median, Mode', 'Standard Deviation', 'Probability Distributions', 'Hypothesis Testing'],
+                resources: [{ title: 'Intro to Statistics', type: 'video' }, { title: 'Common Formulas', type: 'doc' }]
             }
         }
     },
@@ -57,6 +68,16 @@ const subjectData: Record<string, { description: string; topics: Record<string, 
                 summary: 'A global war that lasted from 1939 to 1945, involving the vast majority of the world\'s countries.',
                 keyConcepts: ['Axis vs. Allied powers', 'The Holocaust', 'D-Day', 'The Pacific War'],
                 resources: [{ title: 'WWII From Space', type: 'video' }, { title: 'Key Battles of WWII', type: 'doc' }]
+            },
+            'The Silk Road': {
+                summary: 'A network of trade routes connecting the East and West, central to cultural interaction through regions of the Asian continent.',
+                keyConcepts: ['Trade Goods', 'Cultural Exchange', 'Major Cities', 'Decline'],
+                resources: [{ title: 'The Silk Road: Crash Course', type: 'video' }, { title: 'Maps of the Silk Road', type: 'doc' }]
+            },
+            'The Renaissance': {
+                summary: 'A period in European history marking the transition from the Middle Ages to modernity and covering the 15th and 16th centuries.',
+                keyConcepts: ['Humanism', 'Art and Architecture', 'Scientific Revolution', 'Key Figures'],
+                resources: [{ title: 'The Renaissance: Was it a Thing?', type: 'video' }, { title: 'Major Renaissance Artists', type: 'doc' }]
             }
         }
     }
@@ -152,11 +173,14 @@ function SubjectStudyView({ subject }: { subject: string }) {
             <Card className="h-full">
               <Tabs defaultValue={topics[0]} className="h-full flex flex-col">
                 <CardHeader>
-                  <TabsList className="grid w-full grid-cols-3">
-                    {topics.map(topic => (
-                      <TabsTrigger key={topic} value={topic}>{topic}</TabsTrigger>
-                    ))}
-                  </TabsList>
+                  <ScrollArea className="w-full whitespace-nowrap">
+                    <TabsList className="inline-flex w-max">
+                      {topics.map(topic => (
+                        <TabsTrigger key={topic} value={topic}>{topic}</TabsTrigger>
+                      ))}
+                    </TabsList>
+                    <ScrollBar orientation="horizontal" />
+                  </ScrollArea>
                 </CardHeader>
                 <CardContent className="flex-grow">
                     <ScrollArea className="h-[50vh] pr-4">
