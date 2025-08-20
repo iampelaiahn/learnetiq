@@ -13,7 +13,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { CourseListItem } from '@/components/courses/CourseListItem';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { CheckedState } from '@radix-ui/react-checkbox';
 
 
@@ -108,12 +107,11 @@ type Category = 'English' | 'Spanish' | 'French' | 'Chinese';
 const categories: Category[] = ['English', 'Spanish', 'French', 'Chinese'];
 
 export default function CoursesPage() {
-    const [statusFilter, setStatusFilter] = React.useState('all');
     const [selectedCategories, setSelectedCategories] = React.useState<Record<Category, boolean>>({
         English: true,
-        Spanish: false,
-        French: false,
-        Chinese: false,
+        Spanish: true,
+        French: true,
+        Chinese: true,
     });
     
     const handleCategoryChange = (category: Category) => (checked: CheckedState) => {
@@ -130,11 +128,9 @@ export default function CoursesPage() {
         }
     
         return coursesData.filter(course => {
-          const statusMatch = statusFilter === 'all' || course.status === statusFilter;
-          const categoryMatch = activeCategories.includes(course.category);
-          return statusMatch && categoryMatch;
+          return activeCategories.includes(course.category);
         });
-      }, [statusFilter, selectedCategories]);
+      }, [selectedCategories]);
 
 
     return (
@@ -148,41 +144,33 @@ export default function CoursesPage() {
                         Browse and enroll in courses to expand your knowledge.
                     </p>
                 </div>
-                <div className="relative w-full md:w-64">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input placeholder="Search courses..." className="pl-8" />
+                <div className="flex items-center gap-2">
+                    <div className="relative w-full md:w-64">
+                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input placeholder="Search courses..." className="pl-8" />
+                    </div>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="shrink-0">
+                                <ListFilter className="mr-2 h-4 w-4" />
+                                Filter
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Filter by Language</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            {categories.map(category => (
+                                <DropdownMenuCheckboxItem
+                                    key={category}
+                                    checked={selectedCategories[category]}
+                                    onCheckedChange={handleCategoryChange(category)}
+                                >
+                                    {category}
+                                </DropdownMenuCheckboxItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-                <Tabs defaultValue="all" onValueChange={setStatusFilter}>
-                    <TabsList>
-                        <TabsTrigger value="all">All</TabsTrigger>
-                        <TabsTrigger value="active">Active</TabsTrigger>
-                        <TabsTrigger value="completed">Completed</TabsTrigger>
-                    </TabsList>
-                </Tabs>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            <ListFilter className="mr-2 h-4 w-4" />
-                            Filter
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Filter by Language</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        {categories.map(category => (
-                            <DropdownMenuCheckboxItem
-                                key={category}
-                                checked={selectedCategories[category]}
-                                onCheckedChange={handleCategoryChange(category)}
-                            >
-                                {category}
-                            </DropdownMenuCheckboxItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </div>
             
             <div className="space-y-4">
