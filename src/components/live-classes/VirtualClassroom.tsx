@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -26,6 +27,7 @@ import {
   Paperclip,
   Send,
 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const participants = [
   { name: 'Dr. Reed', avatar: 'https://placehold.co/100x100.png', aiHint: 'woman portrait' },
@@ -65,6 +67,41 @@ export function VirtualClassroom({ classId }: { classId: string }) {
     return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
   }, []);
 
+  const Controls = ({ floating = false }: { floating?: boolean }) => (
+     <div
+      className={cn(
+        'w-full',
+        {
+          'absolute bottom-4 left-1/2 -translate-x-1/2 z-20 w-auto': floating,
+        }
+      )}
+    >
+      <Card
+        className={cn(
+            'w-full',
+            {
+                'bg-black/30 backdrop-blur-sm border-white/20 w-auto': floating
+            }
+        )}
+      >
+        <CardContent className="p-2 flex items-center justify-center gap-2">
+          <Button variant={floating ? "ghost" : "outline"} size="icon" className={cn("h-12 w-12 rounded-full", {"text-white hover:bg-white/20 hover:text-white": floating})} onClick={() => setIsMicOn(!isMicOn)}>
+            {isMicOn ? <Mic className="h-6 w-6" /> : <MicOff className="h-6 w-6 text-red-500" />}
+          </Button>
+          <Button variant={floating ? "ghost" : "outline"} size="icon" className={cn("h-12 w-12 rounded-full", {"text-white hover:bg-white/20 hover:text-white": floating})} onClick={() => setIsVideoOn(!isVideoOn)}>
+             {isVideoOn ? <Video className="h-6 w-6" /> : <VideoOff className="h-6 w-6 text-red-500" />}
+          </Button>
+          <Button variant="destructive" size="icon" className="h-12 w-12 rounded-full mx-4" onClick={handleLeaveCall}>
+            <PhoneOff className="h-6 w-6" />
+          </Button>
+          <Button variant={floating ? "ghost" : "outline"} size="icon" className={cn("h-12 w-12 rounded-full", {"text-white hover:bg-white/20 hover:text-white": floating})} onClick={handleMaximize}>
+            {isFullscreen ? <Minimize className="h-6 w-6" /> : <Maximize className="h-6 w-6" />}
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
 
   return (
     <div className="grid h-[calc(100vh-8rem)] grid-cols-1 lg:grid-cols-4 lg:grid-rows-1 gap-4">
@@ -89,25 +126,11 @@ export function VirtualClassroom({ classId }: { classId: string }) {
           <div className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-lg">
             Dr. Evelyn Reed
           </div>
+          {isFullscreen && <Controls floating />}
         </div>
 
         {/* Controls */}
-        <Card>
-          <CardContent className="p-2 flex items-center justify-center gap-2">
-            <Button variant="outline" size="icon" className="h-12 w-12 rounded-full" onClick={() => setIsMicOn(!isMicOn)}>
-              {isMicOn ? <Mic className="h-6 w-6" /> : <MicOff className="h-6 w-6" />}
-            </Button>
-            <Button variant="outline" size="icon" className="h-12 w-12 rounded-full" onClick={() => setIsVideoOn(!isVideoOn)}>
-               {isVideoOn ? <Video className="h-6 w-6" /> : <VideoOff className="h-6 w-6" />}
-            </Button>
-            <Button variant="destructive" size="icon" className="h-12 w-12 rounded-full mx-4" onClick={handleLeaveCall}>
-              <PhoneOff className="h-6 w-6" />
-            </Button>
-            <Button variant="outline" size="icon" className="h-12 w-12 rounded-full" onClick={handleMaximize}>
-              {isFullscreen ? <Minimize className="h-6 w-6" /> : <Maximize className="h-6 w-6" />}
-            </Button>
-          </CardContent>
-        </Card>
+        {!isFullscreen && <Controls />}
       </div>
 
       {/* Sidebar */}
