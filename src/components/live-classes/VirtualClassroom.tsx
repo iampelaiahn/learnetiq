@@ -40,6 +40,16 @@ const participants = [
 
 type ChatMessage = { from: string; text: string; isYou?: boolean };
 
+function TypingIndicator() {
+    return (
+      <div className="flex items-center space-x-1 p-2">
+        <span className="h-2 w-2 bg-muted-foreground rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+        <span className="h-2 w-2 bg-muted-foreground rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+        <span className="h-2 w-2 bg-muted-foreground rounded-full animate-bounce"></span>
+      </div>
+    );
+  }
+
 function SidebarTabs() {
     const [chatMessages, setChatMessages] = React.useState<ChatMessage[]>([
         { from: 'Charlie', text: 'Can you explain that again?' },
@@ -47,12 +57,21 @@ function SidebarTabs() {
         { from: 'Dr. Reed', text: 'Absolutely. Let\'s look at the formula...' },
     ]);
     const [newMessage, setNewMessage] = React.useState('');
+    const [isTyping, setIsTyping] = React.useState(false);
 
     const handleSendMessage = (e: React.FormEvent) => {
         e.preventDefault();
         if (newMessage.trim()) {
             setChatMessages([...chatMessages, { from: 'You', text: newMessage, isYou: true }]);
             setNewMessage('');
+
+            setIsTyping(true);
+            setTimeout(() => {
+                const response = "That's a good question! I'll address that shortly.";
+                 setChatMessages(prev => [...prev, { from: 'Dr. Reed', text: response }]);
+                 setIsTyping(false);
+            }, 3000);
+
         }
     };
     return (
@@ -101,6 +120,15 @@ function SidebarTabs() {
                         {chatMessages.map((msg, i) => (
                             <p key={i}><span className={cn("font-semibold", {"text-primary": msg.isYou})}>{msg.from}:</span> {msg.text}</p>
                         ))}
+                         {isTyping && (
+                            <div className="flex items-center gap-2">
+                                <Avatar className="h-6 w-6">
+                                    <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="woman portrait"/>
+                                    <AvatarFallback>DR</AvatarFallback>
+                                </Avatar>
+                                <TypingIndicator />
+                            </div>
+                         )}
                     </div>
                 </ScrollArea>
                 <div className="p-4 border-t">

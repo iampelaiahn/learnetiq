@@ -50,16 +50,28 @@ const initialMessages = {
 type Contact = (typeof contacts.tutors)[0] | (typeof contacts.peers)[0];
 type Message = { from: 'me' | 'them'; text: string };
 
+function TypingIndicator() {
+    return (
+      <div className="flex items-center space-x-1 p-2">
+        <span className="h-2 w-2 bg-muted-foreground rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+        <span className="h-2 w-2 bg-muted-foreground rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+        <span className="h-2 w-2 bg-muted-foreground rounded-full animate-bounce"></span>
+      </div>
+    );
+  }
+
 export function MessagingClient() {
   const [selectedContact, setSelectedContact] = React.useState<Contact>(contacts.tutors[0]);
   const [messages, setMessages] = React.useState<Record<string, Message[]>>(initialMessages);
   const [newMessage, setNewMessage] = React.useState('');
   const [filter, setFilter] = React.useState('');
+  const [typingContactId, setTypingContactId] = React.useState<string | null>(null);
   const scrollAreaRef = React.useRef<HTMLDivElement>(null);
 
 
   const handleSelectContact = (contact: Contact) => {
     setSelectedContact(contact);
+    setTypingContactId(null);
   };
 
   const handleSendMessage = (e: React.FormEvent) => {
@@ -72,6 +84,24 @@ export function MessagingClient() {
         [selectedContact.id]: updatedMessages,
       });
       setNewMessage('');
+
+      // Simulate typing and response
+      setTypingContactId(selectedContact.id);
+      setTimeout(() => {
+        const responseMessages = [
+            "That's a great question! Let me think.",
+            "I see. Can you tell me more?",
+            "Interesting point. I hadn't considered that.",
+            "Let's break that down further.",
+        ]
+        const response = responseMessages[Math.floor(Math.random() * responseMessages.length)];
+        const allMessages = messages[selectedContact.id] || [];
+        setMessages(prev => ({
+            ...prev,
+            [selectedContact.id]: [...allMessages, { from: 'them', text: response }]
+        }));
+        setTypingContactId(null);
+      }, 2000 + Math.random() * 2000);
     }
   };
 
@@ -82,7 +112,7 @@ export function MessagingClient() {
             viewport.scrollTop = viewport.scrollHeight;
         }
     }
-  }, [messages, selectedContact]);
+  }, [messages, selectedContact, typingContactId]);
 
 
   const conversation = messages[selectedContact?.id] || [];
@@ -170,6 +200,17 @@ export function MessagingClient() {
                     </div>
                   </div>
                 ))}
+                {typingContactId === selectedContact.id && (
+                     <div className="flex items-end gap-2 justify-start">
+                        <Avatar className="h-8 w-8">
+                            <AvatarImage src={selectedContact.avatar} data-ai-hint={selectedContact.aiHint} />
+                            <AvatarFallback>{selectedContact.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className="max-w-xs rounded-lg p-3 md:max-w-md bg-muted">
+                            <TypingIndicator />
+                        </div>
+                    </div>
+                )}
               </div>
             </ScrollArea>
             <CardFooter className="p-4 border-t">
