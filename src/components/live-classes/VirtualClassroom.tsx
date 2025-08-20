@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {
   Avatar,
@@ -70,9 +71,10 @@ export function VirtualClassroom({ classId }: { classId: string }) {
         {/* Main Video */}
         <div ref={videoContainerRef} className="relative flex-grow rounded-lg bg-black overflow-hidden flex items-center justify-center">
           {isVideoOn ? (
-            <img
+            <Image
               src="https://placehold.co/1280x720.png"
               alt="Tutor's video stream"
+              fill
               className="w-full h-full object-cover"
               data-ai-hint="video conference"
             />

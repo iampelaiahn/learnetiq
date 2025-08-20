@@ -34,9 +34,8 @@ export function HeroSection() {
           <Image
             src="https://placehold.co/800x600.png"
             alt="Students learning online"
-            layout="fill"
-            objectFit="contain"
-            className="rounded-xl"
+            fill
+            className="rounded-xl object-contain"
             data-ai-hint="online learning"
           />
         </div>

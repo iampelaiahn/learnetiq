@@ -29,8 +29,8 @@ export function UpcomingClassCard() {
           <Image
             src="https://placehold.co/600x400.png"
             alt="Intro to Quantum Physics"
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-cover"
             data-ai-hint="physics lecture"
           />
         </div>

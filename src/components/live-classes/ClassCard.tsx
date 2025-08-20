@@ -17,7 +17,7 @@ export function ClassCard({ title, tutor, status, image, aiHint, classId }: Clas
   return (
     <Card className="flex flex-col overflow-hidden">
       <div className="relative h-48 w-full">
-        <Image src={image} alt={title} layout="fill" objectFit="cover" data-ai-hint={aiHint}/>
+        <Image src={image} alt={title} fill className="object-cover" data-ai-hint={aiHint}/>
         <Badge
           className="absolute top-2 right-2"
           variant={

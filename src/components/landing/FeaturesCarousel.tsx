@@ -75,8 +75,8 @@ export function FeaturesCarousel() {
                         <Image
                           src={feature.image}
                           alt={feature.title}
-                          layout="fill"
-                          objectFit="cover"
+                          fill
+                          className="object-cover"
                           data-ai-hint={feature.aiHint}
                         />
                       </div>
