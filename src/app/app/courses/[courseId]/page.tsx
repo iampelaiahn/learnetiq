@@ -70,6 +70,7 @@ const allSubjectsCourses = {
           level: 'Beginner',
           category: 'Mathematics',
           status: 'active' as const,
+          color: 'bg-blue-500',
         },
         {
           id: 'geometry-foundations',
@@ -82,6 +83,7 @@ const allSubjectsCourses = {
           level: 'Beginner',
           category: 'Mathematics',
           status: 'active' as const,
+          color: 'bg-blue-500',
         },
         {
           id: 'calculus-i',
@@ -94,6 +96,7 @@ const allSubjectsCourses = {
           level: 'Intermediate',
           category: 'Mathematics',
           status: 'active' as const,
+          color: 'bg-blue-500',
         },
          {
           id: 'probability-stats',
@@ -106,6 +109,7 @@ const allSubjectsCourses = {
           level: 'Intermediate',
           category: 'Mathematics',
           status: 'completed' as const,
+          color: 'bg-blue-500',
         },
     ],
     Geography: [
@@ -120,6 +124,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Geography',
         status: 'active' as const,
+        color: 'bg-teal-500',
       },
       {
         id: 'physical-geography',
@@ -132,6 +137,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'Geography',
         status: 'active' as const,
+        color: 'bg-teal-500',
       }
     ],
     History: [
@@ -146,6 +152,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'History',
         status: 'active' as const,
+        color: 'bg-yellow-500',
       },
       {
         id: 'modern-history',
@@ -158,6 +165,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'History',
         status: 'completed' as const,
+        color: 'bg-yellow-500',
       },
     ],
     Accounting: [
@@ -172,6 +180,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Accounting',
         status: 'active' as const,
+        color: 'bg-cyan-500',
       },
       {
         id: 'managerial-accounting',
@@ -184,6 +193,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'Accounting',
         status: 'active' as const,
+        color: 'bg-cyan-500',
       }
     ],
     Science: [
@@ -198,6 +208,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Science',
         status: 'active' as const,
+        color: 'bg-emerald-500',
       },
       {
         id: 'environmental-science',
@@ -210,6 +221,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Science',
         status: 'completed' as const,
+        color: 'bg-emerald-500',
       }
     ],
     Biology: [
@@ -224,6 +236,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Biology',
         status: 'active' as const,
+        color: 'bg-pink-500',
       },
       {
         id: 'genetics-dna',
@@ -236,6 +249,7 @@ const allSubjectsCourses = {
         level: 'Advanced',
         category: 'Biology',
         status: 'active' as const,
+        color: 'bg-pink-500',
       }
     ],
     'Business studies': [
@@ -250,6 +264,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Business studies',
         status: 'active' as const,
+        color: 'bg-orange-500',
       },
       {
         id: 'entrepreneurship-101',
@@ -262,6 +277,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'Business studies',
         status: 'completed' as const,
+        color: 'bg-orange-500',
       }
     ],
     Physics: [
@@ -276,6 +292,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'Physics',
         status: 'active' as const,
+        color: 'bg-green-500',
       },
        {
         id: 'intro-quantum',
@@ -288,6 +305,7 @@ const allSubjectsCourses = {
         level: 'Advanced',
         category: 'Physics',
         status: 'active' as const,
+        color: 'bg-green-500',
       },
     ],
     ICT: [
@@ -302,6 +320,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'ICT',
         status: 'active' as const,
+        color: 'bg-sky-500',
       },
        {
         id: 'networking-basics',
@@ -314,6 +333,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'ICT',
         status: 'active' as const,
+        color: 'bg-sky-500',
       },
     ],
     'Physical Education': [
@@ -328,6 +348,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Physical Education',
         status: 'active' as const,
+        color: 'bg-lime-500',
       },
       {
         id: 'sports-science',
@@ -340,6 +361,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'Physical Education',
         status: 'completed' as const,
+        color: 'bg-lime-500',
       }
     ],
     Chemistry: [
@@ -354,6 +376,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Chemistry',
         status: 'active' as const,
+        color: 'bg-purple-500',
       },
       {
         id: 'organic-chemistry',
@@ -366,6 +389,7 @@ const allSubjectsCourses = {
         level: 'Advanced',
         category: 'Chemistry',
         status: 'active' as const,
+        color: 'bg-purple-500',
       }
     ],
     Economics: [
@@ -380,6 +404,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'Economics',
         status: 'active' as const,
+        color: 'bg-amber-500',
       },
       {
         id: 'macroeconomics',
@@ -392,6 +417,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'Economics',
         status: 'completed' as const,
+        color: 'bg-amber-500',
       }
     ],
     'English Literature': [
@@ -406,6 +432,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'English Literature',
         status: 'active' as const,
+        color: 'bg-indigo-500',
       },
       {
         id: 'modernist-literature',
@@ -418,6 +445,7 @@ const allSubjectsCourses = {
         level: 'Advanced',
         category: 'English Literature',
         status: 'active' as const,
+        color: 'bg-indigo-500',
       }
     ],
     Commerce: [
@@ -432,6 +460,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Commerce',
         status: 'active' as const,
+        color: 'bg-stone-500',
       },
       {
         id: 'international-trade',
@@ -444,6 +473,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'Commerce',
         status: 'active' as const,
+        color: 'bg-stone-500',
       }
     ],
     'Computer Science': [
@@ -458,6 +488,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Computer Science',
         status: 'active' as const,
+        color: 'bg-red-500',
       },
       {
         id: 'data-structures-algorithms',
@@ -470,6 +501,7 @@ const allSubjectsCourses = {
         level: 'Advanced',
         category: 'Computer Science',
         status: 'completed' as const,
+        color: 'bg-red-500',
       }
     ],
     'Performing arts': [
@@ -484,6 +516,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Performing arts',
         status: 'active' as const,
+        color: 'bg-fuchsia-500',
       },
       {
         id: 'music-theory-intro',
@@ -496,6 +529,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Performing arts',
         status: 'active' as const,
+        color: 'bg-fuchsia-500',
       }
     ],
     'Religious studies': [
@@ -510,6 +544,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Religious studies',
         status: 'active' as const,
+        color: 'bg-rose-500',
       }
     ],
     Sociology: [
@@ -524,6 +559,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Sociology',
         status: 'active' as const,
+        color: 'bg-neutral-500',
       }
     ],
     Agriculture: [
@@ -538,6 +574,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'Agriculture',
         status: 'active' as const,
+        color: 'bg-green-700',
       }
     ],
     'Design and Technology': [
@@ -552,6 +589,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Design and Technology',
         status: 'active' as const,
+        color: 'bg-slate-500',
       }
     ],
     'Visual Arts': [
@@ -566,6 +604,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Visual Arts',
         status: 'active' as const,
+        color: 'bg-violet-500',
       }
     ],
     'Business English': [
@@ -580,6 +619,7 @@ const allSubjectsCourses = {
         level: 'Intermediate',
         category: 'Business English',
         status: 'active' as const,
+        color: 'bg-zinc-500',
       }
     ],
     Shona: [
@@ -594,6 +634,7 @@ const allSubjectsCourses = {
         level: 'Beginner',
         category: 'Shona',
         status: 'active' as const,
+        color: 'bg-yellow-700',
       }
     ],
 }
@@ -764,3 +805,5 @@ export default function CourseDetailPage() {
     </div>
   );
 }
+
+    

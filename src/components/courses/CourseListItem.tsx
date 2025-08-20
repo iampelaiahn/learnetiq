@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Star } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '../ui/badge';
+import { cn } from '@/lib/utils';
 
 type Course = {
   id: string;
@@ -16,6 +17,7 @@ type Course = {
   level: string;
   category: string;
   status: 'active' | 'completed';
+  color: string;
 };
 
 function StarRating({ rating, reviewCount }: { rating: number, reviewCount: number }) {
@@ -37,8 +39,9 @@ function StarRating({ rating, reviewCount }: { rating: number, reviewCount: numb
 export function CourseListItem({ course }: { course: Course }) {
   return (
     <Link href={`/app/courses/${course.id}`}>
-      <Card className="overflow-hidden transition-shadow hover:shadow-md">
-        <CardContent className="p-0">
+      <Card className="overflow-hidden transition-shadow hover:shadow-md relative">
+        <div className={cn("absolute left-0 top-0 h-full w-1.5", course.color)}></div>
+        <CardContent className="p-0 pl-1.5">
           <div className="grid grid-cols-1 md:grid-cols-4">
             <div className="relative h-48 md:h-full">
               <Image
@@ -65,3 +68,5 @@ export function CourseListItem({ course }: { course: Course }) {
     </Link>
   );
 }
+
+    
