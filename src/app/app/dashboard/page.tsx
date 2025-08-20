@@ -2,6 +2,15 @@ import { DetailedProgressCard } from '@/components/dashboard/DetailedProgressCar
 import { AiTutorAssistant } from '@/components/dashboard/AiTutorAssistant';
 import { UpcomingClassCard } from '@/components/dashboard/UpcomingClassCard';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Brain } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 const subjectsData = [
   {
@@ -48,6 +57,23 @@ export default function DashboardPage() {
           Here's your learning snapshot for today. Keep up the great work!
         </p>
       </div>
+
+      <Card className="bg-primary/5">
+        <CardHeader className="flex flex-col items-center gap-4 text-center md:flex-row md:text-left">
+          <Brain className="h-12 w-12 text-accent" />
+          <div>
+            <CardTitle className="font-headline text-2xl">
+              AI-Powered Study Panel
+            </CardTitle>
+            <CardDescription>
+              Choose a subject to get key concepts, resources, and answers from your AI Study Buddy.
+            </CardDescription>
+          </div>
+          <Button asChild size="lg" className="md:ml-auto">
+            <Link href="/app/study">Go to Study Panel</Link>
+          </Button>
+        </CardHeader>
+      </Card>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {subjectsData.map((subject) => (
