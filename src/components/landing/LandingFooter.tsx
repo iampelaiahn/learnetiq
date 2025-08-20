@@ -1,6 +1,6 @@
 import { Button } from '../ui/button';
 import { Logo } from '../Logo';
-import { AuthModal } from './AuthModal';
+import Link from 'next/link';
 
 export function LandingFooter() {
   return (
@@ -43,9 +43,9 @@ export function LandingFooter() {
                 <p className="text-muted-foreground">
                   Start your learning journey today.
                 </p>
-                <AuthModal mode="signup">
-                    <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90">Sign Up Now</Button>
-                </AuthModal>
+                <Button asChild className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                    <Link href="/app/dashboard">Go to App</Link>
+                </Button>
             </div>
           </div>
         </div>

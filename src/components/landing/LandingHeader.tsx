@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/Logo';
-import { AuthModal } from './AuthModal';
 import Link from 'next/link';
 
 export function LandingHeader() {
@@ -15,14 +14,11 @@ export function LandingHeader() {
             <Link href="#testimonials" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Testimonials</Link>
           </nav>
           <div className="flex items-center gap-2">
-            <AuthModal mode="login">
-              <Button variant="ghost">Log In</Button>
-            </AuthModal>
-            <AuthModal mode="signup">
-              <Button className="bg-accent text-accent-foreground hover:bg-accent/90">
-                Sign Up
-              </Button>
-            </AuthModal>
+            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
+                <Link href="/app/dashboard">
+                    Go to App
+                </Link>
+            </Button>
           </div>
         </div>
       </div>

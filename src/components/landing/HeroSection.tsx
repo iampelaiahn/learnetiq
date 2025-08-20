@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { AuthModal } from './AuthModal';
+import Link from 'next/link';
 
 export function HeroSection() {
   return (
@@ -17,14 +17,13 @@ export function HeroSection() {
             fingertips.
           </p>
           <div className="flex flex-col items-center gap-4 sm:flex-row md:justify-start">
-            <AuthModal mode="signup">
-              <Button
-                size="lg"
-                className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto"
-              >
-                Get Started for Free
-              </Button>
-            </AuthModal>
+            <Button
+              size="lg"
+              className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto"
+              asChild
+            >
+              <Link href="/app/dashboard">Get Started for Free</Link>
+            </Button>
             <Button size="lg" variant="outline" className="w-full sm:w-auto">
               Learn More
             </Button>
