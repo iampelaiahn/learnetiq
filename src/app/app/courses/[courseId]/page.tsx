@@ -15,6 +15,7 @@ import { CourseListItem } from '@/components/courses/CourseListItem';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CalendarCard } from '@/components/courses/CalendarCard';
 import { OnlineUsers } from '@/components/courses/OnlineUsers';
+import { useParams } from 'next/navigation';
 
 const courseData = {
   'career-dev': {
@@ -145,13 +146,16 @@ function MathematicsCoursesPage() {
 }
 
 
-export default function CourseDetailPage({ params }: { params: { courseId: string } }) {
-    if (params.courseId === 'Mathematics') {
+export default function CourseDetailPage() {
+    const params = useParams();
+    const courseId = params.courseId as string;
+
+    if (courseId === 'Mathematics') {
         return <MathematicsCoursesPage />;
     }
     
     // Fallback to the original logic for other courses
-    const data = courseData[params.courseId as keyof typeof courseData];
+    const data = courseData[courseId as keyof typeof courseData];
 
     if (!data) {
         return (
