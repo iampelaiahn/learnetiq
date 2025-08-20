@@ -26,6 +26,8 @@ import {
   MessageSquare,
   Paperclip,
   Send,
+  PanelRightOpen,
+  X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -35,6 +37,108 @@ const participants = [
   { name: 'Charlie B.', avatar: 'https://placehold.co/100x100.png', aiHint: 'boy portrait' },
   { name: 'You', avatar: 'https://placehold.co/100x100.png', aiHint: 'person avatar' },
 ];
+
+function SidebarTabs() {
+    return (
+        <Tabs defaultValue="participants" className="h-full flex flex-col">
+            <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="participants">
+                <Users className="mr-2 h-4 w-4" /> Participants
+            </TabsTrigger>
+            <TabsTrigger value="chat">
+                <MessageSquare className="mr-2 h-4 w-4" /> Chat
+            </TabsTrigger>
+            </TabsList>
+
+            {/* Participants Tab */}
+            <TabsContent value="participants" className="flex-grow">
+            <Card className="h-full">
+                <CardHeader>
+                <CardTitle>Participants ({participants.length})</CardTitle>
+                </CardHeader>
+                <CardContent>
+                <ScrollArea className="h-[calc(100vh-22rem)]">
+                    <div className="grid grid-cols-2 gap-4">
+                    {participants.map((p, i) => (
+                        <div key={i} className="flex flex-col items-center gap-2 text-center">
+                        <Avatar className="h-16 w-16">
+                            <AvatarImage src={p.avatar} data-ai-hint={p.aiHint}/>
+                            <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <span className="text-sm font-medium">{p.name}</span>
+                        </div>
+                    ))}
+                    </div>
+                </ScrollArea>
+                </CardContent>
+            </Card>
+            </TabsContent>
+
+            {/* Chat Tab */}
+            <TabsContent value="chat" className="flex-grow flex flex-col">
+            <Card className="flex-grow flex flex-col">
+                <CardHeader>
+                <CardTitle>Class Chat</CardTitle>
+                </CardHeader>
+                <ScrollArea className="flex-grow p-4">
+                <div className="space-y-4 text-sm">
+                    <p><span className="font-semibold">Charlie:</span> Can you explain that again?</p>
+                    <p><span className="font-semibold text-primary">You:</span> Yes, I had the same question!</p>
+                    <p><span className="font-semibold">Dr. Reed:</span> Absolutely. Let's look at the formula...</p>
+                </div>
+                </ScrollArea>
+                <div className="p-4 border-t">
+                    <form className="flex w-full items-center space-x-2">
+                    <Button variant="ghost" size="icon" type="button">
+                        <Paperclip className="h-5 w-5" />
+                        <span className="sr-only">Attach document</span>
+                    </Button>
+                    <Input placeholder="Type a message..." />
+                    <Button type="submit" size="icon">
+                        <Send className="h-4 w-4" />
+                        <span className="sr-only">Send</span>
+                    </Button>
+                </form>
+                </div>
+            </Card>
+            </TabsContent>
+        </Tabs>
+    )
+}
+
+function FloatingSidebar() {
+    const [isOpen, setIsOpen] = React.useState(false);
+
+    return (
+        <>
+            <Button 
+                variant="ghost" 
+                size="icon" 
+                className="absolute top-4 right-4 z-20 h-12 w-12 rounded-full text-white bg-black/30 backdrop-blur-sm hover:bg-white/20 hover:text-white"
+                onClick={() => setIsOpen(true)}
+            >
+                <Users className="h-6 w-6" />
+            </Button>
+            <div className={cn(
+                "absolute top-0 right-0 h-full w-[350px] bg-background text-foreground z-30 transition-transform transform",
+                isOpen ? "translate-x-0" : "translate-x-full",
+                "shadow-lg flex flex-col p-4"
+            )}>
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-bold font-headline">Classroom Panel</h2>
+                    <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
+                        <X className="h-5 w-5"/>
+                    </Button>
+                </div>
+                <div className="flex-grow">
+                     <SidebarTabs />
+                </div>
+            </div>
+             {isOpen && <div className="absolute inset-0 bg-black/50 z-20" onClick={() => setIsOpen(false)}></div>}
+        </>
+    )
+}
+
 
 export function VirtualClassroom({ classId }: { classId: string }) {
   const router = useRouter();
@@ -127,6 +231,7 @@ export function VirtualClassroom({ classId }: { classId: string }) {
             Dr. Evelyn Reed
           </div>
           {isFullscreen && <Controls floating />}
+          {isFullscreen && <FloatingSidebar />}
         </div>
 
         {/* Controls */}
@@ -135,69 +240,7 @@ export function VirtualClassroom({ classId }: { classId: string }) {
 
       {/* Sidebar */}
       <div className="lg:col-span-1 h-full">
-        <Tabs defaultValue="participants" className="h-full flex flex-col">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="participants">
-              <Users className="mr-2 h-4 w-4" /> Participants
-            </TabsTrigger>
-            <TabsTrigger value="chat">
-              <MessageSquare className="mr-2 h-4 w-4" /> Chat
-            </TabsTrigger>
-          </TabsList>
-
-          {/* Participants Tab */}
-          <TabsContent value="participants" className="flex-grow">
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle>Participants ({participants.length})</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-[calc(100vh-22rem)]">
-                  <div className="grid grid-cols-2 gap-4">
-                    {participants.map((p, i) => (
-                      <div key={i} className="flex flex-col items-center gap-2 text-center">
-                        <Avatar className="h-16 w-16">
-                          <AvatarImage src={p.avatar} data-ai-hint={p.aiHint}/>
-                          <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <span className="text-sm font-medium">{p.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Chat Tab */}
-          <TabsContent value="chat" className="flex-grow flex flex-col">
-            <Card className="flex-grow flex flex-col">
-              <CardHeader>
-                <CardTitle>Class Chat</CardTitle>
-              </CardHeader>
-              <ScrollArea className="flex-grow p-4">
-                <div className="space-y-4 text-sm">
-                  <p><span className="font-semibold">Charlie:</span> Can you explain that again?</p>
-                  <p><span className="font-semibold text-primary">You:</span> Yes, I had the same question!</p>
-                  <p><span className="font-semibold">Dr. Reed:</span> Absolutely. Let's look at the formula...</p>
-                </div>
-              </ScrollArea>
-              <div className="p-4 border-t">
-                  <form className="flex w-full items-center space-x-2">
-                    <Button variant="ghost" size="icon" type="button">
-                        <Paperclip className="h-5 w-5" />
-                        <span className="sr-only">Attach document</span>
-                    </Button>
-                    <Input placeholder="Type a message..." />
-                    <Button type="submit" size="icon">
-                        <Send className="h-4 w-4" />
-                        <span className="sr-only">Send</span>
-                    </Button>
-                </form>
-              </div>
-            </Card>
-          </TabsContent>
-        </Tabs>
+        <SidebarTabs/>
       </div>
     </div>
   );
