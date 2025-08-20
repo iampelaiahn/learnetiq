@@ -27,6 +27,7 @@ import { Separator } from '../ui/separator';
 
 const menuItems = [
   { href: '/app/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/app/study', label: 'Study', icon: Book },
   { href: '/app/resources', label: 'Resources', icon: BookOpen },
   { href: '/app/forums', label: 'Forums', icon: Users },
   { href: '/app/messages', label: 'Messages', icon: MessageSquare },

@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PlayCircle, Clock, Star, Users } from 'lucide-react';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
 const courseData = {
   'career-dev': {
@@ -53,6 +54,9 @@ const courseData = {
 
 
 export default function CourseDetailPage({ params }: { params: { courseId: string } }) {
+    if (params.courseId === 'Mathematics') {
+        redirect('/app/courses');
+    }
     const data = courseData[params.courseId as keyof typeof courseData];
 
     if (!data) {
