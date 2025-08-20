@@ -9,11 +9,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { PlayCircle, Clock, Star, Users } from 'lucide-react';
+import { PlayCircle, Star } from 'lucide-react';
 import Image from 'next/image';
-import { redirect } from 'next/navigation';
 import { CourseListItem } from '@/components/courses/CourseListItem';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { CalendarCard } from '@/components/courses/CalendarCard';
+import { OnlineUsers } from '@/components/courses/OnlineUsers';
 
 const courseData = {
   'career-dev': {
@@ -108,31 +109,37 @@ const mathCourses = [
 
 function MathematicsCoursesPage() {
     return (
-        <div className="space-y-6">
-             <div>
-                <h1 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
-                My Courses
-                </h1>
-                <p className="mt-2 text-muted-foreground">
-                    Continue your learning journey in Mathematics.
-                </p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div className="lg:col-span-2 space-y-6">
+                 <div>
+                    <h1 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
+                    My Courses
+                    </h1>
+                    <p className="mt-2 text-muted-foreground">
+                        Continue your learning journey in Mathematics.
+                    </p>
+                </div>
+                 <Tabs defaultValue="all" className="w-full">
+                    <TabsList className="grid w-full grid-cols-3 md:w-[400px]">
+                        <TabsTrigger value="all">All</TabsTrigger>
+                        <TabsTrigger value="active">Active</TabsTrigger>
+                        <TabsTrigger value="completed">Completed</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="all" className="mt-6 space-y-4">
+                        {mathCourses.map(course => <CourseListItem key={course.id} course={course} />)}
+                    </TabsContent>
+                    <TabsContent value="active" className="mt-6 space-y-4">
+                         {mathCourses.filter(c => c.status === 'active').map(course => <CourseListItem key={course.id} course={course} />)}
+                    </TabsContent>
+                    <TabsContent value="completed" className="mt-6 space-y-4">
+                        {mathCourses.filter(c => c.status === 'completed').map(course => <CourseListItem key={course.id} course={course} />)}
+                    </TabsContent>
+                </Tabs>
             </div>
-             <Tabs defaultValue="all" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 md:w-[400px]">
-                    <TabsTrigger value="all">All</TabsTrigger>
-                    <TabsTrigger value="active">Active</TabsTrigger>
-                    <TabsTrigger value="completed">Completed</TabsTrigger>
-                </TabsList>
-                <TabsContent value="all" className="mt-6 space-y-4">
-                    {mathCourses.map(course => <CourseListItem key={course.id} course={course} />)}
-                </TabsContent>
-                <TabsContent value="active" className="mt-6 space-y-4">
-                     {mathCourses.filter(c => c.status === 'active').map(course => <CourseListItem key={course.id} course={course} />)}
-                </TabsContent>
-                <TabsContent value="completed" className="mt-6 space-y-4">
-                    {mathCourses.filter(c => c.status === 'completed').map(course => <CourseListItem key={course.id} course={course} />)}
-                </TabsContent>
-            </Tabs>
+             <div className="lg:col-span-1 space-y-6">
+                <CalendarCard />
+                <OnlineUsers />
+            </div>
         </div>
     )
 }
