@@ -57,58 +57,112 @@ const courseData = {
   },
 };
 
-const mathCourses = [
-    {
-      id: 'algebra-basics',
-      title: 'Algebra Basics',
-      description: 'Master the fundamentals of algebraic expressions, equations, and functions. Perfect for beginners.',
-      image: 'https://placehold.co/300x200.png',
-      aiHint: 'algebra equations',
-      rating: 4,
-      reviewCount: 412,
-      level: 'Beginner',
-      category: 'Mathematics',
-      status: 'active' as const,
-    },
-    {
-      id: 'geometry-foundations',
-      title: 'Geometry Foundations',
-      description: 'Explore the world of shapes, angles, and spatial reasoning. Learn key theorems and proofs.',
-      image: 'https://placehold.co/300x200.png',
-      aiHint: 'geometric shapes',
-      rating: 5,
-      reviewCount: 580,
-      level: 'Beginner',
-      category: 'Mathematics',
-      status: 'active' as const,
-    },
-    {
-      id: 'calculus-i',
-      title: 'Calculus I',
-      description: 'An introduction to differential calculus, including limits, derivatives, and their applications.',
-      image: 'https://placehold.co/300x200.png',
-      aiHint: 'calculus graphs',
-      rating: 5,
-      reviewCount: 720,
-      level: 'Intermediate',
-      category: 'Mathematics',
-      status: 'active' as const,
-    },
-     {
-      id: 'probability-stats',
-      title: 'Probability & Statistics',
-      description: 'Learn to analyze data, understand probability distributions, and perform statistical tests.',
-      image: 'https://placehold.co/300x200.png',
-      aiHint: 'data charts',
-      rating: 4,
-      reviewCount: 380,
-      level: 'Intermediate',
-      category: 'Mathematics',
-      status: 'completed' as const,
-    },
-  ];
+const allSubjectsCourses = {
+    Mathematics: [
+        {
+          id: 'algebra-basics',
+          title: 'Algebra Basics',
+          description: 'Master the fundamentals of algebraic expressions, equations, and functions. Perfect for beginners.',
+          image: 'https://placehold.co/300x200.png',
+          aiHint: 'algebra equations',
+          rating: 4,
+          reviewCount: 412,
+          level: 'Beginner',
+          category: 'Mathematics',
+          status: 'active' as const,
+        },
+        {
+          id: 'geometry-foundations',
+          title: 'Geometry Foundations',
+          description: 'Explore the world of shapes, angles, and spatial reasoning. Learn key theorems and proofs.',
+          image: 'https://placehold.co/300x200.png',
+          aiHint: 'geometric shapes',
+          rating: 5,
+          reviewCount: 580,
+          level: 'Beginner',
+          category: 'Mathematics',
+          status: 'active' as const,
+        },
+        {
+          id: 'calculus-i',
+          title: 'Calculus I',
+          description: 'An introduction to differential calculus, including limits, derivatives, and their applications.',
+          image: 'https://placehold.co/300x200.png',
+          aiHint: 'calculus graphs',
+          rating: 5,
+          reviewCount: 720,
+          level: 'Intermediate',
+          category: 'Mathematics',
+          status: 'active' as const,
+        },
+         {
+          id: 'probability-stats',
+          title: 'Probability & Statistics',
+          description: 'Learn to analyze data, understand probability distributions, and perform statistical tests.',
+          image: 'https://placehold.co/300x200.png',
+          aiHint: 'data charts',
+          rating: 4,
+          reviewCount: 380,
+          level: 'Intermediate',
+          category: 'Mathematics',
+          status: 'completed' as const,
+        },
+    ],
+    Geography: [],
+    History: [],
+    Accounting: [],
+    Science: [],
+    Biology: [],
+    'Business studies': [],
+    Physics: [],
+    ICT: [],
+    'Physical Education': [],
+    Chemistry: [],
+    Economics: [],
+    'English Literature': [],
+    Commerce: [],
+    'Computer Science': [],
+    'Performing arts': [],
+    'Religious studies': [],
+    Sociology: [],
+    Agriculture: [],
+    'Design and Technology': [],
+    'Visual Arts': [],
+    'Business English': [],
+    Shona: [],
+}
 
-function MathematicsCoursesPage() {
+const subjectSlugs = Object.keys(allSubjectsCourses);
+
+
+function SubjectCoursesPage({ subject }: { subject: string }) {
+    const courses = allSubjectsCourses[subject as keyof typeof allSubjectsCourses] || [];
+    
+    if (courses.length === 0) {
+        return (
+             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div className="lg:col-span-2 space-y-6">
+                    <div>
+                        <h1 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
+                        My Courses
+                        </h1>
+                        <p className="mt-2 text-muted-foreground">
+                            Continue your learning journey in {subject}.
+                        </p>
+                    </div>
+                    <div className="text-center py-12 border rounded-lg">
+                        <h2 className="text-xl font-semibold">No Courses Yet</h2>
+                        <p className="text-muted-foreground mt-2">Courses for {subject} are coming soon. Check back later!</p>
+                    </div>
+                </div>
+                 <div className="lg:col-span-1 space-y-6">
+                    <CalendarCard />
+                    <OnlineUsers />
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             <div className="lg:col-span-2 space-y-6">
@@ -117,7 +171,7 @@ function MathematicsCoursesPage() {
                     My Courses
                     </h1>
                     <p className="mt-2 text-muted-foreground">
-                        Continue your learning journey in Mathematics.
+                        Continue your learning journey in {subject}.
                     </p>
                 </div>
                  <Tabs defaultValue="all" className="w-full">
@@ -127,13 +181,13 @@ function MathematicsCoursesPage() {
                         <TabsTrigger value="completed">Completed</TabsTrigger>
                     </TabsList>
                     <TabsContent value="all" className="mt-6 space-y-4">
-                        {mathCourses.map(course => <CourseListItem key={course.id} course={course} />)}
+                        {courses.map(course => <CourseListItem key={course.id} course={course} />)}
                     </TabsContent>
                     <TabsContent value="active" className="mt-6 space-y-4">
-                         {mathCourses.filter(c => c.status === 'active').map(course => <CourseListItem key={course.id} course={course} />)}
+                         {courses.filter(c => c.status === 'active').map(course => <CourseListItem key={course.id} course={course} />)}
                     </TabsContent>
                     <TabsContent value="completed" className="mt-6 space-y-4">
-                        {mathCourses.filter(c => c.status === 'completed').map(course => <CourseListItem key={course.id} course={course} />)}
+                        {courses.filter(c => c.status === 'completed').map(course => <CourseListItem key={course.id} course={course} />)}
                     </TabsContent>
                 </Tabs>
             </div>
@@ -149,12 +203,13 @@ function MathematicsCoursesPage() {
 export default function CourseDetailPage() {
     const params = useParams();
     const courseId = params.courseId as string;
+    const subject = decodeURIComponent(courseId);
 
-    if (courseId === 'Mathematics') {
-        return <MathematicsCoursesPage />;
+    if (subjectSlugs.includes(subject)) {
+        return <SubjectCoursesPage subject={subject} />;
     }
     
-    // Fallback to the original logic for other courses
+    // Fallback to the original logic for a specific course
     const data = courseData[courseId as keyof typeof courseData];
 
     if (!data) {
