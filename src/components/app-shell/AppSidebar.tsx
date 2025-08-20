@@ -18,6 +18,7 @@ import {
   LifeBuoy,
   LogOut,
   Settings,
+  Brain,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -26,6 +27,7 @@ import { Separator } from '../ui/separator';
 
 const menuItems = [
   { href: '/app/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/app/study', label: 'Study', icon: Brain },
   { href: '/app/resources', label: 'Resources', icon: BookOpen },
   { href: '/app/forums', label: 'Forums', icon: Users },
   { href: '/app/messages', label: 'Messages', icon: MessageSquare },
@@ -35,7 +37,8 @@ const menuItems = [
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => pathname.startsWith(href) && (href !== '/app' || pathname === href);
+
 
   return (
     <Sidebar>
