@@ -22,7 +22,7 @@ import {
   TabsTrigger,
 } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
-import { Search, Send } from 'lucide-react';
+import { Search, Send, Paperclip } from 'lucide-react';
 
 const contacts = {
   tutors: [
@@ -138,6 +138,10 @@ export function MessagingClient() {
             </ScrollArea>
             <CardFooter className="p-4 border-t">
               <form className="flex w-full items-center space-x-2">
+                <Button variant="ghost" size="icon" type="button">
+                    <Paperclip className="h-5 w-5" />
+                    <span className="sr-only">Attach document</span>
+                </Button>
                 <Input placeholder="Type a message..." />
                 <Button type="submit">
                   <Send className="h-4 w-4" />

@@ -23,6 +23,8 @@ import {
   Minimize,
   Users,
   MessageSquare,
+  Paperclip,
+  Send,
 } from 'lucide-react';
 
 const participants = [
@@ -158,7 +160,17 @@ export function VirtualClassroom({ classId }: { classId: string }) {
                 </div>
               </ScrollArea>
               <div className="p-4 border-t">
-                  <Input placeholder="Send a message..." />
+                  <form className="flex w-full items-center space-x-2">
+                    <Button variant="ghost" size="icon" type="button">
+                        <Paperclip className="h-5 w-5" />
+                        <span className="sr-only">Attach document</span>
+                    </Button>
+                    <Input placeholder="Type a message..." />
+                    <Button type="submit" size="icon">
+                        <Send className="h-4 w-4" />
+                        <span className="sr-only">Send</span>
+                    </Button>
+                </form>
               </div>
             </Card>
           </TabsContent>
