@@ -55,8 +55,18 @@ const courseData = {
 
 export default function CourseDetailPage({ params }: { params: { courseId: string } }) {
     if (params.courseId === 'Mathematics') {
-        redirect('/app/courses');
+        // For now, redirect to a generic courses page or show a list of math courses
+        // This can be built out later.
+        // For demonstration, we'll just show a placeholder message.
+         return (
+          <div className="text-center py-12">
+            <h1 className="text-2xl font-bold">Mathematics Courses</h1>
+            <p className="text-muted-foreground">This section is under construction. Check back soon for math courses!</p>
+          </div>
+        );
     }
+    
+    // Fallback to the original logic for other courses
     const data = courseData[params.courseId as keyof typeof courseData];
 
     if (!data) {
