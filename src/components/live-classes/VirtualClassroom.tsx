@@ -30,15 +30,30 @@ import {
   X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { format, isSameDay, parseISO } from 'date-fns';
 
 const participants = [
-  { name: 'Dr. Reed', avatar: 'https://placehold.co/100x100.png', aiHint: 'woman portrait' },
-  { name: 'Bob J.', avatar: 'https://placehold.co/100x100.png', aiHint: 'person portrait' },
-  { name: 'Charlie B.', avatar: 'https://placehold.co/100x100.png', aiHint: 'boy portrait' },
-  { name: 'You', avatar: 'https://placehold.co/100x100.png', aiHint: 'person avatar' },
+  { id: 'p1', name: 'Dr. Reed', avatar: 'https://placehold.co/100x100.png', aiHint: 'woman portrait' },
+  { id: 'p2', name: 'Bob J.', avatar: 'https://placehold.co/100x100.png', aiHint: 'person portrait' },
+  { id: 'p3', name: 'Charlie B.', avatar: 'https://placehold.co/100x100.png', aiHint: 'boy portrait' },
+  { id: 'p4', name: 'You', avatar: 'https://placehold.co/100x100.png', aiHint: 'person avatar' },
 ];
 
-type ChatMessage = { from: string; text: string; isYou?: boolean };
+type ChatMessage = {
+    id: string;
+    from: string;
+    text: string;
+    timestamp: string;
+    avatar: string;
+    aiHint: string;
+};
+
+const initialMessages: ChatMessage[] = [
+    { id: 'm1', from: 'Dr. Reed', text: "Hey there! I've been feeling quite overwhelmed lately with work.", timestamp: '2024-04-28T04:15:00', avatar: 'https://placehold.co/100x100.png', aiHint: 'woman portrait' },
+    { id: 'm2', from: 'You', text: 'Amante de cinema e viciado em pipoca! 🍿🎬', timestamp: '2024-04-28T08:20:00', avatar: 'https://placehold.co/100x100.png', aiHint: 'person avatar' },
+    { id: 'm3', from: 'Dr. Reed', text: 'When will the contract be sent?', timestamp: '2024-04-29T06:15:00', avatar: 'https://placehold.co/100x100.png', aiHint: 'woman portrait' },
+    { id: 'm4', from: 'You', text: 'Paperless opt-in email sent', timestamp: '2024-04-29T08:20:00', avatar: 'https://placehold.co/100x100.png', aiHint: 'person avatar' },
+]
 
 function TypingIndicator() {
     return (
@@ -50,32 +65,55 @@ function TypingIndicator() {
     );
   }
 
-function SidebarTabs() {
-    const [chatMessages, setChatMessages] = React.useState<ChatMessage[]>([
-        { from: 'Charlie', text: 'Can you explain that again?' },
-        { from: 'You', text: 'Yes, I had the same question!', isYou: true },
-        { from: 'Dr. Reed', text: 'Absolutely. Let\'s look at the formula...' },
-    ]);
+  function SidebarTabs() {
+    const [chatMessages, setChatMessages] = React.useState<ChatMessage[]>(initialMessages);
     const [newMessage, setNewMessage] = React.useState('');
     const [isTyping, setIsTyping] = React.useState(false);
+    const scrollAreaRef = React.useRef<HTMLDivElement>(null);
 
     const handleSendMessage = (e: React.FormEvent) => {
         e.preventDefault();
         if (newMessage.trim()) {
-            setChatMessages([...chatMessages, { from: 'You', text: newMessage, isYou: true }]);
+            const newId = `m${chatMessages.length + 1}`;
+            const newMsg: ChatMessage = {
+                id: newId,
+                from: 'You',
+                text: newMessage,
+                timestamp: new Date().toISOString(),
+                avatar: 'https://placehold.co/100x100.png',
+                aiHint: 'person avatar',
+            };
+            setChatMessages([...chatMessages, newMsg]);
             setNewMessage('');
 
             setIsTyping(true);
             setTimeout(() => {
-                const response = "That's a good question! I'll address that shortly.";
-                 setChatMessages(prev => [...prev, { from: 'Dr. Reed', text: response }]);
+                const response: ChatMessage = {
+                    id: `m${chatMessages.length + 2}`,
+                    from: 'Dr. Reed',
+                    text: "That's a good question! Let's discuss it.",
+                    timestamp: new Date().toISOString(),
+                    avatar: 'https://placehold.co/100x100.png',
+                    aiHint: 'woman portrait',
+                };
+                 setChatMessages(prev => [...prev, response]);
                  setIsTyping(false);
-            }, 3000);
-
+            }, 2500);
         }
     };
+    
+    React.useEffect(() => {
+        if (scrollAreaRef.current) {
+            const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+            if (viewport) {
+                viewport.scrollTop = viewport.scrollHeight;
+            }
+        }
+      }, [chatMessages, isTyping]);
+
+
     return (
-        <Tabs defaultValue="participants" className="h-full flex flex-col">
+        <Tabs defaultValue="chat" className="h-full flex flex-col">
             <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="participants">
                 <Users className="mr-2 h-4 w-4" /> Participants
@@ -94,8 +132,8 @@ function SidebarTabs() {
                 <CardContent>
                 <ScrollArea className="h-[calc(100vh-22rem)]">
                     <div className="grid grid-cols-2 gap-4">
-                    {participants.map((p, i) => (
-                        <div key={i} className="flex flex-col items-center gap-2 text-center">
+                    {participants.map((p) => (
+                        <div key={p.id} className="flex flex-col items-center gap-2 text-center">
                         <Avatar className="h-16 w-16">
                             <AvatarImage src={p.avatar} data-ai-hint={p.aiHint}/>
                             <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
@@ -110,45 +148,68 @@ function SidebarTabs() {
             </TabsContent>
 
             {/* Chat Tab */}
-            <TabsContent value="chat" className="flex-grow flex flex-col">
-            <Card className="flex-grow flex flex-col">
-                <CardHeader>
-                <CardTitle>Class Chat</CardTitle>
-                </CardHeader>
-                <ScrollArea className="flex-grow p-4">
-                    <div className="space-y-4 text-sm">
-                        {chatMessages.map((msg, i) => (
-                            <p key={i}><span className={cn("font-semibold", {"text-primary": msg.isYou})}>{msg.from}:</span> {msg.text}</p>
-                        ))}
+            <TabsContent value="chat" className="flex-grow flex flex-col bg-background/80 rounded-b-lg">
+                <ScrollArea className="flex-grow p-4" ref={scrollAreaRef}>
+                    <div className="space-y-4">
+                        {chatMessages.map((msg, index) => {
+                            const showDate = index === 0 || !isSameDay(parseISO(chatMessages[index - 1].timestamp), parseISO(msg.timestamp));
+                            const isYou = msg.from === 'You';
+                            return (
+                                <React.Fragment key={msg.id}>
+                                    {showDate && (
+                                        <div className="text-center text-xs text-muted-foreground my-4">
+                                            {format(parseISO(msg.timestamp), 'MMMM d, yyyy')}
+                                        </div>
+                                    )}
+                                    <div className={cn('flex items-end gap-2', isYou ? 'justify-end' : 'justify-start')}>
+                                        {!isYou && (
+                                            <Avatar className="h-8 w-8 self-start">
+                                                <AvatarImage src={msg.avatar} data-ai-hint={msg.aiHint} />
+                                                <AvatarFallback>{msg.from.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                        )}
+                                        <div className={cn("max-w-xs rounded-2xl p-3", isYou ? 'bg-primary text-primary-foreground rounded-br-none' : 'bg-muted rounded-bl-none')}>
+                                            <p className="text-sm">{msg.text}</p>
+                                            <p className={cn("text-xs mt-1", isYou ? "text-primary-foreground/70" : "text-muted-foreground/70")}>
+                                                {format(parseISO(msg.timestamp), 'hh:mm a')}
+                                            </p>
+                                        </div>
+                                         {isYou && (
+                                            <Avatar className="h-8 w-8 self-start">
+                                                <AvatarImage src={msg.avatar} data-ai-hint={msg.aiHint} />
+                                                <AvatarFallback>Y</AvatarFallback>
+                                            </Avatar>
+                                        )}
+                                    </div>
+                                </React.Fragment>
+                            )
+                        })}
                          {isTyping && (
-                            <div className="flex items-center gap-2">
-                                <Avatar className="h-6 w-6">
+                            <div className="flex items-end gap-2 justify-start">
+                                <Avatar className="h-8 w-8 self-start">
                                     <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="woman portrait"/>
                                     <AvatarFallback>DR</AvatarFallback>
                                 </Avatar>
-                                <TypingIndicator />
+                                <div className="max-w-xs rounded-2xl p-3 bg-muted rounded-bl-none">
+                                    <TypingIndicator />
+                                </div>
                             </div>
                          )}
                     </div>
                 </ScrollArea>
-                <div className="p-4 border-t">
+                <div className="p-4 border-t bg-background rounded-b-lg">
                     <form className="flex w-full items-center space-x-2" onSubmit={handleSendMessage}>
-                    <Button variant="ghost" size="icon" type="button">
-                        <Paperclip className="h-5 w-5" />
-                        <span className="sr-only">Attach document</span>
-                    </Button>
                     <Input 
-                        placeholder="Type a message..."
+                        placeholder="Write something..."
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
+                        className="bg-muted border-transparent focus-visible:ring-primary"
                     />
-                    <Button type="submit" size="icon">
-                        <Send className="h-4 w-4" />
-                        <span className="sr-only">Send</span>
+                    <Button type="submit" size="default" className="rounded-lg">
+                        Send
                     </Button>
                 </form>
                 </div>
-            </Card>
             </TabsContent>
         </Tabs>
     )
@@ -287,9 +348,11 @@ export function VirtualClassroom({ classId }: { classId: string }) {
       </div>
 
       {/* Sidebar */}
-      <div className="lg:col-span-1 h-full">
+      <div className={cn("lg:col-span-1 h-full", isFullscreen && "hidden")}>
         <SidebarTabs/>
       </div>
     </div>
   );
 }
+
+    
