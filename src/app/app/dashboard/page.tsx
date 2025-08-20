@@ -1,3 +1,4 @@
+
 import { DetailedProgressCard } from '@/components/dashboard/DetailedProgressCard';
 import { AiTutorAssistant } from '@/components/dashboard/AiTutorAssistant';
 import { UpcomingClassCard } from '@/components/dashboard/UpcomingClassCard';
