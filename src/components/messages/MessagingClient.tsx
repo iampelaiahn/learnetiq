@@ -1,3 +1,4 @@
+
 'use client';
 import * as React from 'react';
 import {
@@ -35,7 +36,7 @@ const contacts = {
   ],
 };
 
-const messages = {
+const initialMessages = {
   t1: [
     { from: 'me', text: 'Hi Dr. Reed, I have a question about calculus.' },
     { from: 'them', text: 'Of course, Alex. How can I help?' },
@@ -51,13 +52,29 @@ type Message = { from: 'me' | 'them'; text: string };
 
 export function MessagingClient() {
   const [selectedContact, setSelectedContact] = React.useState<Contact>(contacts.tutors[0]);
-  const [conversation, setConversation] = React.useState<Message[]>(messages.t1);
+  const [messages, setMessages] = React.useState<Record<string, Message[]>>(initialMessages);
+  const [newMessage, setNewMessage] = React.useState('');
   const [filter, setFilter] = React.useState('');
 
   const handleSelectContact = (contact: Contact) => {
     setSelectedContact(contact);
-    setConversation(messages[contact.id as keyof typeof messages] || []);
   };
+
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newMessage.trim() && selectedContact) {
+      const currentMessages = messages[selectedContact.id] || [];
+      const updatedMessages = [...currentMessages, { from: 'me' as const, text: newMessage }];
+      setMessages({
+        ...messages,
+        [selectedContact.id]: updatedMessages,
+      });
+      setNewMessage('');
+    }
+  };
+
+  const conversation = messages[selectedContact?.id] || [];
+
 
   const filteredContacts = (type: 'tutors' | 'peers') =>
     contacts[type].filter((c) =>
@@ -137,12 +154,16 @@ export function MessagingClient() {
               </div>
             </ScrollArea>
             <CardFooter className="p-4 border-t">
-              <form className="flex w-full items-center space-x-2">
+              <form className="flex w-full items-center space-x-2" onSubmit={handleSendMessage}>
                 <Button variant="ghost" size="icon" type="button">
                     <Paperclip className="h-5 w-5" />
                     <span className="sr-only">Attach document</span>
                 </Button>
-                <Input placeholder="Type a message..." />
+                <Input 
+                    placeholder="Type a message..." 
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                />
                 <Button type="submit">
                   <Send className="h-4 w-4" />
                   <span className="sr-only">Send</span>

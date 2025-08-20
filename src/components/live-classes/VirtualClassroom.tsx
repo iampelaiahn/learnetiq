@@ -38,7 +38,23 @@ const participants = [
   { name: 'You', avatar: 'https://placehold.co/100x100.png', aiHint: 'person avatar' },
 ];
 
+type ChatMessage = { from: string; text: string; isYou?: boolean };
+
 function SidebarTabs() {
+    const [chatMessages, setChatMessages] = React.useState<ChatMessage[]>([
+        { from: 'Charlie', text: 'Can you explain that again?' },
+        { from: 'You', text: 'Yes, I had the same question!', isYou: true },
+        { from: 'Dr. Reed', text: 'Absolutely. Let\'s look at the formula...' },
+    ]);
+    const [newMessage, setNewMessage] = React.useState('');
+
+    const handleSendMessage = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (newMessage.trim()) {
+            setChatMessages([...chatMessages, { from: 'You', text: newMessage, isYou: true }]);
+            setNewMessage('');
+        }
+    };
     return (
         <Tabs defaultValue="participants" className="h-full flex flex-col">
             <TabsList className="grid w-full grid-cols-2">
@@ -81,19 +97,23 @@ function SidebarTabs() {
                 <CardTitle>Class Chat</CardTitle>
                 </CardHeader>
                 <ScrollArea className="flex-grow p-4">
-                <div className="space-y-4 text-sm">
-                    <p><span className="font-semibold">Charlie:</span> Can you explain that again?</p>
-                    <p><span className="font-semibold text-primary">You:</span> Yes, I had the same question!</p>
-                    <p><span className="font-semibold">Dr. Reed:</span> Absolutely. Let's look at the formula...</p>
-                </div>
+                    <div className="space-y-4 text-sm">
+                        {chatMessages.map((msg, i) => (
+                            <p key={i}><span className={cn("font-semibold", {"text-primary": msg.isYou})}>{msg.from}:</span> {msg.text}</p>
+                        ))}
+                    </div>
                 </ScrollArea>
                 <div className="p-4 border-t">
-                    <form className="flex w-full items-center space-x-2">
+                    <form className="flex w-full items-center space-x-2" onSubmit={handleSendMessage}>
                     <Button variant="ghost" size="icon" type="button">
                         <Paperclip className="h-5 w-5" />
                         <span className="sr-only">Attach document</span>
                     </Button>
-                    <Input placeholder="Type a message..." />
+                    <Input 
+                        placeholder="Type a message..."
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                    />
                     <Button type="submit" size="icon">
                         <Send className="h-4 w-4" />
                         <span className="sr-only">Send</span>
