@@ -1,8 +1,7 @@
 
 'use client';
 import * as React from 'react';
-import { Search, ListFilter } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { ListFilter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -14,6 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { CourseListItem } from '@/components/courses/CourseListItem';
 import type { CheckedState } from '@radix-ui/react-checkbox';
+import { CourseCombobox } from '@/components/courses/CourseCombobox';
 
 
 const coursesData = [
@@ -145,10 +145,7 @@ export default function CoursesPage() {
                     </p>
                 </div>
                 <div className="flex items-center gap-2">
-                    <div className="relative w-full md:w-64">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                        <Input placeholder="Search courses..." className="pl-8" />
-                    </div>
+                    <CourseCombobox courses={coursesData.map(c => ({ id: c.id, title: c.title }))} />
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className="shrink-0">
@@ -187,4 +184,3 @@ export default function CoursesPage() {
         </div>
     );
 }
-
