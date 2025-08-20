@@ -10,12 +10,15 @@ import { CourseCombobox } from '../courses/CourseCombobox';
 // Simplified course data for the header combobox
 const coursesData = [
     { id: 'career-dev', title: 'English for career development' },
-    { id: 'adv-english', title: 'English for career advancement' },
-    { id: 'first-steps-chinese', title: 'First steps in Chinese' },
-    { id: 'managing-class', title: 'English Teaching: managing the class' },
-    { id: 'american-english', title: 'Pronunciation of American English' },
-    { id: 'basic-spanish', title: 'Basic Spanish for Travelers' },
-    { id: 'french-pastry', title: 'Introduction to French Pastry' }
+    { id: 'calculus-101', title: 'Calculus 101' },
+    { id: 'physics-fundamentals', title: 'Fundamentals of Physics' },
+    { id: 'world-history', title: 'World History: Ancient Civilizations' },
+    { id: 'intro-chemistry', title: 'Introduction to Chemistry' },
+    { id: 'cellular-biology', title: 'Cellular Biology' },
+    { id: 'beginner-shona', title: 'Beginner Shona' },
+    { id: 'french-pastry', title: 'Introduction to French Pastry' },
+    { id: 'accounting-principles', title: 'Principles of Accounting' },
+    { id: 'intro-commerce', title: 'Introduction to Commerce' }
 ];
 
 export function AppHeader() {
