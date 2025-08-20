@@ -5,12 +5,13 @@ let app: admin.app.App | undefined;
 
 // Check if the service account credentials are provided as a JSON string
 // or if the GOOGLE_APPLICATION_CREDENTIALS path is set.
-const hasCredentials = process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
+const hasServiceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON && process.env.FIREBASE_SERVICE_ACCOUNT_JSON.trim() !== '';
+const hasGoogleAppCreds = !!process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
-if (hasCredentials && !admin.apps.length) {
+if ((hasServiceAccountJson || hasGoogleAppCreds) && !admin.apps.length) {
   try {
-    const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_JSON
-      ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON)
+    const serviceAccount = hasServiceAccountJson
+      ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON!)
       : undefined;
 
     app = admin.initializeApp({
@@ -23,7 +24,7 @@ if (hasCredentials && !admin.apps.length) {
 } else if (admin.apps.length > 0) {
   app = admin.app();
 } else {
-  console.warn("Firebase Admin SDK credentials not provided. Server-side authentication features will be disabled.");
+  console.warn("Firebase Admin SDK credentials not provided or are empty. Server-side authentication features will be disabled.");
 }
 
 export const auth = app ? admin.auth() : undefined;
