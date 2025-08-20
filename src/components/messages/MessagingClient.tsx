@@ -55,6 +55,8 @@ export function MessagingClient() {
   const [messages, setMessages] = React.useState<Record<string, Message[]>>(initialMessages);
   const [newMessage, setNewMessage] = React.useState('');
   const [filter, setFilter] = React.useState('');
+  const scrollAreaRef = React.useRef<HTMLDivElement>(null);
+
 
   const handleSelectContact = (contact: Contact) => {
     setSelectedContact(contact);
@@ -72,6 +74,16 @@ export function MessagingClient() {
       setNewMessage('');
     }
   };
+
+  React.useEffect(() => {
+    if (scrollAreaRef.current) {
+        const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
+        if (viewport) {
+            viewport.scrollTop = viewport.scrollHeight;
+        }
+    }
+  }, [messages, selectedContact]);
+
 
   const conversation = messages[selectedContact?.id] || [];
 
@@ -132,15 +144,22 @@ export function MessagingClient() {
               <h3 className="font-semibold text-lg">{selectedContact.name}</h3>
             </CardHeader>
             <Separator />
-            <ScrollArea className="flex-grow p-4">
+            <ScrollArea className="flex-grow p-4" ref={scrollAreaRef}>
               <div className="space-y-4">
                 {conversation.map((msg, index) => (
                   <div
                     key={index}
                     className={cn('flex items-end gap-2', {
                       'justify-end': msg.from === 'me',
+                      'justify-start': msg.from === 'them',
                     })}
                   >
+                     {msg.from === 'them' && (
+                       <Avatar className="h-8 w-8">
+                         <AvatarImage src={selectedContact.avatar} data-ai-hint={selectedContact.aiHint} />
+                         <AvatarFallback>{selectedContact.name.charAt(0)}</AvatarFallback>
+                       </Avatar>
+                     )}
                     <div
                       className={cn('max-w-xs rounded-lg p-3 md:max-w-md', {
                         'bg-primary text-primary-foreground': msg.from === 'me',
@@ -187,7 +206,7 @@ function ContactList({
   onSelectContact,
 }: {
   contacts: Contact[];
-  selectedContact: Contact;
+  selectedContact: Contact | null;
   onSelectContact: (contact: Contact) => void;
 }) {
   return (
@@ -197,7 +216,7 @@ function ContactList({
           key={contact.id}
           variant="ghost"
           className={cn('w-full justify-start gap-3 h-12', {
-            'bg-accent text-accent-foreground': selectedContact.id === contact.id,
+            'bg-accent text-accent-foreground': selectedContact?.id === contact.id,
           })}
           onClick={() => onSelectContact(contact)}
         >
