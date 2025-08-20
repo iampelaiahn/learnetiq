@@ -78,16 +78,7 @@ export function CalendarCard() {
         return () => observer.disconnect();
     }, []);
 
-    const modifierStyles = React.useMemo(() => {
-        return Object.keys(subjectColors).reduce((acc, subject) => {
-            acc[subject] = { 
-                // We don't need to generate HSL values, just use the class names
-            };
-            return acc;
-        }, {} as Record<string, React.CSSProperties>);
-    }, []);
-
-    const modifierClasses = React.useMemo(() => {
+    const modifierClassNames = React.useMemo(() => {
          return Object.keys(subjectColors).reduce((acc, subject) => {
             acc[subject] = `text-foreground ${theme === 'dark' ? darkSubjectColors[subject] : subjectColors[subject]}`;
             return acc;
@@ -107,8 +98,7 @@ export function CalendarCard() {
                     className="w-full"
                     month={new Date(2025, 7, 1)}
                     modifiers={modifiers}
-                    modifiersStyles={modifierStyles}
-                    modifiersClassNames={modifierClasses}
+                    modifiersClassNames={modifierClassNames}
                 />
                  <div className="mt-4 px-2 space-y-2">
                     <h4 className="font-semibold text-sm">Legend</h4>
