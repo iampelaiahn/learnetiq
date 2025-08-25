@@ -42,7 +42,7 @@ const completedCoursesData = [
 
 export default function ProgressPage() {
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-7xl space-y-8">
       <div>
         <h1 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
           Your Progress
