@@ -79,7 +79,7 @@ const subjects = [
 
 export default function ResourcesPage() {
   return (
-    <div className="space-y-8">
+    <div className="w-full space-y-8">
       <div>
         <h1 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
           Resources Library
