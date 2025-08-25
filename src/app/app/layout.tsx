@@ -8,7 +8,7 @@ export default function AppLayout({ children }: PropsWithChildren) {
     <SidebarProvider>
       <div className="flex">
         <AppSidebar />
-        <div className="flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col md:ml-16">
           <AppHeader />
           <main className="min-h-[calc(100vh-4rem)] p-4 md:p-8">
             {children}
