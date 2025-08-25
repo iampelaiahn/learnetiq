@@ -217,7 +217,7 @@ const Sidebar = React.forwardRef<
             <div ref={ref} className="hidden md:block">
                 <div
                     data-sidebar="sidebar"
-                    className={cn("fixed inset-y-0 z-10 my-4 flex h-[calc(100svh-2rem)]", side === 'left' ? 'left-4' : 'right-4')}
+                    className={cn("fixed inset-y-0 z-10 flex h-[60svh] top-1/2 -translate-y-1/2", side === 'left' ? 'left-4' : 'right-4')}
                     {...props}
                 >
                     <div className="flex h-full flex-col rounded-full bg-sidebar/70 p-2 backdrop-blur-sm text-sidebar-foreground ring-1 ring-black/10">
