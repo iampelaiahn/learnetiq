@@ -32,6 +32,7 @@ import {
   GraduationCap,
   FileText,
   Reply,
+  Sun,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -41,6 +42,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Card, CardContent } from '../ui/card';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '../ui/dropdown-menu';
+import { useTheme } from 'next-themes';
 
 const menuItems = [
   { href: '/app/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -49,13 +51,6 @@ const menuItems = [
   { href: '/app/forums', label: 'Forums', icon: Users },
   { href: '/app/resources', label: 'Resources', icon: FolderKanban },
   { href: '/app/progress', label: 'Progress', icon: TrendingUp },
-];
-
-const preferencesItems = [
-  { href: '#', label: 'Preferences', icon: Settings },
-  { href: '#', label: 'Dark mode', icon: Moon },
-  { href: '#', label: 'Themes', icon: Paintbrush },
-  { href: '#', label: 'Help', icon: HelpCircle },
 ];
 
 const notifications = [
@@ -158,6 +153,37 @@ function MessageItem({ message }: { message: (typeof messages)[0] }) {
     )
 }
 
+
+function ThemeMenu() {
+    const { setTheme } = useTheme();
+  
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <SidebarMenuItem>
+            <SidebarMenuButton href="#" tooltip="Appearance">
+              <Paintbrush />
+              <span>Appearance</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent side="right" align="start">
+          <DropdownMenuItem onClick={() => setTheme('light')}>
+            <Sun className="mr-2 h-4 w-4" />
+            <span>Light</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme('dark')}>
+            <Moon className="mr-2 h-4 w-4" />
+            <span>Dark</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme('system')}>
+            <Settings className="mr-2 h-4 w-4" />
+            <span>System</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  }
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -295,18 +321,27 @@ export function AppSidebar() {
         <SidebarSeparator />
         <SidebarGroup>
           <SidebarMenu>
-            {preferencesItems.map((item) => (
-              <SidebarMenuItem key={item.label}>
+             <SidebarMenuItem>
                 <SidebarMenuButton
-                  href={item.href}
-                  tooltip={item.label}
-                  isActive={isActive(item.href)}
+                  href="#"
+                  tooltip="Preferences"
+                  isActive={isActive('#')}
                 >
-                  <item.icon />
-                  <span>{item.label}</span>
+                  <Settings />
+                  <span>Preferences</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            ))}
+            <ThemeMenu />
+             <SidebarMenuItem>
+                <SidebarMenuButton
+                  href="#"
+                  tooltip="Help"
+                  isActive={isActive('#')}
+                >
+                  <HelpCircle />
+                  <span>Help</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
         <SidebarSeparator />
