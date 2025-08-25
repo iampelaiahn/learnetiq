@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { Download, FileText, Film, Headphones, Book } from 'lucide-react';
+import { Download, FileText, Film, Headphones, Book, File, Presentation, Laptop } from 'lucide-react';
 
 type ResourceCardProps = {
   title: string;
@@ -19,6 +19,8 @@ const typeIcons: Record<string, React.ElementType> = {
     'eBook': Book,
     'DOCX': FileText,
     'Audio': Headphones,
+    'XLSX': File,
+    'WebApp': Laptop,
 }
 
 export function ResourceCard({ title, type, size, image, aiHint }: ResourceCardProps) {

@@ -13,9 +13,23 @@ import {
   Calculator,
   FlaskConical,
   Landmark,
-  FileText,
-  Video,
   BookOpen,
+  Map,
+  Briefcase,
+  Atom,
+  Dna,
+  Globe,
+  Laptop,
+  Bike,
+  DollarSign,
+  Code,
+  Music,
+  Book,
+  Users,
+  Tractor,
+  DraftingCompass,
+  Palette,
+  Languages,
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
@@ -50,25 +64,25 @@ const resourcesData = {
       ],
     },
   },
-  Chemistry: {
-    icon: FlaskConical,
+  Geography: {
+    icon: Map,
     topics: {
-      'Organic Chemistry': [
+      'World Geography': [
         {
-          title: 'Functional Groups Chart',
+          title: 'Continents and Oceans Map',
           type: 'PDF',
-          size: '1.5 MB',
+          size: '8.1 MB',
           image: 'https://placehold.co/600x400.png',
-          aiHint: 'molecular structure',
+          aiHint: 'world map illustration',
         },
       ],
-      'Physical Chemistry': [
+      'Physical Geography': [
         {
-          title: 'Thermodynamics Lecture',
+          title: 'Volcanoes Explained',
           type: 'Video',
-          size: '250 MB',
+          size: '180 MB',
           image: 'https://placehold.co/600x400.png',
-          aiHint: 'chemistry experiment',
+          aiHint: 'erupting volcano',
         },
       ],
     },
@@ -94,6 +108,141 @@ const resourcesData = {
       ],
     },
   },
+  Accounting: {
+    icon: Briefcase,
+    topics: {
+      'Financial Accounting': [
+        {
+          title: 'Balance Sheet Template',
+          type: 'XLSX',
+          size: '50 KB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'spreadsheet data',
+        },
+      ],
+    },
+  },
+  Science: {
+    icon: Atom,
+    topics: {
+      'Scientific Method': [
+        {
+          title: 'Lab Report Guide',
+          type: 'PDF',
+          size: '1.2 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'science laboratory',
+        },
+      ],
+    },
+  },
+  Biology: {
+    icon: Dna,
+    topics: {
+      Genetics: [
+        {
+          title: 'DNA Replication Animation',
+          type: 'Video',
+          size: '95 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'dna animation',
+        },
+      ],
+    },
+  },
+  'Business studies': {
+    icon: Briefcase,
+    topics: {
+      Marketing: [
+        {
+          title: 'Marketing Plan Template',
+          type: 'DOCX',
+          size: '120 KB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'business plan',
+        },
+      ],
+    },
+  },
+  Physics: {
+    icon: Globe,
+    topics: {
+      'Newtonian Mechanics': [
+        {
+          title: "Newton's Laws of Motion",
+          type: 'Video',
+          size: '150 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'physics diagram',
+        },
+      ],
+    },
+  },
+  ICT: {
+    icon: Laptop,
+    topics: {
+      Networking: [
+        {
+          title: 'OSI Model Explained',
+          type: 'PDF',
+          size: '2.5 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'network diagram',
+        },
+      ],
+    },
+  },
+  'Physical Education': {
+    icon: Bike,
+    topics: {
+      'Health & Fitness': [
+        {
+          title: 'Workout Plan',
+          type: 'PDF',
+          size: '800 KB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'person exercising',
+        },
+      ],
+    },
+  },
+  Chemistry: {
+    icon: FlaskConical,
+    topics: {
+      'Organic Chemistry': [
+        {
+          title: 'Functional Groups Chart',
+          type: 'PDF',
+          size: '1.5 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'molecular structure',
+        },
+      ],
+      'Physical Chemistry': [
+        {
+          title: 'Thermodynamics Lecture',
+          type: 'Video',
+          size: '250 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'chemistry experiment',
+        },
+      ],
+    },
+  },
+  Economics: {
+    icon: DollarSign,
+    topics: {
+      Microeconomics: [
+        {
+          title: 'Supply and Demand Curves',
+          type: 'eBook',
+          size: '12 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'economic graph',
+        },
+      ],
+    },
+  },
   'English Literature': {
     icon: BookOpen,
     topics: {
@@ -111,6 +260,146 @@ const resourcesData = {
           size: '15 MB',
           image: 'https://placehold.co/600x400.png',
           aiHint: 'audio waves',
+        },
+      ],
+    },
+  },
+  Commerce: {
+    icon: DollarSign,
+    topics: {
+      'E-Commerce': [
+        {
+          title: 'Building an Online Store',
+          type: 'Video',
+          size: '350 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'online shopping cart',
+        },
+      ],
+    },
+  },
+  'Computer Science': {
+    icon: Code,
+    topics: {
+      'Data Structures': [
+        {
+          title: 'Big O Notation Cheat Sheet',
+          type: 'PDF',
+          size: '750 KB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'code on screen',
+        },
+      ],
+    },
+  },
+  'Performing arts': {
+    icon: Music,
+    topics: {
+      'Music Theory': [
+        {
+          title: 'Circle of Fifths Interactive',
+          type: 'WebApp',
+          size: 'N/A',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'music notes',
+        },
+      ],
+    },
+  },
+  'Religious studies': {
+    icon: Book,
+    topics: {
+      'World Religions': [
+        {
+          title: 'Comparative Religions Chart',
+          type: 'PDF',
+          size: '3.1 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'religious symbols',
+        },
+      ],
+    },
+  },
+  Sociology: {
+    icon: Users,
+    topics: {
+      'Social Theories': [
+        {
+          title: 'Introduction to Sociology',
+          type: 'eBook',
+          size: '18 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'diverse group people',
+        },
+      ],
+    },
+  },
+  Agriculture: {
+    icon: Tractor,
+    topics: {
+      'Sustainable Farming': [
+        {
+          title: 'Crop Rotation Guide',
+          type: 'PDF',
+          size: '4.5 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'green farm field',
+        },
+      ],
+    },
+  },
+  'Design and Technology': {
+    icon: DraftingCompass,
+    topics: {
+      'Product Design': [
+        {
+          title: '3D Modeling Basics',
+          type: 'Video',
+          size: '450 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: '3d model design',
+        },
+      ],
+    },
+  },
+  'Visual Arts': {
+    icon: Palette,
+    topics: {
+      'Drawing Techniques': [
+        {
+          title: 'Perspective Drawing Tutorial',
+          type: 'Video',
+          size: '220 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'artist drawing sketch',
+        },
+      ],
+    },
+  },
+  'Business English': {
+    icon: Briefcase,
+    topics: {
+      'Professional Communication': [
+        {
+          title: 'Email Etiquette Guide',
+          type: 'PDF',
+          size: '950 KB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'business meeting',
+        },
+      ],
+    },
+  },
+  Shona: {
+    icon: Languages,
+    topics: {
+      'Beginner Shona': [
+        {
+          title: 'Basic Shona Phrases',
+          type: 'Audio',
+          size: '10 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'language learning',
         },
       ],
     },
