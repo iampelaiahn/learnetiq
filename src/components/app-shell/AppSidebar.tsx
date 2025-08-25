@@ -1,3 +1,4 @@
+
 'use client';
 import {
   Sidebar,
@@ -18,18 +19,17 @@ import {
   MessageSquare,
   Bell,
   Settings,
-  LogOut,
-  AreaChart,
-  FileText,
-  FileBox,
-  FilePieChart,
-  Factory,
-  Trash2,
   HelpCircle,
   Moon,
   Paintbrush,
   ChevronsUpDown,
   Search,
+  BookCopy,
+  Video,
+  Users,
+  FolderKanban,
+  TrendingUp,
+  BrainCircuit,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -41,12 +41,12 @@ import { Card, CardContent } from '../ui/card';
 
 const menuItems = [
   { href: '/app/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '#', label: 'Product analytics', icon: AreaChart },
-  { href: '#', label: 'Reporting', icon: FilePieChart },
-  { href: '#', label: 'Order summary', icon: FileText },
-  { href: '#', label: 'Invoices', icon: FileBox },
-  { href: '#', label: 'Manufactures', icon: Factory },
-  { href: '#', label: 'Trash', icon: Trash2 },
+  { href: '/app/study', label: 'Study Panel', icon: BrainCircuit },
+  { href: '/app/courses', label: 'Courses', icon: BookCopy },
+  { href: '/app/live-classes', label: 'Live Classes', icon: Video },
+  { href: '/app/forums', label: 'Forums', icon: Users },
+  { href: '/app/resources', label: 'Resources', icon: FolderKanban },
+  { href: '/app/progress', label: 'Progress', icon: TrendingUp },
 ];
 
 const preferencesItems = [
@@ -134,7 +134,7 @@ export function AppSidebar() {
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="icon" variant="ghost" className="bg-accent/20 text-accent hover:bg-accent/30 hover:text-accent">
-                        <AreaChart/>
+                        <TrendingUp/>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
             </SidebarMenu>
