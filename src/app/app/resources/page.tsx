@@ -112,7 +112,7 @@ export default function ResourcesPage() {
                                     {topic.name}
                                 </AccordionTrigger>
                                 <AccordionContent className="p-4 border-t">
-                                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                         {topic.resources.map((resource) => (
                                             <ResourceCard key={resource.title} {...resource} />
                                         ))}
