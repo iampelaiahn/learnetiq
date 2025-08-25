@@ -1,10 +1,5 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { ResourceCard } from '@/components/resources/ResourceCard';
+
+import Link from 'next/link';
 import {
   Calculator,
   Map,
@@ -26,55 +21,33 @@ import {
   Music,
   Book,
   DollarSign,
-  Camera,
 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
 const subjects = [
-    { name: 'Mathematics', icon: Calculator, topics: [
-        { name: 'Algebra', resources: [
-            { title: 'Algebraic Expressions', type: 'PDF', size: '1.2 MB', image: 'https://placehold.co/600x400.png', aiHint: 'algebra equations' },
-            { title: 'Solving Linear Equations', type: 'Video', size: '15.4 MB', image: 'https://placehold.co/600x400.png', aiHint: 'math tutorial' },
-        ]},
-        { name: 'Geometry', resources: [
-            { title: 'Euclidean Geometry', type: 'PDF', size: '2.5 MB', image: 'https://placehold.co/600x400.png', aiHint: 'geometric shapes' },
-        ]}
-    ]},
-    { name: 'Geography', icon: Map, topics: [] },
-    { name: 'History', icon: Landmark, topics: [
-        { name: 'Ancient Rome', resources: [
-            { title: 'The Roman Republic', type: 'PDF', size: '3.1 MB', image: 'https://placehold.co/600x400.png', aiHint: 'roman history' },
-            { title: 'Fall of the Empire', type: 'Video', size: '25 MB', image: 'https://placehold.co/600x400.png', aiHint: 'ancient ruins' },
-        ]}
-    ]},
-    { name: 'Accounting', icon: Briefcase, topics: [] },
-    { name: 'Science', icon: Atom, topics: [] },
-    { name: 'Biology', icon: Dna, topics: [
-        { name: 'Cellular Biology', resources: [
-            { title: 'The Animal Cell', type: 'Interactive', size: '5.2 MB', image: 'https://placehold.co/600x400.png', aiHint: 'cell diagram' },
-        ]}
-    ]},
-    { name: 'Business studies', icon: Briefcase, topics: [] },
-    { name: 'Physics', icon: Globe, topics: [] },
-    { name: 'ICT', icon: Laptop, topics: [] },
-    { name: 'Physical Education', icon: Bike, topics: [] },
-    { name: 'Chemistry', icon: FlaskConical, topics: [] },
-    { name: 'Economics', icon: DollarSign, topics: [] },
-    { name: 'English Literature', icon: BookOpen, topics: [] },
-    { name: 'Commerce', icon: DollarSign, topics: [] },
-    { name: 'Computer Science', icon: Code, topics: [
-      { name: 'Programming', resources: [
-          { title: 'Intro to Python', type: 'eBook', size: '4.8 MB', image: 'https://placehold.co/600x400.png', aiHint: 'python code' },
-          { title: 'Data Structures', type: 'PDF', size: '2.1 MB', image: 'https://placehold.co/600x400.png', aiHint: 'flow chart' },
-      ]}
-    ]},
-    { name: 'Performing arts', icon: Music, topics: [] },
-    { name: 'Religious studies', icon: Book, topics: [] },
-    { name: 'Sociology', icon: Users, topics: [] },
-    { name: 'Agriculture', icon: Tractor, topics: [] },
-    { name: 'Design and Technology', icon: DraftingCompass, topics: [] },
-    { name: 'Visual Arts', icon: Palette, topics: [] },
-    { name: 'Business English', icon: Briefcase, topics: [] },
-    { name: 'Shona', icon: Languages, topics: [] },
+    { name: 'Mathematics', icon: Calculator, description: 'Explore numbers, structures, and space.' },
+    { name: 'Geography', icon: Map, description: 'Discover the world and its features.' },
+    { name: 'History', icon: Landmark, description: 'Learn from the events of the past.' },
+    { name: 'Accounting', icon: Briefcase, description: 'Understand financial information.' },
+    { name: 'Science', icon: Atom, description: 'Investigate the natural and physical world.' },
+    { name: 'Biology', icon: Dna, description: 'Study life and living organisms.' },
+    { name: 'Business studies', icon: Briefcase, description: 'Learn the principles of business.' },
+    { name: 'Physics', icon: Globe, description: 'Explore matter, energy, and forces.' },
+    { name: 'ICT', icon: Laptop, description: 'Dive into information and communication.' },
+    { name: 'Physical Education', icon: Bike, description: 'Engage in physical activity and sport.' },
+    { name: 'Chemistry', icon: FlaskConical, description: 'Study substances and their properties.' },
+    { name: 'Economics', icon: DollarSign, description: 'Analyze production, distribution, and consumption.' },
+    { name: 'English Literature', icon: BookOpen, description: 'Explore classic and modern literary works.' },
+    { name: 'Commerce', icon: DollarSign, description: 'Learn about trade and business activities.' },
+    { name: 'Computer Science', icon: Code, description: 'Delve into computation and information.' },
+    { name: 'Performing arts', icon: Music, description: 'Express creativity through performance.' },
+    { name: 'Religious studies', icon: Book, description: 'Examine different beliefs and religions.' },
+    { name: 'Sociology', icon: Users, description: 'Study social behavior and society.' },
+    { name: 'Agriculture', icon: Tractor, description: 'Learn about farming and cultivation.' },
+    { name: 'Design and Technology', icon: DraftingCompass, description: 'Create and innovate with technology.' },
+    { name: 'Visual Arts', icon: Palette, description: 'Express ideas through visual mediums.' },
+    { name: 'Business English', icon: Briefcase, description: 'Master English for the professional world.' },
+    { name: 'Shona', icon: Languages, description: 'Learn the language and culture of the Shona people.' },
 ];
 
 export default function ResourcesPage() {
@@ -85,52 +58,29 @@ export default function ResourcesPage() {
           Resources Library
         </h1>
         <p className="mt-2 text-muted-foreground">
-          Explore curated learning materials for your subjects.
+          Explore curated learning materials for your subjects. Select a subject to view available resources.
         </p>
       </div>
 
-      <Accordion
-        type="multiple"
-        defaultValue={['item-0']}
-        className="w-full space-y-4"
-      >
-        {subjects.map((subject, index) => (
-          <AccordionItem key={subject.name} value={`item-${index}`} className="border rounded-lg bg-card overflow-hidden">
-            <AccordionTrigger className="text-xl font-headline hover:no-underline px-6 py-4">
-              <div className="flex items-center gap-3">
-                <subject.icon className="h-6 w-6 text-accent" />
-                {subject.name}
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="bg-muted/50">
-                {subject.topics.length > 0 ? (
-                    <div className="p-6">
-                        <Accordion type="multiple" className="space-y-4">
-                        {subject.topics.map((topic, topicIndex) => (
-                            <AccordionItem key={topic.name} value={`topic-${index}-${topicIndex}`} className="border rounded-lg bg-background overflow-hidden">
-                                <AccordionTrigger className="font-semibold hover:no-underline px-4 py-3">
-                                    {topic.name}
-                                </AccordionTrigger>
-                                <AccordionContent className="p-4 border-t">
-                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                        {topic.resources.map((resource) => (
-                                            <ResourceCard key={resource.title} {...resource} />
-                                        ))}
-                                    </div>
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                        </Accordion>
-                    </div>
-                ): (
-                    <div className="p-6 text-center text-muted-foreground">
-                        No resources available for this subject yet.
-                    </div>
-                )}
-            </AccordionContent>
-          </AccordionItem>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {subjects.map((subject) => (
+          <Link href={`/app/courses/${encodeURIComponent(subject.name)}`} key={subject.name}>
+            <Card className="flex h-full flex-col justify-between transition-transform duration-200 hover:scale-105 hover:shadow-lg">
+              <CardHeader>
+                <div className="mb-4 flex justify-center">
+                  <subject.icon className="h-12 w-12 text-accent" />
+                </div>
+                <CardTitle className="text-center">{subject.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-center text-xs">
+                  {subject.description}
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
-      </Accordion>
+      </div>
     </div>
   );
 }
