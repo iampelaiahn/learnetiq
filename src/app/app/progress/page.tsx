@@ -90,10 +90,10 @@ export default function ProgressPage() {
                     <TableHead className="text-center">Pass Mark</TableHead>
                     <TableHead className="text-center">Hours Spent</TableHead>
                     <TableHead className="text-center flex items-center gap-2">
-                        <FileCheck2 className="h-4 w-4" /> Plagiarism
+                        <ShieldCheck className="h-4 w-4" /> AI Checker
                     </TableHead>
                     <TableHead className="text-center flex items-center gap-2">
-                        <ShieldCheck className="h-4 w-4" /> AI Checker
+                        <FileCheck2 className="h-4 w-4" /> Plagiarism
                     </TableHead>
                     </TableRow>
                 </TableHeader>
@@ -104,8 +104,8 @@ export default function ProgressPage() {
                             <TableCell>{course.date}</TableCell>
                             <TableCell className="text-center font-semibold text-green-600">{course.passMark}</TableCell>
                             <TableCell className="text-center">{course.hours}</TableCell>
-                            <TableCell className="text-center text-yellow-600 font-medium">{course.plagiarism}</TableCell>
                             <TableCell className="text-center text-blue-600 font-medium">{course.aiScore}</TableCell>
+                            <TableCell className="text-center text-yellow-600 font-medium">{course.plagiarism}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
