@@ -220,7 +220,7 @@ const Sidebar = React.forwardRef<
                     className={cn("fixed inset-y-0 z-10 my-4 flex h-[calc(100svh-2rem)]", side === 'left' ? 'left-4' : 'right-4')}
                     {...props}
                 >
-                    <div className="flex h-full flex-col rounded-lg bg-sidebar/70 backdrop-blur-sm text-sidebar-foreground ring-1 ring-black/10">
+                    <div className="flex h-full flex-col rounded-full bg-sidebar/70 p-2 backdrop-blur-sm text-sidebar-foreground ring-1 ring-black/10">
                         {children}
                     </div>
                 </div>

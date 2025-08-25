@@ -32,7 +32,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar variant="floating">
-      <SidebarHeader className="items-center">
+      <SidebarHeader className="items-center justify-center">
         <Link href="/app/dashboard" className='block'>
             <Avatar className="h-10 w-10">
               <AvatarImage src="https://placehold.co/100x100.png" alt="User" data-ai-hint="person avatar" />
@@ -48,7 +48,7 @@ export function AppSidebar() {
                 asChild
                 size="icon"
                 variant='ghost'
-                className='h-12 w-12 rounded-lg data-[active=true]:bg-primary/10 data-[active=true]:text-primary hover:bg-primary/10 hover:text-primary'
+                className='h-12 w-12 rounded-full data-[active=true]:bg-primary/10 data-[active=true]:text-primary hover:bg-primary/10 hover:text-primary'
                 isActive={isActive(item.href)}
                 tooltip={item.label}
               >
@@ -63,7 +63,7 @@ export function AppSidebar() {
       <SidebarFooter className='items-center'>
          <SidebarMenu>
             <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="Logout" size="icon" variant='ghost' className="h-12 w-12 rounded-lg hover:bg-primary/10 hover:text-primary">
+                <SidebarMenuButton asChild tooltip="Logout" size="icon" variant='ghost' className="h-12 w-12 rounded-full hover:bg-primary/10 hover:text-primary">
                     <Link href="/">
                         <LogOut className="h-6 w-6"/>
                     </Link>
