@@ -49,7 +49,7 @@ const features = [
 
 export function FeaturesCarousel() {
   const plugin = React.useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true })
+    Autoplay({ delay: 8000, stopOnInteraction: true })
   );
 
   return (
