@@ -10,7 +10,7 @@ type MetricCardProps = {
 
 export function MetricCard({ label, value, icon: Icon, color }: MetricCardProps) {
   return (
-    <Card>
+    <Card className="hover:bg-muted/50 transition-colors h-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">{label}</CardTitle>
         <Icon className={`h-5 w-5 ${color}`} />
