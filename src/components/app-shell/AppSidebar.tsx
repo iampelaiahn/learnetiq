@@ -24,7 +24,6 @@ import {
   Paintbrush,
   ChevronsUpDown,
   Search,
-  BookCopy,
   Video,
   Users,
   FolderKanban,
@@ -94,6 +93,36 @@ const notifications = [
       },
   ];
 
+  const messages = [
+    {
+        id: '1',
+        sender: 'Dr. Evelyn Reed',
+        avatar: 'https://placehold.co/100x100.png',
+        aiHint: 'woman portrait',
+        message: 'Of course, Alex. How can I help with calculus?',
+        time: '5 min ago',
+        read: false,
+    },
+    {
+        id: '2',
+        sender: 'Prof. Finch',
+        avatar: 'https://placehold.co/100x100.png',
+        aiHint: 'man portrait',
+        message: "Don't forget the quiz tomorrow on chapters 1-3.",
+        time: '2 hours ago',
+        read: true,
+    },
+    {
+        id: '3',
+        sender: 'Bob J.',
+        avatar: 'https://placehold.co/100x100.png',
+        aiHint: 'person portrait',
+        message: 'Hey, thanks for sending over the physics notes!',
+        time: '1 day ago',
+        read: true,
+    },
+];
+
 function NotificationItem({ notification }: { notification: (typeof notifications)[0] }) {
     return (
         <DropdownMenuItem className="flex items-start gap-3 p-3 cursor-pointer">
@@ -109,6 +138,26 @@ function NotificationItem({ notification }: { notification: (typeof notification
         </DropdownMenuItem>
     )
 }
+
+function MessageItem({ message }: { message: (typeof messages)[0] }) {
+    return (
+        <DropdownMenuItem className="flex items-start gap-3 p-3 cursor-pointer">
+             <Avatar className="h-9 w-9 flex-shrink-0">
+                <AvatarImage src={message.avatar} data-ai-hint={message.aiHint} />
+                <AvatarFallback>{message.sender.charAt(0)}</AvatarFallback>
+            </Avatar>
+             <div className="flex-grow">
+                <div className="flex justify-between items-center">
+                    <p className="font-semibold">{message.sender}</p>
+                    <p className="text-xs text-muted-foreground">{message.time}</p>
+                </div>
+                <p className="text-sm text-muted-foreground truncate">{message.message}</p>
+            </div>
+             {!message.read && <div className="h-2 w-2 rounded-full bg-primary self-center flex-shrink-0 ml-2"></div>}
+        </DropdownMenuItem>
+    )
+}
+
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -139,17 +188,35 @@ export function AppSidebar() {
             </div>
           </div>
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                href="/app/messages"
-                isActive={isActive('/app/messages')}
-                tooltip="Inbox"
-              >
-                <MessageSquare />
-                <span>Inbox</span>
-              </SidebarMenuButton>
-              <SidebarMenuBadge>12</SidebarMenuBadge>
-            </SidebarMenuItem>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <SidebarMenuItem>
+                    <SidebarMenuButton
+                        href="#"
+                        isActive={isActive('/app/messages')}
+                        tooltip="Inbox"
+                    >
+                        <MessageSquare />
+                        <span>Inbox</span>
+                    </SidebarMenuButton>
+                    <SidebarMenuBadge>3</SidebarMenuBadge>
+                    </SidebarMenuItem>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-80" side="right" align="start">
+                    <div className="p-2 font-semibold">Recent Messages</div>
+                    <DropdownMenuSeparator />
+                    <div className="max-h-80 overflow-y-auto">
+                        {messages.map(m => <MessageItem key={m.id} message={m} />)}
+                    </div>
+                    <DropdownMenuSeparator />
+                    <div className="p-2 text-center">
+                        <Button asChild variant="link" className="text-sm">
+                            <Link href="/app/messages">Go to Messages</Link>
+                        </Button>
+                    </div>
+                </DropdownMenuContent>
+            </DropdownMenu>
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuItem>
@@ -157,7 +224,7 @@ export function AppSidebar() {
                     <Bell />
                     <span>Notifications</span>
                   </SidebarMenuButton>
-                  <SidebarMenuBadge>15+</SidebarMenuBadge>
+                  <SidebarMenuBadge>2</SidebarMenuBadge>
                 </SidebarMenuItem>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-80" side="right" align="start">
