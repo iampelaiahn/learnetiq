@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import { Card, CardContent } from '../ui/card';
-import { FileCheck, Bot, Video, BarChart } from 'lucide-react';
+import { FileCheck, Bot, Video, BarChart, ShieldCheck, FileScan } from 'lucide-react';
 
 const features = [
   {
@@ -45,6 +45,22 @@ const features = [
     image: 'https://placehold.co/1200x800.png',
     aiHint: 'artificial intelligence',
   },
+  {
+    icon: FileScan,
+    title: 'Plagiarism Checker',
+    description:
+      'Ensure academic integrity with our built-in plagiarism detection tool. Compare submissions against a vast database of sources.',
+    image: 'https://placehold.co/1200x800.png',
+    aiHint: 'document scan',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'AI Checker',
+    description:
+      'Detect AI-generated content in student submissions to maintain authenticity and uphold academic standards.',
+    image: 'https://placehold.co/1200x800.png',
+    aiHint: 'security check',
+  }
 ];
 
 export function FeaturesCarousel() {
