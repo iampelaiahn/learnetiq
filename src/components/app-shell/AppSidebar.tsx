@@ -30,6 +30,9 @@ import {
   FolderKanban,
   TrendingUp,
   BrainCircuit,
+  GraduationCap,
+  FileText,
+  Reply,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -38,6 +41,7 @@ import { Logo } from '../Logo';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Card, CardContent } from '../ui/card';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '../ui/dropdown-menu';
 
 const menuItems = [
   { href: '/app/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -54,6 +58,57 @@ const preferencesItems = [
   { href: '#', label: 'Themes', icon: Paintbrush },
   { href: '#', label: 'Help', icon: HelpCircle },
 ];
+
+const notifications = [
+    {
+      id: '1',
+      icon: GraduationCap,
+      title: 'New grade in Math',
+      description: 'You received an A on the calculus quiz.',
+      time: '5 min ago',
+      read: false,
+    },
+    {
+      id: '2',
+      icon: Reply,
+      title: 'New reply in CS Forum',
+      description: 'js_master replied to your post about React.',
+      time: '20 min ago',
+      read: false,
+    },
+    {
+      id: '3',
+      icon: Video,
+      title: 'Live class starting soon',
+      description: 'Intro to Quantum Physics with Prof. Finch starts in 15 minutes.',
+      time: '1 hour ago',
+      read: true,
+    },
+    {
+        id: '4',
+        icon: FileText,
+        title: 'New resource added',
+        description: 'A new PDF has been added to the Physics resources.',
+        time: '3 hours ago',
+        read: true,
+      },
+  ];
+
+function NotificationItem({ notification }: { notification: (typeof notifications)[0] }) {
+    return (
+        <DropdownMenuItem className="flex items-start gap-3 p-3 cursor-pointer">
+            <div className="flex-shrink-0">
+                <notification.icon className="h-5 w-5 text-muted-foreground" />
+            </div>
+            <div className="flex-grow">
+                <p className="font-semibold">{notification.title}</p>
+                <p className="text-sm text-muted-foreground">{notification.description}</p>
+                 <p className="text-xs text-muted-foreground mt-1">{notification.time}</p>
+            </div>
+            {!notification.read && <div className="h-2 w-2 rounded-full bg-primary self-center flex-shrink-0"></div>}
+        </DropdownMenuItem>
+    )
+}
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -95,13 +150,28 @@ export function AppSidebar() {
               </SidebarMenuButton>
               <SidebarMenuBadge>12</SidebarMenuBadge>
             </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton href="#" tooltip="Notifications">
-                <Bell />
-                <span>Notifications</span>
-              </SidebarMenuButton>
-              <SidebarMenuBadge>15+</SidebarMenuBadge>
-            </SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuItem>
+                  <SidebarMenuButton href="#" tooltip="Notifications">
+                    <Bell />
+                    <span>Notifications</span>
+                  </SidebarMenuButton>
+                  <SidebarMenuBadge>15+</SidebarMenuBadge>
+                </SidebarMenuItem>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-80" side="right" align="start">
+                <div className="p-2 font-semibold">Notifications</div>
+                <DropdownMenuSeparator />
+                <div className="max-h-80 overflow-y-auto">
+                    {notifications.map(n => <NotificationItem key={n.id} notification={n} />)}
+                </div>
+                <DropdownMenuSeparator />
+                <div className="p-2 text-center">
+                    <Button variant="link" className="text-sm">View all notifications</Button>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </SidebarMenu>
         </div>
 
