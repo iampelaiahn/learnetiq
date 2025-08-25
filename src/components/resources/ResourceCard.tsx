@@ -1,8 +1,9 @@
+
 import Image from 'next/image';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { Download, File, Tv } from 'lucide-react';
+import { Download, FileText, Film, Headphones, Book } from 'lucide-react';
 
 type ResourceCardProps = {
   title: string;
@@ -13,19 +14,20 @@ type ResourceCardProps = {
 };
 
 const typeIcons: Record<string, React.ElementType> = {
-    'PDF': File,
-    'Video': Tv,
-    'eBook': File,
-    'Interactive': File,
+    'PDF': FileText,
+    'Video': Film,
+    'eBook': Book,
+    'DOCX': FileText,
+    'Audio': Headphones,
 }
 
 export function ResourceCard({ title, type, size, image, aiHint }: ResourceCardProps) {
-  const Icon = typeIcons[type] || File;
+  const Icon = typeIcons[type] || FileText;
 
   return (
-    <Card className="flex flex-col overflow-hidden">
+    <Card className="flex flex-col overflow-hidden transition-shadow hover:shadow-lg">
       <div className="relative h-40 w-full">
-        <Image src={image} alt={title} layout="fill" objectFit="cover" data-ai-hint={aiHint}/>
+        <Image src={image} alt={title} fill className="object-cover" data-ai-hint={aiHint}/>
         <Badge className="absolute top-2 right-2" variant="secondary">{type}</Badge>
       </div>
       <CardHeader className="flex-grow pb-2">

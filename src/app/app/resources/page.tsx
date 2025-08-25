@@ -1,54 +1,163 @@
 
-import Link from 'next/link';
+'use client';
+
+import * as React from 'react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { ResourceCard } from '@/components/resources/ResourceCard';
 import {
   Calculator,
-  Map,
-  Landmark,
-  Briefcase,
-  Atom,
-  Dna,
-  Globe,
-  Laptop,
-  Bike,
   FlaskConical,
+  Landmark,
+  FileText,
+  Video,
   BookOpen,
-  Users,
-  Tractor,
-  DraftingCompass,
-  Palette,
-  Languages,
-  Code,
-  Music,
-  Book,
-  DollarSign,
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 
-const subjects = [
-    { name: 'Mathematics', icon: Calculator, description: 'Explore numbers, structures, and space.' },
-    { name: 'Geography', icon: Map, description: 'Discover the world and its features.' },
-    { name: 'History', icon: Landmark, description: 'Learn from the events of the past.' },
-    { name: 'Accounting', icon: Briefcase, description: 'Understand financial information.' },
-    { name: 'Science', icon: Atom, description: 'Investigate the natural and physical world.' },
-    { name: 'Biology', icon: Dna, description: 'Study life and living organisms.' },
-    { name: 'Business studies', icon: Briefcase, description: 'Learn the principles of business.' },
-    { name: 'Physics', icon: Globe, description: 'Explore matter, energy, and forces.' },
-    { name: 'ICT', icon: Laptop, description: 'Dive into information and communication.' },
-    { name: 'Physical Education', icon: Bike, description: 'Engage in physical activity and sport.' },
-    { name: 'Chemistry', icon: FlaskConical, description: 'Study substances and their properties.' },
-    { name: 'Economics', icon: DollarSign, description: 'Analyze production, distribution, and consumption.' },
-    { name: 'English Literature', icon: BookOpen, description: 'Explore classic and modern literary works.' },
-    { name: 'Commerce', icon: DollarSign, description: 'Learn about trade and business activities.' },
-    { name: 'Computer Science', icon: Code, description: 'Delve into computation and information.' },
-    { name: 'Performing arts', icon: Music, description: 'Express creativity through performance.' },
-    { name: 'Religious studies', icon: Book, description: 'Examine different beliefs and religions.' },
-    { name: 'Sociology', icon: Users, description: 'Study social behavior and society.' },
-    { name: 'Agriculture', icon: Tractor, description: 'Learn about farming and cultivation.' },
-    { name: 'Design and Technology', icon: DraftingCompass, description: 'Create and innovate with technology.' },
-    { name: 'Visual Arts', icon: Palette, description: 'Express ideas through visual mediums.' },
-    { name: 'Business English', icon: Briefcase, description: 'Master English for the professional world.' },
-    { name: 'Shona', icon: Languages, description: 'Learn the language and culture of the Shona people.' },
-];
+const resourcesData = {
+  Mathematics: {
+    icon: Calculator,
+    topics: {
+      Algebra: [
+        {
+          title: 'Algebra I Workbook',
+          type: 'PDF',
+          size: '5.2 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'algebra equations',
+        },
+        {
+          title: 'Introduction to Polynomials',
+          type: 'Video',
+          size: '120 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'math lecture',
+        },
+      ],
+      Geometry: [
+        {
+          title: 'Euclidean Geometry Basics',
+          type: 'eBook',
+          size: '15 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'geometric shapes',
+        },
+      ],
+    },
+  },
+  Chemistry: {
+    icon: FlaskConical,
+    topics: {
+      'Organic Chemistry': [
+        {
+          title: 'Functional Groups Chart',
+          type: 'PDF',
+          size: '1.5 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'molecular structure',
+        },
+      ],
+      'Physical Chemistry': [
+        {
+          title: 'Thermodynamics Lecture',
+          type: 'Video',
+          size: '250 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'chemistry experiment',
+        },
+      ],
+    },
+  },
+  History: {
+    icon: Landmark,
+    topics: {
+      'Ancient Rome': [
+        {
+          title: 'The Roman Republic',
+          type: 'eBook',
+          size: '25 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'roman colosseum',
+        },
+        {
+          title: 'Primary Sources: Letters of Cicero',
+          type: 'DOCX',
+          size: '300 KB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'ancient scroll',
+        },
+      ],
+    },
+  },
+  'English Literature': {
+    icon: BookOpen,
+    topics: {
+      Shakespeare: [
+        {
+          title: 'Hamlet: Full Text',
+          type: 'PDF',
+          size: '2.1 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'shakespeare play',
+        },
+        {
+          title: 'Understanding Sonnets',
+          type: 'Audio',
+          size: '15 MB',
+          image: 'https://placehold.co/600x400.png',
+          aiHint: 'audio waves',
+        },
+      ],
+    },
+  },
+};
+
+const SubjectAccordion = ({
+  subject,
+  data,
+}: {
+  subject: string;
+  data: (typeof resourcesData)[keyof typeof resourcesData];
+}) => {
+  const Icon = data.icon;
+  return (
+    <AccordionItem value={subject} className="border-none">
+       <Card className="overflow-hidden">
+        <AccordionTrigger className="text-xl font-headline hover:no-underline px-6 py-4">
+          <div className="flex items-center gap-3">
+            <Icon className="h-6 w-6 text-accent" />
+            <span>{subject}</span>
+          </div>
+        </AccordionTrigger>
+        <AccordionContent className="bg-muted/50 p-4 md:p-6">
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            {Object.entries(data.topics).map(([topic, resources]) => (
+              <AccordionItem value={topic} key={topic} className="border-none">
+                 <Card className="overflow-hidden">
+                    <AccordionTrigger className="text-lg font-semibold px-6 hover:no-underline">
+                        {topic}
+                    </AccordionTrigger>
+                    <AccordionContent className="p-4 md:p-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                            {resources.map((resource, index) => (
+                                <ResourceCard key={index} {...resource} />
+                            ))}
+                        </div>
+                    </AccordionContent>
+                 </Card>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </AccordionContent>
+      </Card>
+    </AccordionItem>
+  );
+};
 
 export default function ResourcesPage() {
   return (
@@ -58,29 +167,15 @@ export default function ResourcesPage() {
           Resources Library
         </h1>
         <p className="mt-2 text-muted-foreground">
-          Explore curated learning materials for your subjects. Select a subject to view available resources.
+          Explore curated learning materials for your subjects.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {subjects.map((subject) => (
-          <Link href={`/app/courses/${encodeURIComponent(subject.name)}`} key={subject.name}>
-            <Card className="flex h-full flex-col justify-between transition-transform duration-200 hover:scale-105 hover:shadow-lg">
-              <CardHeader>
-                <div className="mb-4 flex justify-center">
-                  <subject.icon className="h-12 w-12 text-accent" />
-                </div>
-                <CardTitle className="text-center">{subject.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-center text-xs">
-                  {subject.description}
-                </CardDescription>
-              </CardContent>
-            </Card>
-          </Link>
+      <Accordion type="multiple" className="space-y-4">
+        {Object.entries(resourcesData).map(([subject, data]) => (
+          <SubjectAccordion key={subject} subject={subject} data={data} />
         ))}
-      </div>
+      </Accordion>
     </div>
   );
 }
