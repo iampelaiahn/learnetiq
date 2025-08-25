@@ -42,7 +42,6 @@ import { Card, CardContent } from '../ui/card';
 const menuItems = [
   { href: '/app/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/app/study', label: 'Study Panel', icon: BrainCircuit },
-  { href: '/app/courses', label: 'Courses', icon: BookCopy },
   { href: '/app/live-classes', label: 'Live Classes', icon: Video },
   { href: '/app/forums', label: 'Forums', icon: Users },
   { href: '/app/resources', label: 'Resources', icon: FolderKanban },
