@@ -9,25 +9,24 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
-const schoolAdminStats = [
-    { label: 'Total Tutors', value: '8/25', icon: GraduationCap, href: '/school-admin/tutors' },
-    { label: 'Total Students', value: '150', icon: Users, href: '/school-admin/students' },
-    { label: 'Subscription Plan', value: 'Pro', icon: Settings, href: '/school-admin/billing' },
-];
-
 export default function SchoolAdminDashboard() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const { toast } = useToast();
     const inviteLink = searchParams.get('invite_link');
+
+    // In a real app, these values would come from your database
+    const totalTutors = 25;
+    const currentTutors = 8;
+    const showInviteCard = currentTutors < totalTutors;
     
     React.useEffect(() => {
-        if (!inviteLink) {
+        if (!inviteLink && showInviteCard) {
             // In a real app, you'd fetch this from the user's school data if they are already logged in.
-            // For this demo, we'll redirect if the link is missing.
+            // For this demo, we'll redirect if the link is missing and it should be shown.
             // router.push('/'); // You might want a different logic here.
         }
-    }, [inviteLink, router]);
+    }, [inviteLink, router, showInviteCard]);
 
     const displayLink = inviteLink || "http://localhost:3000/invite/d3f4a1b2c3d4e5f6a7b8c9d0e1f2a3b4";
 
@@ -38,6 +37,13 @@ export default function SchoolAdminDashboard() {
           description: 'The invitation link has been copied to your clipboard.',
         });
       };
+      
+    const schoolAdminStats = [
+        { label: 'Total Tutors', value: `${currentTutors}/${totalTutors}`, icon: GraduationCap, href: '/school-admin/tutors' },
+        { label: 'Total Students', value: '150', icon: Users, href: '/school-admin/students' },
+        { label: 'Subscription Plan', value: 'Pro', icon: Settings, href: '/school-admin/billing' },
+    ];
+
 
     return (
         <div className="space-y-8">
@@ -50,20 +56,22 @@ export default function SchoolAdminDashboard() {
                 </p>
             </div>
 
-            <Card className="bg-accent/10 border-accent">
-                <CardHeader>
-                    <CardTitle>Your Tutor Invitation Link</CardTitle>
-                    <CardDescription>Share this unique link with your tutors to have them join your school on LearnetIQ.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex items-center gap-2">
-                        <Input value={displayLink} readOnly className="bg-background"/>
-                        <Button onClick={copyToClipboard} size="icon" variant="outline">
-                            <Copy className="h-4 w-4" />
-                        </Button>
-                    </div>
-                </CardContent>
-            </Card>
+            {showInviteCard && (
+                <Card className="bg-accent/10 border-accent">
+                    <CardHeader>
+                        <CardTitle>Your Tutor Invitation Link</CardTitle>
+                        <CardDescription>Share this unique link with your tutors to have them join your school on LearnetIQ. This card will disappear once all {totalTutors} tutor slots are filled.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex items-center gap-2">
+                            <Input value={displayLink} readOnly className="bg-background"/>
+                            <Button onClick={copyToClipboard} size="icon" variant="outline">
+                                <Copy className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {schoolAdminStats.map((stat) => (
