@@ -15,7 +15,7 @@ import { Crown, GraduationCap, School, Shield, User } from "lucide-react"
     { name: 'Student', icon: GraduationCap, href: '/app/dashboard' },
     { name: 'Tutor', icon: User, href: '/tutor/dashboard' },
     { name: 'Parent', icon: Shield, href: '/parent/dashboard' },
-    { name: 'Admin', icon: Crown, href: '/admin/dashboard' },
+    { name: 'Admin', icon: Crown, href: '/school-admin/dashboard' },
   ]
   
   export function RoleSelectionDialog({ children }: { children: React.ReactNode }) {

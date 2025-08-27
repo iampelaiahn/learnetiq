@@ -73,6 +73,14 @@ const parentMenuItems = [
     { href: '/parent/dashboard', label: 'Subscription', icon: CreditCard },
 ];
 
+const schoolAdminMenuItems = [
+    { href: '/school-admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/school-admin/tutors', label: 'Tutors', icon: GraduationCap },
+    { href: '/school-admin/students', label: 'Students', icon: Users },
+    { href: '/school-admin/admins', label: 'Admins', icon: Crown },
+    { href: '/school-admin/billing', label: 'Billing', icon: CreditCard },
+];
+
 const adminMenuItems = [
     { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/dashboard', label: 'Tutor Management', icon: GraduationCap },
@@ -221,23 +229,23 @@ export function AppSidebar() {
     const isTutor = pathname.startsWith('/tutor');
     const isParent = pathname.startsWith('/parent');
     const isAdmin = pathname.startsWith('/admin');
+    const isSchoolAdmin = pathname.startsWith('/school-admin');
 
     let menuItems = studentMenuItems;
     let user = { name: 'Alex Johnson', role: 'Student' };
-    let roleIcon = GraduationCap;
-
+    
     if (isTutor) {
         menuItems = tutorMenuItems;
         user = { name: 'Dr. Evelyn Reed', role: 'Tutor' };
-        roleIcon = UserCog;
     } else if (isParent) {
         menuItems = parentMenuItems;
         user = { name: 'Laura Johnson', role: 'Parent' };
-        roleIcon = Shield;
     } else if (isAdmin) {
         menuItems = adminMenuItems;
         user = { name: 'Admin User', role: 'Admin' };
-        roleIcon = Crown;
+    } else if (isSchoolAdmin) {
+        menuItems = schoolAdminMenuItems;
+        user = { name: 'Jane Doe', role: 'School Admin' };
     }
 
 
@@ -354,7 +362,7 @@ export function AppSidebar() {
             </SidebarMenu>
         </div>
 
-        {!isTutor && !isParent && !isAdmin && (
+        {!isTutor && !isParent && !isAdmin && !isSchoolAdmin && (
             <div className="p-2 group-data-[collapsible=icon]:hidden">
             <Card className="bg-primary/5 border-primary/20">
                 <CardContent className="p-3 text-center">
