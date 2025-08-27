@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Copy, Users, GraduationCap, Settings } from "lucide-react";
+import { Copy, Users, GraduationCap, Settings, Crown } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
@@ -18,6 +18,8 @@ export default function SchoolAdminDashboard() {
     // In a real app, these values would come from your database
     const totalTutors = 25;
     const currentTutors = 8;
+    const totalAdmins = 3;
+    const currentAdmins = 1;
     const showInviteCard = currentTutors < totalTutors;
     
     React.useEffect(() => {
@@ -41,6 +43,7 @@ export default function SchoolAdminDashboard() {
     const schoolAdminStats = [
         { label: 'Total Tutors', value: `${currentTutors}/${totalTutors}`, icon: GraduationCap, href: '/school-admin/tutors' },
         { label: 'Total Students', value: '150', icon: Users, href: '/school-admin/students' },
+        { label: 'Total Admins', value: `${currentAdmins}/${totalAdmins}`, icon: Crown, href: '/school-admin/admins' },
         { label: 'Subscription Plan', value: 'Pro', icon: Settings, href: '/school-admin/billing' },
     ];
 
@@ -73,7 +76,7 @@ export default function SchoolAdminDashboard() {
                 </Card>
             )}
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {schoolAdminStats.map((stat) => (
                     <Link href={stat.href} key={stat.label}>
                         <Card className="hover:bg-muted/50 transition-colors h-full">
