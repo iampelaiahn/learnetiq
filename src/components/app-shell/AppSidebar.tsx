@@ -235,19 +235,24 @@ export function AppSidebar() {
 
     let menuItems = studentMenuItems;
     let user = { name: 'Alex Johnson', role: 'Student' };
+    let settingsPath = '/app/settings';
     
     if (isTutor) {
         menuItems = tutorMenuItems;
         user = { name: 'Dr. Evelyn Reed', role: 'Tutor' };
+        settingsPath = '/app/settings';
     } else if (isParent) {
         menuItems = parentMenuItems;
         user = { name: 'Laura Johnson', role: 'Parent' };
+        settingsPath = '/app/settings';
     } else if (isAdmin) {
         menuItems = adminMenuItems;
         user = { name: 'Admin User', role: 'Admin' };
+        settingsPath = '/app/settings';
     } else if (isSchoolAdmin) {
         menuItems = schoolAdminMenuItems;
         user = { name: 'Jane Doe', role: 'School Admin' };
+        settingsPath = '/school-admin/settings';
     }
 
 
@@ -391,11 +396,11 @@ export function AppSidebar() {
              <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  href="/app/settings"
+                  href={settingsPath}
                   tooltip="Preferences"
-                  isActive={isActive('/app/settings')}
+                  isActive={isActive(settingsPath)}
                 >
-                  <Link href="/app/settings">
+                  <Link href={settingsPath}>
                     <Settings />
                     <span>Preferences</span>
                   </Link>
