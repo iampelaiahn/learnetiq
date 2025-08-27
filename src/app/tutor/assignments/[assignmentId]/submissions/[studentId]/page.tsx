@@ -12,6 +12,13 @@ import { ArrowLeft, Send, FileText, Download, ZoomIn, ZoomOut, ChevronLeft, Chev
 import Link from 'next/link';
 
 function DocumentViewer() {
+    
+    const handleDownload = () => {
+        // In a real app, this would trigger a download of the actual document file.
+        // For this demo, we'll open a placeholder link.
+        window.open('https://placehold.co/800x1100.png', '_blank');
+    }
+
     return (
         <div className="border rounded-xl overflow-hidden bg-muted/30">
             <div className="bg-background/80 backdrop-blur-sm border-b p-2 flex items-center justify-between">
@@ -36,7 +43,7 @@ function DocumentViewer() {
                         <ChevronRight className="h-4 w-4" />
                     </Button>
                      <div className="w-px h-6 bg-border mx-2"></div>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleDownload}>
                         <Download className="h-4 w-4" />
                     </Button>
                 </div>
