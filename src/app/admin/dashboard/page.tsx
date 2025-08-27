@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -6,6 +8,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MoreHorizontal, UserPlus, Users, GraduationCap, BarChart, FileCheck, Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
+import * as React from 'react';
+import { UserFormDialog, UserFormData } from "@/components/admin/UserFormDialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { toast } from "@/hooks/use-toast";
+import { createUser, updateUser, deleteUser } from "@/actions/user";
+
 
 const adminStats = [
     { label: 'Total Students', value: '12,405', icon: Users },
@@ -14,21 +22,72 @@ const adminStats = [
     { label: 'Monthly Active Users', value: '8,980', icon: BarChart },
 ];
 
-const tutors = [
-    { id: '1', name: 'Dr. Evelyn Reed', email: 'e.reed@example.com', courses: 4, students: 120, status: 'Active' },
-    { id: '2', name: 'Prof. Alistair Finch', email: 'a.finch@example.com', courses: 2, students: 85, status: 'Active' },
-    { id: '3', name: 'Dr. Eleanor Vance', email: 'e.vance@example.com', courses: 3, students: 95, status: 'Inactive' },
-    { id: '4', name: 'Mr. David Chen', email: 'd.chen@example.com', courses: 1, students: 45, status: 'Active' },
+const initialTutors = [
+    { id: '1', name: 'Dr. Evelyn Reed', email: 'e.reed@example.com', courses: 4, students: 120, status: 'Active', role: 'tutor' as const },
+    { id: '2', name: 'Prof. Alistair Finch', email: 'a.finch@example.com', courses: 2, students: 85, status: 'Active', role: 'tutor' as const },
+    { id: '3', name: 'Dr. Eleanor Vance', email: 'e.vance@example.com', courses: 3, students: 95, status: 'Inactive', role: 'tutor' as const },
+    { id: '4', name: 'Mr. David Chen', email: 'd.chen@example.com', courses: 1, students: 45, status: 'Active', role: 'tutor' as const },
 ];
 
-const students = [
-    { id: 'S1', name: 'Alex Johnson', email: 'alex.j@example.com', coursesEnrolled: 5, lastActive: '2 hours ago', status: 'Active' },
-    { id: 'S2', name: 'Brenda Smith', email: 'brenda.s@example.com', coursesEnrolled: 3, lastActive: '5 hours ago', status: 'Active' },
-    { id: 'S3', name: 'Charlie Brown', email: 'charlie.b@example.com', coursesEnrolled: 8, lastActive: '1 day ago', status: 'Suspended' },
-    { id: 'S4', name: 'Diana Prince', email: 'diana.p@example.com', coursesEnrolled: 4, lastActive: '3 days ago', status: 'Active' },
+const initialStudents = [
+    { id: 'S1', name: 'Alex Johnson', email: 'alex.j@example.com', coursesEnrolled: 5, lastActive: '2 hours ago', status: 'Active', role: 'student' as const },
+    { id: 'S2', name: 'Brenda Smith', email: 'brenda.s@example.com', coursesEnrolled: 3, lastActive: '5 hours ago', status: 'Active', role: 'student' as const },
+    { id: 'S3', name: 'Charlie Brown', email: 'charlie.b@example.com', coursesEnrolled: 8, lastActive: '1 day ago', status: 'Suspended', role: 'student' as const },
+    { id: 'S4', name: 'Diana Prince', email: 'diana.p@example.com', coursesEnrolled: 4, lastActive: '3 days ago', status: 'Active', role: 'student' as const },
 ];
 
 export default function AdminDashboardPage() {
+    const [tutors, setTutors] = React.useState(initialTutors);
+    const [students, setStudents] = React.useState(initialStudents);
+
+    const handleSaveUser = async (data: UserFormData, userId?: string) => {
+        if (userId) {
+            // Update
+            const result = await updateUser(userId, data);
+            if(result.success) {
+                if(data.role === 'tutor') {
+                    setTutors(tutors.map(t => t.id === userId ? { ...t, ...data } : t));
+                } else {
+                    setStudents(students.map(s => s.id === userId ? { ...s, ...data } : s));
+                }
+                toast({ title: "User Updated", description: `${data.name} has been updated.` });
+                return true;
+            }
+        } else {
+            // Create
+            const result = await createUser(data);
+             if (result.success && result.user) {
+                const newUser = { ...result.user, courses: 0, students: 0, status: 'Active', coursesEnrolled: 0, lastActive: 'Just now' };
+                if (data.role === 'tutor') {
+                    // @ts-ignore
+                    setTutors([...tutors, newUser]);
+                } else {
+                    // @ts-ignore
+                    setStudents([...students, newUser]);
+                }
+                toast({ title: "User Created", description: `${data.name} has been added.` });
+                return true;
+            }
+        }
+        toast({ title: "Error", description: "An error occurred.", variant: "destructive" });
+        return false;
+    };
+
+    const handleDeleteUser = async (userId: string, role: 'tutor' | 'student') => {
+        const result = await deleteUser(userId);
+        if(result.success) {
+            if(role === 'tutor') {
+                setTutors(tutors.filter(t => t.id !== userId));
+            } else {
+                setStudents(students.filter(s => s.id !== userId));
+            }
+            toast({ title: "User Deleted", description: "The user has been removed." });
+        } else {
+            toast({ title: "Error", description: "Failed to delete user.", variant: "destructive" });
+        }
+    }
+
+
     return (
         <div className="space-y-8">
             <div>
@@ -61,9 +120,11 @@ export default function AdminDashboardPage() {
                             <CardTitle>Tutor Management</CardTitle>
                             <CardDescription>Manage tutor accounts and course assignments.</CardDescription>
                         </div>
-                        <Button>
-                            <UserPlus className="mr-2 h-4 w-4" /> Add Tutor
-                        </Button>
+                        <UserFormDialog role="tutor" onSave={handleSaveUser}>
+                            <Button>
+                                <UserPlus className="mr-2 h-4 w-4" /> Add Tutor
+                            </Button>
+                        </UserFormDialog>
                     </div>
                 </CardHeader>
                 <CardContent>
@@ -89,9 +150,29 @@ export default function AdminDashboardPage() {
                                     <TableCell>
                                         <Badge variant={tutor.status === 'Active' ? 'default' : 'destructive'}>{tutor.status}</Badge>
                                     </TableCell>
-                                    <TableCell className="text-right">
-                                        <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
-                                        <Button variant="ghost" size="icon" className="text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                                    <TableCell className="text-right space-x-1">
+                                         <UserFormDialog role="tutor" onSave={(data) => handleSaveUser(data, tutor.id)} user={tutor}>
+                                            <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
+                                         </UserFormDialog>
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive">
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    This action cannot be undone. This will permanently delete the tutor account for {tutor.name}.
+                                                </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction onClick={() => handleDeleteUser(tutor.id, 'tutor')} className="bg-destructive hover:bg-destructive/90">Delete</AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -107,9 +188,11 @@ export default function AdminDashboardPage() {
                             <CardTitle>Student Management</CardTitle>
                             <CardDescription>Oversee student accounts and activity.</CardDescription>
                         </div>
-                        <Button>
-                            <UserPlus className="mr-2 h-4 w-4" /> Add Student
-                        </Button>
+                        <UserFormDialog role="student" onSave={handleSaveUser}>
+                            <Button>
+                                <UserPlus className="mr-2 h-4 w-4" /> Add Student
+                            </Button>
+                        </UserFormDialog>
                     </div>
                 </CardHeader>
                 <CardContent>
@@ -135,9 +218,29 @@ export default function AdminDashboardPage() {
                                     <TableCell>
                                         <Badge variant={student.status === 'Active' ? 'default' : 'destructive'}>{student.status}</Badge>
                                     </TableCell>
-                                    <TableCell className="text-right">
-                                        <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
-                                        <Button variant="ghost" size="icon" className="text-destructive"><Trash2 className="h-4 w-4" /></Button>
+                                    <TableCell className="text-right space-x-1">
+                                        <UserFormDialog role="student" onSave={(data) => handleSaveUser(data, student.id)} user={student}>
+                                            <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
+                                        </UserFormDialog>
+                                         <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive">
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    This action cannot be undone. This will permanently delete the student account for {student.name}.
+                                                </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction onClick={() => handleDeleteUser(student.id, 'student')} className="bg-destructive hover:bg-destructive/90">Delete</AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
                                     </TableCell>
                                 </TableRow>
                             ))}
