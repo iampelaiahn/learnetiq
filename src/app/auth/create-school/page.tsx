@@ -21,6 +21,7 @@ import { ArrowRight, ArrowLeft, Check, Copy, Loader2 } from 'lucide-react';
 import { createSchoolAction } from '@/actions/school';
 import { useToast } from '@/hooks/use-toast';
 import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
 
 const step1Schema = z.object({
   schoolName: z.string().min(3, 'School name must be at least 3 characters.'),
@@ -187,6 +188,12 @@ export default function CreateSchoolPage() {
                                 <Copy className="h-4 w-4" />
                             </Button>
                         </div>
+                         <Button asChild className="mt-6 w-full">
+                            <Link href={`/school-admin/dashboard?invite_link=${encodeURIComponent(inviteLink)}`}>
+                                Go to Dashboard
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
                     </motion.div>
                 )}
               </AnimatePresence>
