@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, FileText } from 'lucide-react';
 import { ValidationProgress } from '@/components/tutor/assignments/ValidationProgress';
+import Link from 'next/link';
 
 const assignmentDetails = {
     id: 'A1',
@@ -81,9 +82,11 @@ export default function AssignmentDetailsPage() {
                                         <ValidationProgress currentStep={sub.status} />
                                     </TableCell>
                                     <TableCell className="text-right">
-                                        <Button variant="outline" size="sm">
-                                            Grade Submission
-                                            <ArrowRight className="ml-2 h-4 w-4" />
+                                        <Button asChild variant="outline" size="sm">
+                                            <Link href={`/tutor/assignments/${assignmentId}/submissions/${sub.studentId}`}>
+                                                Grade Submission
+                                                <ArrowRight className="ml-2 h-4 w-4" />
+                                            </Link>
                                         </Button>
                                     </TableCell>
                                 </TableRow>
