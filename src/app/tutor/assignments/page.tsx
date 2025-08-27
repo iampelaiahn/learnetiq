@@ -55,7 +55,11 @@ export default function TutorAssignmentsPage() {
                 <TableBody>
                     {assignments.map((assignment) => (
                         <TableRow key={assignment.id}>
-                            <TableCell className="font-medium">{assignment.title}</TableCell>
+                            <TableCell className="font-medium">
+                                <Link href={`/tutor/assignments/${assignment.id}`} className="hover:underline">
+                                    {assignment.title}
+                                </Link>
+                            </TableCell>
                             <TableCell>{assignment.course}</TableCell>
                             <TableCell>{assignment.dueDate}</TableCell>
                             <TableCell className="text-center">{assignment.submissions}</TableCell>
