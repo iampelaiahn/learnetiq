@@ -7,6 +7,7 @@ import { SidebarProvider, useSidebar } from '@/components/ui/sidebar';
 import { AppHeader } from '@/components/app-shell/AppHeader';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
+import { SchoolHeader } from '@/components/app-shell/SchoolHeader';
 
 function AppContent({ children }: PropsWithChildren) {
   const { state } = useSidebar();
@@ -21,7 +22,10 @@ function AppContent({ children }: PropsWithChildren) {
     >
       <AppHeader />
       <main className="min-h-[calc(100vh-4rem)] p-4 md:p-8">
-        {children}
+        <SchoolHeader />
+        <div className="mt-8">
+            {children}
+        </div>
       </main>
     </div>
   );

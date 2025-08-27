@@ -60,27 +60,6 @@ export default function SchoolAdminDashboard() {
                 </p>
             </div>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>School Profile</CardTitle>
-                    <CardDescription>Manage your school's public branding.</CardDescription>
-                </CardHeader>
-                <CardContent className="flex flex-col sm:flex-row items-center gap-6">
-                    <Avatar className="h-24 w-24">
-                        <AvatarImage src="https://placehold.co/100x100.png" data-ai-hint="school logo" />
-                        <AvatarFallback>SH</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-grow text-center sm:text-left">
-                        <h2 className="text-2xl font-bold">Northwood High School</h2>
-                        <p className="text-muted-foreground italic mt-2">"Our mission is to foster a community of lifelong learners and critical thinkers."</p>
-                    </div>
-                    <Button variant="outline">
-                        <Upload className="mr-2 h-4 w-4" />
-                        Upload Logo
-                    </Button>
-                </CardContent>
-            </Card>
-
             {showInviteCard && (
                 <Card className="bg-accent/10 border-accent">
                     <CardHeader>
