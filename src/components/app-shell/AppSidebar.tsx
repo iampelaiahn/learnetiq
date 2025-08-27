@@ -366,21 +366,6 @@ export function AppSidebar() {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-               {isTutor && (
-                 <SidebarMenuItem>
-                    <SidebarMenuButton
-                    asChild
-                    href="/app/dashboard"
-                    tooltip="Student View"
-                    isActive={isActive('/app/dashboard')}
-                    >
-                    <Link href="/app/dashboard">
-                        <GraduationCap />
-                        <span>Switch to Student</span>
-                    </Link>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-              )}
           </SidebarMenu>
         </SidebarGroup>
         <SidebarSeparator />
