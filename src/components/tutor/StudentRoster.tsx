@@ -1,4 +1,7 @@
 
+'use client';
+
+import { useRouter } from 'next/navigation';
 import {
     Avatar,
     AvatarFallback,
@@ -25,6 +28,7 @@ import { MoreHorizontal } from 'lucide-react';
   
   const students = [
     {
+      id: '1',
       name: 'Alex Johnson',
       avatar: 'https://placehold.co/40x40.png',
       aiHint: 'male student',
@@ -33,6 +37,7 @@ import { MoreHorizontal } from 'lucide-react';
       lastActive: '2 hours ago',
     },
     {
+      id: '2',
       name: 'Brenda Smith',
       avatar: 'https://placehold.co/40x40.png',
       aiHint: 'female student',
@@ -41,6 +46,7 @@ import { MoreHorizontal } from 'lucide-react';
       lastActive: '5 hours ago',
     },
     {
+      id: '3',
       name: 'Charlie Brown',
       avatar: 'https://placehold.co/40x40.png',
       aiHint: 'boy portrait',
@@ -49,6 +55,7 @@ import { MoreHorizontal } from 'lucide-react';
       lastActive: '1 day ago',
     },
     {
+        id: '4',
         name: 'Diana Prince',
         avatar: 'https://placehold.co/40x40.png',
         aiHint: 'woman smiling',
@@ -57,6 +64,7 @@ import { MoreHorizontal } from 'lucide-react';
         lastActive: '3 days ago',
     },
     {
+        id: '5',
         name: 'Ethan Hunt',
         avatar: 'https://placehold.co/40x40.png',
         aiHint: 'man portrait',
@@ -67,6 +75,11 @@ import { MoreHorizontal } from 'lucide-react';
   ];
   
   export function StudentRoster() {
+    const router = useRouter();
+    const handleRowClick = (studentId: string) => {
+        router.push(`/app/tutor/students/${studentId}`);
+    };
+
     return (
       <Card className="h-full">
         <CardHeader>
@@ -88,7 +101,11 @@ import { MoreHorizontal } from 'lucide-react';
             </TableHeader>
             <TableBody>
               {students.map((student) => (
-                <TableRow key={student.name}>
+                <TableRow 
+                    key={student.id} 
+                    onClick={() => handleRowClick(student.id)}
+                    className="cursor-pointer"
+                >
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar>
@@ -105,7 +122,7 @@ import { MoreHorizontal } from 'lucide-react';
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right text-muted-foreground">{student.lastActive}</TableCell>
-                  <TableCell>
+                  <TableCell onClick={(e) => e.stopPropagation()}>
                     <Button variant="ghost" size="icon">
                         <MoreHorizontal className="h-4 w-4" />
                     </Button>
