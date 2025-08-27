@@ -10,8 +10,57 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ArrowLeft, Send, FileText, Download, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Bot, Pencil } from 'lucide-react';
 import Link from 'next/link';
+import { useRef, useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 function DocumentViewer() {
+    const [isPenActive, setIsPenActive] = useState(false);
+    const [isDrawing, setIsDrawing] = useState(false);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const contextRef = useRef<CanvasRenderingContext2D | null>(null);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (canvas) {
+            // Set canvas dimensions to match its container
+            const container = canvas.parentElement;
+            if(container) {
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+                canvas.style.width = `${container.clientWidth}px`;
+                canvas.style.height = `${container.clientHeight}px`;
+            }
+
+            const context = canvas.getContext('2d');
+            if (context) {
+                context.lineCap = 'round';
+                context.strokeStyle = 'red';
+                context.lineWidth = 2;
+                contextRef.current = context;
+            }
+        }
+    }, []);
+
+    const startDrawing = ({ nativeEvent }: React.MouseEvent<HTMLCanvasElement>) => {
+        if (!isPenActive) return;
+        const { offsetX, offsetY } = nativeEvent;
+        contextRef.current?.beginPath();
+        contextRef.current?.moveTo(offsetX, offsetY);
+        setIsDrawing(true);
+    };
+
+    const finishDrawing = () => {
+        if (!isPenActive) return;
+        contextRef.current?.closePath();
+        setIsDrawing(false);
+    };
+
+    const draw = ({ nativeEvent }: React.MouseEvent<HTMLCanvasElement>) => {
+        if (!isDrawing || !isPenActive) return;
+        const { offsetX, offsetY } = nativeEvent;
+        contextRef.current?.lineTo(offsetX, offsetY);
+        contextRef.current?.stroke();
+    };
     
     const handleDownload = () => {
         // In a real app, this would trigger a download of the actual document file.
@@ -43,7 +92,7 @@ function DocumentViewer() {
                         <ChevronRight className="h-4 w-4" />
                     </Button>
                      <div className="w-px h-6 bg-border mx-2"></div>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Button variant="ghost" size="icon" className={cn("h-8 w-8", isPenActive && "bg-accent text-accent-foreground")} onClick={() => setIsPenActive(!isPenActive)}>
                         <Pencil className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleDownload}>
@@ -51,7 +100,7 @@ function DocumentViewer() {
                     </Button>
                 </div>
             </div>
-            <div className="p-4 h-[600px] overflow-auto bg-white dark:bg-zinc-800">
+            <div className="p-4 h-[600px] overflow-auto bg-white dark:bg-zinc-800 relative">
                 {/* Simulated Document Content */}
                 <div className="max-w-2xl mx-auto bg-white dark:bg-zinc-900 shadow-lg p-8">
                     <h2 className="text-2xl font-bold mb-4 border-b pb-2">Calculus Assignment 5</h2>
@@ -70,6 +119,14 @@ function DocumentViewer() {
                         </div>
                     </div>
                 </div>
+                 <canvas
+                    ref={canvasRef}
+                    onMouseDown={startDrawing}
+                    onMouseUp={finishDrawing}
+                    onMouseMove={draw}
+                    onMouseLeave={finishDrawing}
+                    className={cn("absolute top-0 left-0 w-full h-full", isPenActive ? "cursor-crosshair" : "cursor-default")}
+                />
             </div>
         </div>
     )
