@@ -45,6 +45,14 @@ export default function CreateSchoolPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(step === 1 ? step1Schema : formSchema),
     mode: 'onChange',
+    defaultValues: {
+      schoolName: '',
+      adminName: '',
+      email: '',
+      password: '',
+      tutorCount: 1,
+      adminCount: 1,
+    },
   });
 
   const handleNextStep = async () => {
