@@ -8,8 +8,63 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Send } from 'lucide-react';
+import { ArrowLeft, Send, FileText, Download, ZoomIn, ZoomOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+
+function DocumentViewer() {
+    return (
+        <div className="border rounded-xl overflow-hidden bg-muted/30">
+            <div className="bg-background/80 backdrop-blur-sm border-b p-2 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <FileText className="h-5 w-5 text-primary" />
+                    <span className="font-semibold text-sm">Calculus_Assignment_5_Alex_Johnson.pdf</span>
+                </div>
+                <div className="flex items-center gap-1">
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <ZoomOut className="h-4 w-4" />
+                    </Button>
+                    <span className="text-sm font-semibold text-muted-foreground">100%</span>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <ZoomIn className="h-4 w-4" />
+                    </Button>
+                    <div className="w-px h-6 bg-border mx-2"></div>
+                     <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <span className="text-sm text-muted-foreground">1 / 5</span>
+                     <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <ChevronRight className="h-4 w-4" />
+                    </Button>
+                     <div className="w-px h-6 bg-border mx-2"></div>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Download className="h-4 w-4" />
+                    </Button>
+                </div>
+            </div>
+            <div className="p-4 h-[600px] overflow-auto bg-white dark:bg-zinc-800">
+                {/* Simulated Document Content */}
+                <div className="max-w-2xl mx-auto bg-white dark:bg-zinc-900 shadow-lg p-8">
+                    <h2 className="text-2xl font-bold mb-4 border-b pb-2">Calculus Assignment 5</h2>
+                    <div className="space-y-6">
+                        <div>
+                            <p className="font-semibold">1. Find the derivative of f(x) = 3x² + 2x - 5.</p>
+                            <div className="w-full h-16 bg-muted rounded-md mt-2"></div>
+                        </div>
+                         <div>
+                            <p className="font-semibold">2. Calculate the area under the curve y = x² from x=0 to x=2.</p>
+                            <div className="w-full h-24 bg-muted rounded-md mt-2"></div>
+                        </div>
+                         <div>
+                            <p className="font-semibold">3. Solve the following limit: lim (x→∞) (2x² - 3x + 1) / (x² + 5x - 2).</p>
+                             <div className="w-full h-12 bg-muted rounded-md mt-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 
 export default function GradeSubmissionPage() {
     const params = useParams();
@@ -52,9 +107,7 @@ export default function GradeSubmissionPage() {
                     <CardTitle>Submitted Document</CardTitle>
                 </CardHeader>
                 <CardContent>
-                     <div className="border-2 border-dashed border-muted-foreground/30 rounded-xl flex items-center justify-center h-96">
-                        <p className="text-muted-foreground">PDF viewer coming soon...</p>
-                    </div>
+                     <DocumentViewer />
                 </CardContent>
             </Card>
 
