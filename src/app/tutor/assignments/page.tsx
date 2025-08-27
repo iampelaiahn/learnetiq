@@ -2,8 +2,9 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { FilePlus2, MoreHorizontal } from 'lucide-react';
+import { FilePlus2, MoreHorizontal, Pencil, Trash2, Eye } from 'lucide-react';
 import Link from 'next/link';
 
 const assignments = [
@@ -78,10 +79,31 @@ export default function TutorAssignmentsPage() {
                                 </Badge>
                             </TableCell>
                             <TableCell className="text-right">
-                                <Button variant="ghost" size="icon">
-                                    <MoreHorizontal className="h-4 w-4" />
-                                    <span className="sr-only">More options</span>
-                                </Button>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="ghost" size="icon">
+                                            <MoreHorizontal className="h-4 w-4" />
+                                            <span className="sr-only">More options</span>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end">
+                                        <DropdownMenuItem asChild>
+                                            <Link href={`/tutor/assignments/${assignment.id}`}>
+                                                <Eye className="mr-2 h-4 w-4" />
+                                                View Submissions
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Pencil className="mr-2 h-4 w-4" />
+                                            Edit
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem className="text-destructive focus:text-destructive">
+                                            <Trash2 className="mr-2 h-4 w-4" />
+                                            Delete
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             </TableCell>
                         </TableRow>
                     ))}
