@@ -34,7 +34,7 @@ import {
   Reply,
   Sun,
   Bot,
-  User,
+  UserCog,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -342,11 +342,11 @@ export function AppSidebar() {
              <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  href="#"
+                  href="/app/settings"
                   tooltip="Preferences"
                   isActive={isActive('/app/settings')}
                 >
-                  <Link href="#">
+                  <Link href="/app/settings">
                     <Settings />
                     <span>Preferences</span>
                   </Link>
@@ -374,7 +374,7 @@ export function AppSidebar() {
                     tooltip="Tutor View"
                     >
                     <Link href="/tutor/dashboard">
-                        <User />
+                        <UserCog />
                         <span>Switch to Tutor</span>
                     </Link>
                     </SidebarMenuButton>
