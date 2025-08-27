@@ -1,4 +1,6 @@
 
+'use client';
+
 import {
     Dialog,
     DialogContent,
@@ -10,6 +12,8 @@ import {
 import Link from "next/link"
 import { Button } from "../ui/button"
 import { Crown, GraduationCap, School, Shield, User } from "lucide-react"
+import { LoginDialog } from "./LoginDialog"
+import * as React from "react";
   
   const roles = [
     { name: 'Student', icon: GraduationCap, href: '/app/dashboard' },
@@ -19,8 +23,10 @@ import { Crown, GraduationCap, School, Shield, User } from "lucide-react"
   ]
   
   export function RoleSelectionDialog({ children }: { children: React.ReactNode }) {
+    const [isRoleSelectionOpen, setIsRoleSelectionOpen] = React.useState(false);
+
     return (
-      <Dialog>
+      <Dialog open={isRoleSelectionOpen} onOpenChange={setIsRoleSelectionOpen}>
         <DialogTrigger asChild>
             {children}
         </DialogTrigger>
@@ -33,12 +39,12 @@ import { Crown, GraduationCap, School, Shield, User } from "lucide-react"
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4 py-4">
             {roles.map((role) => (
-              <Button key={role.name} asChild variant="outline" size="lg" className="h-24 flex-col gap-2">
-                <Link href={role.href}>
-                  <role.icon className="h-8 w-8 text-primary" />
-                  <span className="text-lg">{role.name}</span>
-                </Link>
-              </Button>
+                <LoginDialog key={role.name} role={role.name} href={role.href} onOpenChange={(isOpen) => !isOpen && setIsRoleSelectionOpen(false)}>
+                    <Button variant="outline" size="lg" className="h-24 flex-col gap-2">
+                        <role.icon className="h-8 w-8 text-primary" />
+                        <span className="text-lg">{role.name}</span>
+                    </Button>
+                </LoginDialog>
             ))}
           </div>
           <div className="relative py-2">
