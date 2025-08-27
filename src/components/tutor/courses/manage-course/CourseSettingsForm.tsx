@@ -21,15 +21,17 @@ import { toast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import Image from 'next/image';
-import { Upload } from 'lucide-react';
+import { Upload, Send } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
+import * as React from 'react';
 
 const formSchema = z.object({
   title: z.string().min(5, { message: 'Title must be at least 5 characters.' }),
   description: z.string().min(20, { message: 'Description must be at least 20 characters.' }),
   category: z.string({ required_error: 'Please select a category.' }),
   level: z.string({ required_error: 'Please select a level.' }),
-  isPublished: z.boolean(),
+  status: z.enum(['Published', 'Pending Review', 'Draft']),
   image: z.string().url().optional(),
 });
 
@@ -39,7 +41,7 @@ type CourseSettingsFormProps = {
         description: string;
         category: string;
         level: string;
-        isPublished: boolean;
+        status: 'Published' | 'Pending Review' | 'Draft';
         image: string;
         aiHint: string;
     }
@@ -54,6 +56,7 @@ const courseLevels = ['Beginner', 'Intermediate', 'Advanced', 'All Levels'];
 
 
 export function CourseSettingsForm({ course }: CourseSettingsFormProps) {
+  const [status, setStatus] = React.useState(course.status);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,7 +65,7 @@ export function CourseSettingsForm({ course }: CourseSettingsFormProps) {
         description: course.description,
         category: course.category,
         level: course.level,
-        isPublished: course.isPublished,
+        status: course.status,
         image: course.image,
     }
   });
@@ -73,6 +76,14 @@ export function CourseSettingsForm({ course }: CourseSettingsFormProps) {
         title: "Course Updated!",
         description: `Your course "${values.title}" has been successfully updated.`,
     })
+  }
+
+  function handleSubmitForReview() {
+    setStatus('Pending Review');
+    toast({
+        title: "Course Submitted!",
+        description: `Your course "${form.getValues('title')}" has been submitted for review.`,
+    });
   }
 
   return (
@@ -184,32 +195,37 @@ export function CourseSettingsForm({ course }: CourseSettingsFormProps) {
             <Card>
                 <CardHeader>
                     <CardTitle>Publication</CardTitle>
-                    <CardDescription>Control the visibility of your course.</CardDescription>
+                    <CardDescription>When you're ready, submit your course for review by an administrator.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                     <FormField
-                        control={form.control}
-                        name="isPublished"
-                        render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                    <div className="flex flex-row items-center justify-between rounded-lg border p-4">
                             <div className="space-y-0.5">
                                 <FormLabel className="text-base">
-                                Publish Course
+                                Course Status
                                 </FormLabel>
                                 <FormDescription>
-                                    Make this course visible to students.
+                                    Current status of your course submission.
                                 </FormDescription>
                             </div>
-                            <FormControl>
-                                <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                                />
-                            </FormControl>
-                            </FormItem>
-                        )}
-                        />
+                            <Badge variant={
+                                status === 'Published' ? 'default' :
+                                status === 'Pending Review' ? 'secondary' :
+                                'outline'
+                            } className={
+                                status === 'Pending Review' ? 'bg-yellow-100 text-yellow-800' : ''
+                            }>
+                                {status}
+                            </Badge>
+                        </div>
                 </CardContent>
+                {status !== 'Published' && (
+                     <CardContent>
+                        <Button type="button" className="w-full" onClick={handleSubmitForReview} disabled={status === 'Pending Review'}>
+                            <Send className="mr-2 h-4 w-4" />
+                            {status === 'Pending Review' ? 'Pending Approval' : 'Submit for Review'}
+                        </Button>
+                    </CardContent>
+                )}
             </Card>
 
             <Separator />

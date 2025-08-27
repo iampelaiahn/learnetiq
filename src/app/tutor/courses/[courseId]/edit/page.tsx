@@ -22,7 +22,7 @@ const courseData = {
         ],
         category: 'Mathematics',
         level: 'Intermediate',
-        isPublished: true,
+        status: 'Published' as const,
         image: 'https://placehold.co/600x400.png',
         aiHint: 'calculus graph'
     }
@@ -76,4 +76,3 @@ export default function EditCoursePage() {
         </div>
     );
 }
-

@@ -12,6 +12,7 @@ const tutorCourses = [
       progress: 82,
       image: 'https://placehold.co/600x400.png',
       aiHint: 'calculus graph',
+      status: 'Published' as const,
     },
     {
       id: 'quantum-physics',
@@ -20,6 +21,7 @@ const tutorCourses = [
       progress: 68,
       image: 'https://placehold.co/600x400.png',
       aiHint: 'atom structure',
+      status: 'Published' as const,
     },
     {
       id: 'world-of-shakespeare',
@@ -28,6 +30,7 @@ const tutorCourses = [
       progress: 91,
       image: 'https://placehold.co/600x400.png',
       aiHint: 'shakespeare portrait',
+      status: 'Pending Review' as const,
     },
     {
         id: 'renaissance-history',
@@ -36,6 +39,7 @@ const tutorCourses = [
         progress: 75,
         image: 'https://placehold.co/600x400.png',
         aiHint: 'renaissance painting',
+        status: 'Draft' as const,
     }
   ];
 

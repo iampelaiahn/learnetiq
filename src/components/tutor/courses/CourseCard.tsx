@@ -5,6 +5,7 @@ import { Progress } from '@/components/ui/progress';
 import { Users, BookOpen, Settings } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
 
 type CourseCardProps = {
     id: string;
@@ -13,13 +14,24 @@ type CourseCardProps = {
     progress: number;
     image: string;
     aiHint: string;
+    status: 'Published' | 'Pending Review' | 'Draft';
 }
 
-export function CourseCard({ id, title, studentCount, progress, image, aiHint }: CourseCardProps) {
+export function CourseCard({ id, title, studentCount, progress, image, aiHint, status }: CourseCardProps) {
     return (
         <Card className="flex flex-col overflow-hidden transition-shadow hover:shadow-lg">
             <div className="relative h-48 w-full">
                 <Image src={image} alt={title} fill className="object-cover" data-ai-hint={aiHint}/>
+                <Badge
+                  className="absolute top-2 right-2"
+                  variant={
+                    status === 'Published' ? 'default' :
+                    status === 'Pending Review' ? 'secondary' :
+                    'outline'
+                  }
+                >
+                  {status}
+                </Badge>
             </div>
             <CardHeader>
                 <CardTitle>{title}</CardTitle>
