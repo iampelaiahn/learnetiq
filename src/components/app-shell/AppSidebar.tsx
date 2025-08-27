@@ -199,7 +199,7 @@ export function AppSidebar() {
   const pathname = usePathname();
   const { state: sidebarState } = useSidebar();
   const isActive = (href: string) =>
-    pathname.startsWith(href) && (href !== '/app' || pathname === href) && (href !== '/tutor' || pathname === href);
+    pathname === href || (pathname.startsWith(href) && href !== '/');
 
   const isTutor = pathname.startsWith('/tutor');
   const menuItems = isTutor ? tutorMenuItems : studentMenuItems;
@@ -372,6 +372,7 @@ export function AppSidebar() {
                     asChild
                     href="/tutor/dashboard"
                     tooltip="Tutor View"
+                    isActive={isActive('/tutor/dashboard')}
                     >
                     <Link href="/tutor/dashboard">
                         <UserCog />
@@ -386,6 +387,7 @@ export function AppSidebar() {
                     asChild
                     href="/app/dashboard"
                     tooltip="Student View"
+                    isActive={isActive('/app/dashboard')}
                     >
                     <Link href="/app/dashboard">
                         <GraduationCap />
