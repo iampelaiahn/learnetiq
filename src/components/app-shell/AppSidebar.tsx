@@ -38,6 +38,7 @@ import {
   Crown,
   Shield,
   CreditCard,
+  ShieldCheck,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -78,6 +79,7 @@ const schoolAdminMenuItems = [
     { href: '/school-admin/tutors', label: 'Tutors', icon: GraduationCap },
     { href: '/school-admin/students', label: 'Students', icon: Users },
     { href: '/school-admin/admins', label: 'Admins', icon: Crown },
+    { href: '/school-admin/validations', label: 'Validations', icon: ShieldCheck },
     { href: '/school-admin/billing', label: 'Billing', icon: CreditCard },
 ];
 
