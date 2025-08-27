@@ -34,6 +34,7 @@ import {
   Reply,
   Sun,
   Bot,
+  User,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -45,7 +46,7 @@ import { Card, CardContent } from '../ui/card';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '../ui/dropdown-menu';
 import { useTheme } from 'next-themes';
 
-const menuItems = [
+const studentMenuItems = [
   { href: '/app/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/app/study', label: 'Study Panel', icon: BrainCircuit },
   { href: '/app/live-classes', label: 'Live Classes', icon: Video },
@@ -53,6 +54,14 @@ const menuItems = [
   { href: '/app/resources', label: 'Resources', icon: FolderKanban },
   { href: '/app/progress', label: 'Progress', icon: TrendingUp },
 ];
+
+const tutorMenuItems = [
+    { href: '/tutor/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/tutor/students', label: 'My Students', icon: Users },
+    { href: '/tutor/courses', label: 'My Courses', icon: FolderKanban },
+    { href: '/tutor/live-classes', label: 'Live Classes', icon: Video },
+    { href: '/tutor/assignments', label: 'Assignments', icon: FileText },
+]
 
 const notifications = [
     {
@@ -190,7 +199,12 @@ export function AppSidebar() {
   const pathname = usePathname();
   const { state: sidebarState } = useSidebar();
   const isActive = (href: string) =>
-    pathname.startsWith(href) && (href !== '/app' || pathname === href);
+    pathname.startsWith(href) && (href !== '/app' || pathname === href) && (href !== '/tutor' || pathname === href);
+
+  const isTutor = pathname.startsWith('/tutor');
+  const menuItems = isTutor ? tutorMenuItems : studentMenuItems;
+  const user = isTutor ? { name: 'Dr. Evelyn Reed', role: 'Tutor' } : { name: 'Alex', role: 'Student' };
+
 
   return (
     <Sidebar>
@@ -303,7 +317,7 @@ export function AppSidebar() {
             </SidebarMenu>
         </div>
 
-        <div className="p-2 group-data-[collapsible=icon]:hidden">
+        {!isTutor && <div className="p-2 group-data-[collapsible=icon]:hidden">
           <Card className="bg-primary/5 border-primary/20">
             <CardContent className="p-3 text-center">
                 <div className='flex justify-center mb-2'>
@@ -318,7 +332,7 @@ export function AppSidebar() {
               </Button>
             </CardContent>
           </Card>
-        </div>
+        </div>}
       </SidebarContent>
 
       <SidebarFooter>
@@ -346,6 +360,28 @@ export function AppSidebar() {
                   <span>Help</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              {!isTutor && (
+                 <SidebarMenuItem>
+                    <SidebarMenuButton
+                    href="/tutor/dashboard"
+                    tooltip="Tutor View"
+                    >
+                    <User />
+                    <span>Switch to Tutor</span>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+               {isTutor && (
+                 <SidebarMenuItem>
+                    <SidebarMenuButton
+                    href="/app/dashboard"
+                    tooltip="Student View"
+                    >
+                    <GraduationCap />
+                    <span>Switch to Student</span>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
           </SidebarMenu>
         </SidebarGroup>
         <SidebarSeparator />
@@ -361,11 +397,11 @@ export function AppSidebar() {
                 alt="User"
                 data-ai-hint="person avatar"
               />
-              <AvatarFallback>B</AvatarFallback>
+              <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="flex-grow overflow-hidden group-data-[collapsible=icon]:hidden">
-              <p className="text-sm font-semibold truncate">Brooklyn</p>
-              <p className="text-xs text-muted-foreground truncate">Pro trial</p>
+              <p className="text-sm font-semibold truncate">{user.name}</p>
+              <p className="text-xs text-muted-foreground truncate">{user.role}</p>
             </div>
             <Button
               variant="ghost"
