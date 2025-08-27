@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 const tutorCourses = [
     {
+      id: 'calculus-i',
       title: 'Calculus I',
       studentCount: 45,
       progress: 82,
@@ -13,6 +14,7 @@ const tutorCourses = [
       aiHint: 'calculus graph',
     },
     {
+      id: 'quantum-physics',
       title: 'Quantum Physics',
       studentCount: 32,
       progress: 68,
@@ -20,6 +22,7 @@ const tutorCourses = [
       aiHint: 'atom structure',
     },
     {
+      id: 'world-of-shakespeare',
       title: 'The World of Shakespeare',
       studentCount: 28,
       progress: 91,
@@ -27,6 +30,7 @@ const tutorCourses = [
       aiHint: 'shakespeare portrait',
     },
     {
+        id: 'renaissance-history',
         title: 'Renaissance History',
         studentCount: 35,
         progress: 75,
@@ -57,7 +61,7 @@ export default function TutorCoursesPage() {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tutorCourses.map((course) => (
-            <CourseCard key={course.title} {...course} />
+            <CourseCard key={course.id} {...course} />
         ))}
       </div>
 

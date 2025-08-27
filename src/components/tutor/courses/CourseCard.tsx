@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 type CourseCardProps = {
+    id: string;
     title: string;
     studentCount: number;
     progress: number;
@@ -14,7 +15,7 @@ type CourseCardProps = {
     aiHint: string;
 }
 
-export function CourseCard({ title, studentCount, progress, image, aiHint }: CourseCardProps) {
+export function CourseCard({ id, title, studentCount, progress, image, aiHint }: CourseCardProps) {
     return (
         <Card className="flex flex-col overflow-hidden transition-shadow hover:shadow-lg">
             <div className="relative h-48 w-full">
@@ -44,10 +45,10 @@ export function CourseCard({ title, studentCount, progress, image, aiHint }: Cou
             </CardContent>
             <CardFooter className="grid grid-cols-2 gap-2">
                 <Button asChild variant="default">
-                    <Link href="#">View Course</Link>
+                    <Link href={`/app/courses/${id}`}>View Course</Link>
                 </Button>
                  <Button asChild variant="outline">
-                    <Link href="#">
+                    <Link href={`/tutor/courses/${id}/edit`}>
                         <Settings className="mr-2 h-4 w-4" />
                         Manage
                     </Link>
