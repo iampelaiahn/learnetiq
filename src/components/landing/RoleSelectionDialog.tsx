@@ -54,7 +54,7 @@ import { Crown, GraduationCap, School, Shield, User } from "lucide-react"
            <Button asChild variant="secondary" size="lg" className="h-24 flex-col gap-2">
                 <Link href="/auth/create-school">
                   <School className="h-8 w-8 text-primary" />
-                  <span className="text-lg">Create a School</span>
+                  <span className="text-lg">Register with us</span>
                 </Link>
             </Button>
         </DialogContent>
