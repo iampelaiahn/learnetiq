@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Send, FileText, Download, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Bot } from 'lucide-react';
+import { ArrowLeft, Send, FileText, Download, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Bot, Pencil } from 'lucide-react';
 import Link from 'next/link';
 
 function DocumentViewer() {
@@ -43,6 +43,9 @@ function DocumentViewer() {
                         <ChevronRight className="h-4 w-4" />
                     </Button>
                      <div className="w-px h-6 bg-border mx-2"></div>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Pencil className="h-4 w-4" />
+                    </Button>
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleDownload}>
                         <Download className="h-4 w-4" />
                     </Button>
