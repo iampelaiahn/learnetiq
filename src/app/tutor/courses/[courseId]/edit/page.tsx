@@ -7,6 +7,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/ca
 import { CourseCurriculum } from '@/components/tutor/courses/manage-course/CourseCurriculum';
 import { StudentRoster } from '@/components/tutor/StudentRoster';
 import { FileText, BarChart, Users, Settings } from 'lucide-react';
+import { CourseSettingsForm } from '@/components/tutor/courses/manage-course/CourseSettingsForm';
 
 const courseData = {
     'calculus-i': {
@@ -18,7 +19,12 @@ const courseData = {
             { id: 'lec-3', title: 'The Chain Rule', duration: '18:45 min', isPublished: true },
             { id: 'lec-4', title: 'Introduction to Integrals', duration: '22:00 min', isPublished: false },
             { id: 'lec-5', title: 'The Fundamental Theorem of Calculus', duration: '30:00 min', isPublished: false },
-        ]
+        ],
+        category: 'Mathematics',
+        level: 'Intermediate',
+        isPublished: true,
+        image: 'https://placehold.co/600x400.png',
+        aiHint: 'calculus graph'
     }
 }
 
@@ -53,15 +59,7 @@ export default function EditCoursePage() {
                     <StudentRoster />
                 </TabsContent>
                 <TabsContent value="settings" className="mt-6">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Course Settings</CardTitle>
-                            <CardDescription>Manage your course details and publication status.</CardDescription>
-                        </CardHeader>
-                        <div className="border-2 border-dashed border-muted-foreground/30 rounded-xl flex items-center justify-center h-96 m-6 mt-0">
-                            <p className="text-muted-foreground">Course settings form coming soon...</p>
-                        </div>
-                    </Card>
+                    <CourseSettingsForm course={data} />
                 </TabsContent>
                 <TabsContent value="analytics" className="mt-6">
                      <Card>
