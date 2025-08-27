@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Send, FileText, Download, ZoomIn, ZoomOut, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Send, FileText, Download, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Bot } from 'lucide-react';
 import Link from 'next/link';
 
 function DocumentViewer() {
@@ -116,21 +116,37 @@ export default function GradeSubmissionPage() {
                     <CardTitle>Grading & Feedback</CardTitle>
                     <CardDescription>Provide a grade and comments for this submission.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <CardContent className="space-y-6">
+                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="grade">Grade</Label>
-                            <Input id="grade" placeholder="e.g., 85%" />
+                            <Label htmlFor="score">Score</Label>
+                            <Input id="score" type="number" placeholder="e.g., 85" />
+                        </div>
+                         <div className="space-y-2">
+                            <Label htmlFor="total-marks">Total Marks</Label>
+                            <Input id="total-marks" type="number" placeholder="e.g., 100" />
+                        </div>
+                        <div className="space-y-2">
+                             <Label>Percentage</Label>
+                             <div className="h-10 flex items-center px-3 rounded-md border border-input bg-muted/50">
+                                <span className="text-sm font-semibold text-primary">85%</span>
+                             </div>
                         </div>
                      </div>
                     <div className="space-y-2">
-                        <Label htmlFor="feedback">Feedback Comments</Label>
+                        <div className="flex justify-between items-center">
+                            <Label htmlFor="feedback">Feedback Comments</Label>
+                             <Button variant="outline" size="sm">
+                                <Bot className="mr-2 h-4 w-4 text-accent" />
+                                Generate with AI
+                            </Button>
+                        </div>
                         <Textarea id="feedback" placeholder="Provide constructive feedback for the student..." rows={6}/>
                     </div>
                     <div className="flex justify-end">
                          <Button>
                             <Send className="mr-2 h-4 w-4" />
-                            Submit Grade
+                            Submit Grade & Feedback
                         </Button>
                     </div>
                 </CardContent>
