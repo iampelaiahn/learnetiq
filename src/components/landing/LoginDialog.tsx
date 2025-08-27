@@ -51,7 +51,12 @@ export function LoginDialog({ children, role, href, onOpenChange }: LoginDialogP
                 <Input id="email" type="email" placeholder="email@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <div className="flex justify-between items-center">
+                    <Label htmlFor="password">Password</Label>
+                    <Button variant="link" size="sm" className="p-0 h-auto text-xs">
+                        Forgot password?
+                    </Button>
+                </div>
                 <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
         </div>
