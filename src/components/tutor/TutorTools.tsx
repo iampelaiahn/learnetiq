@@ -9,25 +9,25 @@ const tools = [
         icon: PlusCircle,
         title: "Create Course",
         description: "Build a new course from scratch.",
-        href: "/app/tutor/courses/new"
+        href: "/tutor/courses/new"
     },
     {
         icon: CalendarPlus,
         title: "Schedule Class",
         description: "Set up a new live session for your students.",
-        href: "/app/tutor/classes/new"
+        href: "/tutor/classes/new"
     },
     {
         icon: FolderPlus,
         title: "Add Resource",
         description: "Upload new materials to the library.",
-        href: "/app/tutor/resources/new"
+        href: "/app/resources"
     },
     {
         icon: MessageSquarePlus,
         title: "Create Assignment",
         description: "Design a new assignment or quiz.",
-        href: "/app/tutor/assignments/new"
+        href: "/tutor/assignments/new"
     }
 ]
 
