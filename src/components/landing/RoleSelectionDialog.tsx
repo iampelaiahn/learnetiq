@@ -1,3 +1,4 @@
+
 import {
     Dialog,
     DialogContent,
@@ -8,7 +9,7 @@ import {
   } from "@/components/ui/dialog"
 import Link from "next/link"
 import { Button } from "../ui/button"
-import { Crown, GraduationCap, Shield, User } from "lucide-react"
+import { Crown, GraduationCap, School, Shield, User } from "lucide-react"
   
   const roles = [
     { name: 'Student', icon: GraduationCap, href: '/app/dashboard' },
@@ -23,7 +24,7 @@ import { Crown, GraduationCap, Shield, User } from "lucide-react"
         <DialogTrigger asChild>
             {children}
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>View the App As</DialogTitle>
             <DialogDescription>
@@ -40,8 +41,23 @@ import { Crown, GraduationCap, Shield, User } from "lucide-react"
               </Button>
             ))}
           </div>
+          <div className="relative py-2">
+            <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                Or
+                </span>
+            </div>
+          </div>
+           <Button asChild variant="secondary" size="lg" className="h-24 flex-col gap-2">
+                <Link href="/auth/create-school">
+                  <School className="h-8 w-8 text-primary" />
+                  <span className="text-lg">Create a School</span>
+                </Link>
+            </Button>
         </DialogContent>
       </Dialog>
     )
   }
-  
