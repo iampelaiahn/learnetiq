@@ -341,44 +341,56 @@ export function AppSidebar() {
           <SidebarMenu>
              <SidebarMenuItem>
                 <SidebarMenuButton
+                  asChild
                   href="#"
                   tooltip="Preferences"
-                  isActive={isActive('#')}
+                  isActive={isActive('/app/settings')}
                 >
-                  <Settings />
-                  <span>Preferences</span>
+                  <Link href="#">
+                    <Settings />
+                    <span>Preferences</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             <ThemeMenu />
              <SidebarMenuItem>
                 <SidebarMenuButton
+                  asChild
                   href="#"
                   tooltip="Help"
-                  isActive={isActive('#')}
+                  isActive={isActive('/app/help')}
                 >
-                  <HelpCircle />
-                  <span>Help</span>
+                   <Link href="#">
+                    <HelpCircle />
+                    <span>Help</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {!isTutor && (
                  <SidebarMenuItem>
                     <SidebarMenuButton
+                    asChild
                     href="/tutor/dashboard"
                     tooltip="Tutor View"
                     >
-                    <User />
-                    <span>Switch to Tutor</span>
+                    <Link href="/tutor/dashboard">
+                        <User />
+                        <span>Switch to Tutor</span>
+                    </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
                {isTutor && (
                  <SidebarMenuItem>
                     <SidebarMenuButton
+                    asChild
                     href="/app/dashboard"
                     tooltip="Student View"
                     >
-                    <GraduationCap />
-                    <span>Switch to Student</span>
+                    <Link href="/app/dashboard">
+                        <GraduationCap />
+                        <span>Switch to Student</span>
+                    </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
               )}
