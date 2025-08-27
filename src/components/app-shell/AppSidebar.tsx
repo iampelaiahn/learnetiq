@@ -33,6 +33,7 @@ import {
   FileText,
   Reply,
   Sun,
+  Bot,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -305,9 +306,12 @@ export function AppSidebar() {
         <div className="p-2 group-data-[collapsible=icon]:hidden">
           <Card className="bg-primary/5 border-primary/20">
             <CardContent className="p-3 text-center">
-              <p className="text-sm font-semibold">Current plan: Pro trial</p>
+                <div className='flex justify-center mb-2'>
+                    <Bot className="h-6 w-6 text-accent" />
+                </div>
+              <p className="text-sm font-semibold">Unlock AI Tutor</p>
               <p className="text-xs text-muted-foreground mt-1">
-                Upgrade to Pro to get the latest and exclusive features
+                Get personalized help with your studies.
               </p>
               <Button size="sm" className="w-full mt-3">
                 Upgrade to Pro
