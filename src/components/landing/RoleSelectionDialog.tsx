@@ -12,7 +12,7 @@ import { Crown, GraduationCap, Shield, User } from "lucide-react"
   
   const roles = [
     { name: 'Student', icon: GraduationCap, href: '/app/dashboard' },
-    { name: 'Tutor', icon: User, href: '/app/tutor/dashboard' },
+    { name: 'Tutor', icon: User, href: '/tutor/dashboard' },
     { name: 'Parent', icon: Shield, href: '/app/parent/dashboard' },
     { name: 'Admin', icon: Crown, href: '/app/admin/dashboard' },
   ]
