@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/Logo';
 import Link from 'next/link';
+import { RoleSelectionDialog } from './RoleSelectionDialog';
 
 export function LandingHeader() {
   return (
@@ -14,11 +15,11 @@ export function LandingHeader() {
             <Link href="#testimonials" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">Testimonials</Link>
           </nav>
           <div className="flex items-center gap-2">
-            <Button asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
-                <Link href="/app/dashboard">
+            <RoleSelectionDialog>
+                <Button className="bg-accent text-accent-foreground hover:bg-accent/90">
                     Go to App
-                </Link>
-            </Button>
+                </Button>
+            </RoleSelectionDialog>
           </div>
         </div>
       </div>
