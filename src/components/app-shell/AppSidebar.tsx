@@ -35,6 +35,9 @@ import {
   Sun,
   Bot,
   UserCog,
+  Crown,
+  Shield,
+  CreditCard,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -61,7 +64,21 @@ const tutorMenuItems = [
     { href: '/tutor/courses', label: 'My Courses', icon: FolderKanban },
     { href: '/tutor/live-classes', label: 'Live Classes', icon: Video },
     { href: '/tutor/assignments', label: 'Assignments', icon: FileText },
-]
+];
+
+const parentMenuItems = [
+    { href: '/parent/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/app/progress', label: "Child's Progress", icon: TrendingUp },
+    { href: '/app/messages', label: 'Messages', icon: MessageSquare },
+    { href: '/parent/dashboard', label: 'Subscription', icon: CreditCard },
+];
+
+const adminMenuItems = [
+    { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/admin/dashboard', label: 'Tutor Management', icon: GraduationCap },
+    { href: '/admin/dashboard', label: 'Student Management', icon: Users },
+];
+
 
 const notifications = [
     {
@@ -201,9 +218,27 @@ export function AppSidebar() {
   const isActive = (href: string) =>
     pathname === href || (pathname.startsWith(href) && href !== '/');
 
-  const isTutor = pathname.startsWith('/tutor');
-  const menuItems = isTutor ? tutorMenuItems : studentMenuItems;
-  const user = isTutor ? { name: 'Dr. Evelyn Reed', role: 'Tutor' } : { name: 'Alex', role: 'Student' };
+    const isTutor = pathname.startsWith('/tutor');
+    const isParent = pathname.startsWith('/parent');
+    const isAdmin = pathname.startsWith('/admin');
+
+    let menuItems = studentMenuItems;
+    let user = { name: 'Alex Johnson', role: 'Student' };
+    let roleIcon = GraduationCap;
+
+    if (isTutor) {
+        menuItems = tutorMenuItems;
+        user = { name: 'Dr. Evelyn Reed', role: 'Tutor' };
+        roleIcon = UserCog;
+    } else if (isParent) {
+        menuItems = parentMenuItems;
+        user = { name: 'Laura Johnson', role: 'Parent' };
+        roleIcon = Shield;
+    } else if (isAdmin) {
+        menuItems = adminMenuItems;
+        user = { name: 'Admin User', role: 'Admin' };
+        roleIcon = Crown;
+    }
 
 
   return (
@@ -233,12 +268,14 @@ export function AppSidebar() {
                 <DropdownMenuTrigger asChild>
                     <SidebarMenuItem>
                     <SidebarMenuButton
-                        href="#"
+                        asChild
                         isActive={isActive('/app/messages')}
                         tooltip="Inbox"
                     >
+                      <Link href="/app/messages">
                         <MessageSquare />
                         <span>Inbox</span>
+                      </Link>
                     </SidebarMenuButton>
                     <SidebarMenuBadge>3</SidebarMenuBadge>
                     </SidebarMenuItem>
@@ -317,22 +354,24 @@ export function AppSidebar() {
             </SidebarMenu>
         </div>
 
-        {!isTutor && <div className="p-2 group-data-[collapsible=icon]:hidden">
-          <Card className="bg-primary/5 border-primary/20">
-            <CardContent className="p-3 text-center">
-                <div className='flex justify-center mb-2'>
-                    <Bot className="h-6 w-6 text-accent" />
-                </div>
-              <p className="text-sm font-semibold">Unlock AI Tutor</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Get personalized help with your studies.
-              </p>
-              <Button size="sm" className="w-full mt-3">
-                Upgrade to Pro
-              </Button>
-            </CardContent>
-          </Card>
-        </div>}
+        {!isTutor && !isParent && !isAdmin && (
+            <div className="p-2 group-data-[collapsible=icon]:hidden">
+            <Card className="bg-primary/5 border-primary/20">
+                <CardContent className="p-3 text-center">
+                    <div className='flex justify-center mb-2'>
+                        <Bot className="h-6 w-6 text-accent" />
+                    </div>
+                <p className="text-sm font-semibold">Unlock AI Tutor</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                    Get personalized help with your studies.
+                </p>
+                <Button size="sm" className="w-full mt-3">
+                    Upgrade to Pro
+                </Button>
+                </CardContent>
+            </Card>
+            </div>
+        )}
       </SidebarContent>
 
       <SidebarFooter>
