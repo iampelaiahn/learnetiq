@@ -37,16 +37,17 @@ export default function SchoolSettingsPage() {
                                 <Upload className="mr-2 h-4 w-4" />
                                 Upload new logo
                             </Button>
-                            <p className="text-xs text-muted-foreground">JPG, GIF or PNG. 2MB max.</p>
+                            <p className="text-xs text-muted-foreground">Optional. JPG, GIF or PNG. 2MB max.</p>
                         </div>
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="schoolName">School Name</Label>
-                        <Input id="schoolName" defaultValue="Northwood High School" />
+                        <Input id="schoolName" defaultValue="Northwood High School" required/>
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="mission">Mission Statement</Label>
                         <Textarea id="mission" defaultValue='"Our mission is to foster a community of lifelong learners and critical thinkers."' />
+                        <p className="text-xs text-muted-foreground">Optional. A brief, inspiring statement about your school's purpose.</p>
                     </div>
                 </CardContent>
                  <CardContent>
