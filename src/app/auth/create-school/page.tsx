@@ -17,25 +17,32 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, ArrowLeft, Check, Copy, Loader2 } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, Copy, Loader2, Upload } from 'lucide-react';
 import { createSchoolAction } from '@/actions/school';
 import { useToast } from '@/hooks/use-toast';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+import { Textarea } from '@/components/ui/textarea';
 
-const step1Schema = z.object({
-  schoolName: z.string().min(3, 'School name must be at least 3 characters.'),
-  adminName: z.string().min(2, 'Please enter your full name.'),
+const step1AdminSchema = z.object({
+  username: z.string().min(3, 'Username must be at least 3 characters.'),
   email: z.string().email('Please enter a valid email address.'),
+  phone: z.string().min(10, 'Please enter a valid phone number.'),
   password: z.string().min(8, 'Password must be at least 8 characters.'),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
 });
 
-const step2Schema = z.object({
-  tutorCount: z.coerce.number().min(1, 'You must have at least 1 tutor.'),
-  adminCount: z.coerce.number().min(1, 'You must have at least 1 admin.').max(3, 'You can have a maximum of 3 admins.'),
+
+const step2SchoolSchema = z.object({
+  schoolName: z.string().min(3, 'School name must be at least 3 characters.'),
+  missionStatement: z.string().optional(),
+  logo: z.any().optional(),
 });
 
-const formSchema = step1Schema.merge(step2Schema);
+const formSchema = step1AdminSchema.merge(step2SchoolSchema);
 
 export default function CreateSchoolPage() {
   const [step, setStep] = React.useState(1);
@@ -44,20 +51,21 @@ export default function CreateSchoolPage() {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(step === 1 ? step1Schema : formSchema),
+    resolver: zodResolver(step === 1 ? step1AdminSchema : formSchema),
     mode: 'onChange',
     defaultValues: {
-      schoolName: '',
-      adminName: '',
+      username: '',
       email: '',
+      phone: '',
       password: '',
-      tutorCount: 1,
-      adminCount: 1,
+      confirmPassword: '',
+      schoolName: '',
+      missionStatement: '',
     },
   });
 
   const handleNextStep = async () => {
-    const isValid = await form.trigger(['schoolName', 'adminName', 'email', 'password']);
+    const isValid = await form.trigger(['username', 'email', 'phone', 'password', 'confirmPassword']);
     if (isValid) {
       setStep(2);
     }
@@ -65,6 +73,7 @@ export default function CreateSchoolPage() {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
+    // In a real app, you'd handle file upload for the logo
     const result = await createSchoolAction(data);
     setIsSubmitting(false);
 
@@ -94,8 +103,8 @@ export default function CreateSchoolPage() {
         <CardHeader>
           <CardTitle className="font-headline text-2xl">Create a School Account</CardTitle>
           <CardDescription>
-            {step === 1 && 'Start by telling us about your school and yourself.'}
-            {step === 2 && 'Configure your school\'s plan.'}
+            {step === 1 && 'Step 1 of 2: Create your administrator account.'}
+            {step === 2 && 'Step 2 of 2: Tell us about your school.'}
             {step === 3 && 'Your school account is ready!'}
           </CardDescription>
         </CardHeader>
@@ -112,30 +121,37 @@ export default function CreateSchoolPage() {
                     transition={{ duration: 0.3 }}
                     className="space-y-4"
                   >
-                    <FormField control={form.control} name="schoolName" render={({ field }) => (
+                    <FormField control={form.control} name="username" render={({ field }) => (
                       <FormItem>
-                        <FormLabel>School Name</FormLabel>
-                        <FormControl><Input placeholder="e.g., Northwood High School" {...field} /></FormControl>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl><Input placeholder="e.g., janedoe" {...field} /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <FormField control={form.control} name="adminName" render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Your Full Name</FormLabel>
-                            <FormControl><Input placeholder="e.g., Jane Doe" {...field} /></FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )} />
-                    <FormField control={form.control} name="email" render={({ field }) => (
+                     <FormField control={form.control} name="email" render={({ field }) => (
                         <FormItem>
                             <FormLabel>Your Email Address</FormLabel>
                             <FormControl><Input type="email" placeholder="e.g., admin@northwood.edu" {...field} /></FormControl>
                             <FormMessage />
                         </FormItem>
                     )} />
+                     <FormField control={form.control} name="phone" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Phone Number</FormLabel>
+                            <FormControl><Input type="tel" placeholder="e.g., (555) 123-4567" {...field} /></FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )} />
                     <FormField control={form.control} name="password" render={({ field }) => (
                         <FormItem>
                             <FormLabel>Password</FormLabel>
+                            <FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )} />
+                    <FormField control={form.control} name="confirmPassword" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Confirm Password</FormLabel>
                             <FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl>
                             <FormMessage />
                         </FormItem>
@@ -151,19 +167,32 @@ export default function CreateSchoolPage() {
                     transition={{ duration: 0.3 }}
                     className="space-y-4"
                   >
-                    <FormField control={form.control} name="tutorCount" render={({ field }) => (
+                    <FormField control={form.control} name="schoolName" render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Number of Tutors</FormLabel>
-                            <FormControl><Input type="number" placeholder="e.g., 25" {...field} /></FormControl>
-                            <FormDescription>How many tutors will be using the platform?</FormDescription>
+                            <FormLabel>School Name</FormLabel>
+                            <FormControl><Input placeholder="e.g., Northwood High School" {...field} /></FormControl>
                             <FormMessage />
                         </FormItem>
                     )} />
-                    <FormField control={form.control} name="adminCount" render={({ field }) => (
+                     <FormField control={form.control} name="missionStatement" render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Number of Admins</FormLabel>
-                            <FormControl><Input type="number" placeholder="1" {...field} /></FormControl>
-                            <FormDescription>Maximum of 3 administrators allowed.</FormDescription>
+                            <FormLabel>Mission Statement</FormLabel>
+                            <FormControl><Textarea placeholder="Tell us about your school's mission (optional)" {...field} /></FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )} />
+                    <FormField control={form.control} name="logo" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>School Logo</FormLabel>
+                            <FormControl>
+                                 <div className="flex items-center gap-4">
+                                    <Button type="button" variant="outline">
+                                        <Upload className="mr-2 h-4 w-4" />
+                                        Upload Logo
+                                    </Button>
+                                    <p className="text-sm text-muted-foreground">Optional</p>
+                                </div>
+                            </FormControl>
                             <FormMessage />
                         </FormItem>
                     )} />
@@ -205,9 +234,11 @@ export default function CreateSchoolPage() {
                     Back
                   </Button>
                 )}
-                <div />
+                
+                {step !== 1 && <div />}
+
                 {step === 1 && (
-                  <Button type="button" onClick={handleNextStep}>
+                  <Button type="button" onClick={handleNextStep} className="ml-auto">
                     Next
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>

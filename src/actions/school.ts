@@ -5,12 +5,12 @@ import { z } from 'zod';
 import crypto from 'crypto';
 
 const schoolFormSchema = z.object({
-    schoolName: z.string().min(3),
-    adminName: z.string().min(2),
+    username: z.string().min(3),
     email: z.string().email(),
+    phone: z.string().min(10),
     password: z.string().min(8),
-    tutorCount: z.coerce.number().min(1),
-    adminCount: z.coerce.number().min(1).max(3),
+    schoolName: z.string().min(3),
+    missionStatement: z.string().optional(),
 });
 
 export async function createSchoolAction(values: z.infer<typeof schoolFormSchema>) {
@@ -21,10 +21,10 @@ export async function createSchoolAction(values: z.infer<typeof schoolFormSchema
     }
 
     // In a real application, you would:
-    // 1. Check if the email is already in use.
+    // 1. Check if the username or email is already in use.
     // 2. Hash the password.
     // 3. Create the school and the admin user in a database transaction.
-    console.log('Creating school:', validatedFields.data);
+    console.log('Creating school and admin account:', validatedFields.data);
     
     // Simulate creating a unique invitation token
     const inviteToken = crypto.randomBytes(16).toString('hex');
