@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { RoleSelectionDialog } from './RoleSelectionDialog';
 
 export function HeroSection() {
   return (
@@ -17,13 +18,14 @@ export function HeroSection() {
             fingertips.
           </p>
           <div className="flex flex-col items-center gap-4 sm:flex-row md:justify-start">
-            <Button
-              size="lg"
-              className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto"
-              asChild
-            >
-              <Link href="/app/dashboard">Get Started for Free</Link>
-            </Button>
+            <RoleSelectionDialog>
+              <Button
+                size="lg"
+                className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto"
+              >
+                Get Started for Free
+              </Button>
+            </RoleSelectionDialog>
             <Button size="lg" variant="outline" className="w-full sm:w-auto">
               Learn More
             </Button>
