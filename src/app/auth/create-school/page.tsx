@@ -30,11 +30,7 @@ const step1AdminSchema = z.object({
   phone: z.string().min(10, 'Please enter a valid phone number.'),
   password: z.string().min(8, 'Password must be at least 8 characters.'),
   confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
 });
-
 
 const step2SchoolSchema = z.object({
   schoolName: z.string().min(3, 'School name must be at least 3 characters.'),
@@ -42,7 +38,10 @@ const step2SchoolSchema = z.object({
   logo: z.any().optional(),
 });
 
-const formSchema = step1AdminSchema.merge(step2SchoolSchema);
+const formSchema = step1AdminSchema.merge(step2SchoolSchema).refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+});
 
 export default function CreateSchoolPage() {
   const [step, setStep] = React.useState(1);
@@ -51,7 +50,10 @@ export default function CreateSchoolPage() {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(step === 1 ? step1AdminSchema : formSchema),
+    resolver: zodResolver(step === 1 ? step1AdminSchema.refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords don't match",
+        path: ["confirmPassword"],
+    }) : formSchema),
     mode: 'onChange',
     defaultValues: {
       username: '',
