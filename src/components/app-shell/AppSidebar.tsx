@@ -39,6 +39,7 @@ import {
   Shield,
   CreditCard,
   ShieldCheck,
+  Eye,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';

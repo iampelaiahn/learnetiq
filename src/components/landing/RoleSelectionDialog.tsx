@@ -11,7 +11,7 @@ import {
   } from "@/components/ui/dialog"
 import Link from "next/link"
 import { Button } from "../ui/button"
-import { Crown, GraduationCap, School, Shield, User } from "lucide-react"
+import { Crown, GraduationCap, School, Shield, User, Eye } from "lucide-react"
 import { LoginDialog } from "./LoginDialog"
 import * as React from "react";
   
@@ -39,12 +39,20 @@ import * as React from "react";
           </DialogHeader>
           <div className="grid grid-cols-2 gap-4 py-4">
             {roles.map((role) => (
-                <LoginDialog key={role.name} role={role.name} href={role.href} onOpenChange={(isOpen) => !isOpen && setIsRoleSelectionOpen(false)}>
-                    <Button variant="outline" size="lg" className="h-24 flex-col gap-2">
-                        <role.icon className="h-8 w-8 text-primary" />
-                        <span className="text-lg">{role.name}</span>
+                <div key={role.name} className="relative group">
+                    <LoginDialog role={role.name} href={role.href} onOpenChange={(isOpen) => !isOpen && setIsRoleSelectionOpen(false)}>
+                        <Button variant="outline" size="lg" className="h-24 w-full flex-col gap-2">
+                            <role.icon className="h-8 w-8 text-primary" />
+                            <span className="text-lg">{role.name}</span>
+                        </Button>
+                    </LoginDialog>
+                    <Button asChild size="sm" variant="ghost" className="absolute bottom-1 right-1 h-auto p-1 text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Link href={role.href}>
+                            <Eye className="mr-1 h-3 w-3"/>
+                            Preview
+                        </Link>
                     </Button>
-                </LoginDialog>
+                </div>
             ))}
           </div>
           <div className="relative py-2">
